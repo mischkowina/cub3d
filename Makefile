@@ -2,12 +2,14 @@ NAME = cub3D
 SRC_DIR = src/
 OBJ_DIR = obj/
 CC = gcc
-MLX = inc/mlx/libmlx.a -framework OpenGL -framework AppKit
+MLX_DIR = mlx/
+MLX = libmlx.a -framework OpenGL -framework AppKit
 LIBFT_DIR = libft/
 LIBFT = libft.a
 CFLAGS = -Wall -Wextra -Werror
 SRC = $(SRC_DIR)main.c
 
+# colors
 GREEN = \033[0;32m
 RED = \033[0;31m
 BASIC = \033[0m
@@ -25,8 +27,10 @@ $(OBJ): $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 $(NAME): $(OBJ)
 	@echo "$(RED)Compiling libft...$(BASIC)"
 	$(MAKE) -C libft
+	@echo "$(RED)Compiling mlx...$(BASIC)"
+	$(MAKE) -C mlx
 	@echo "$(RED)Compiling $(NAME)...$(BASIC)"
-	$(CC) $(CFLAGS) $^ $(LIBFT_DIR)$(LIBFT) -o $@
+	$(CC) $(CFLAGS) $^ $(LIBFT_DIR)$(LIBFT) $(MLX_DIR)$(MLX) -o $@
 	@echo "$(GREEN)Successfully compiled Saskia's and Alina's cub3D!$(BASIC)"
 
 clean:
