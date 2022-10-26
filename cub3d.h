@@ -9,4 +9,12 @@
 # include "/usr/X11/include/X11/X.h"
 # include <math.h>
 
+# define WIDTH 			1440
+# define HEIGHT			1080
+
+# define KEY_ESC		65307
+# define KEY_LEFT		65361
+# define KEY_RIGHT		65363
+//add W, A, S, D
+
 #endif
