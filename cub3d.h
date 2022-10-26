@@ -18,4 +18,12 @@
 # define KEY_RIGHT		65363
 //add W, A, S, D
 
+typedef	struct s_data
+{
+	char	*N_texture;
+	char	*E_texture;
+	char	*S_texture;
+	char	*W_texture;
+}				t_data;
+
 #endif
