@@ -1,0 +1,4 @@
+*.o
+*.a
+libft/libft.a
+.DS_Store

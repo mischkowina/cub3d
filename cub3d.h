@@ -8,6 +8,7 @@
 # include <stdio.h>
 # include "/usr/X11/include/X11/X.h"
 # include <math.h>
+# include "libft/libft.h"
 
 # define WIDTH 			1440
 # define HEIGHT			1080
