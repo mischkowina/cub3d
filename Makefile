@@ -7,7 +7,8 @@ MLX = libmlx.a -framework OpenGL -framework AppKit
 LIBFT_DIR = libft/
 LIBFT = libft.a
 CFLAGS = -Wall -Wextra -Werror
-SRC = $(SRC_DIR)main.c
+SRC = $(SRC_DIR)main.c \
+		$(SRC_DIR)window.c
 
 # colors
 GREEN = \033[0;32m
@@ -18,7 +19,7 @@ BASIC = \033[0m
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 all: $(NAME) 
-	@echo "$$credit"
+# @echo "$$credit"
 
 # creates obj/ before .o files are compiled
 $(OBJ): $(OBJ_DIR)%.o: $(SRC_DIR)%.c
