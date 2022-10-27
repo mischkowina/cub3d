@@ -38,10 +38,107 @@ int	parser(char *file, t_data *data)
 	line = get_next_line(fd);//has to be freed
 	while (line)//OPEN: maybe second condition (line[0] != 1 or 0??)
 	{
-		if (ft_strncmp(line, "NO", 2))
-			//OPEN: parse line, remove identifier & spaces
+		while (!ft_strncmp(line, "\n", ft_strlen(line)))
+		{
+			free(line);
+			line = get_next_line(fd);
+		}
+		if (line && !ft_strncmp(line, "NO ", 3))
+			data->N_texture = parse_texture(line);
+		else if (line && !ft_strncmp(line, "EA ", 3))
+			data->E_texture = parse_texture(line);
+		else if (line && !ft_strncmp(line, "SO ", 3))
+			data->S_texture = parse_texture(line);
+		else if (line && !ft_strncmp(line, "WE ", 3))
+			data->W_texture = parse_texture(line);
+		else if (line && !ft_strncmp(line, "F ", 2))
+			data->col_floor = parse_color(line);
+		else if (line && !ft_strncmp(line "C "))
+			data->col_ceiling = parse_color(line);
+		//OPEN: else map / invalid input
+		free(line);
+		line = get_next_line(fd);
 	}
 	return (0);
+}
+
+//creates substring without the identifier and the /n at the end
+char	*parse_texture(char *line)
+{
+	int		i;
+	char	*str;
+
+	i = 2;
+	while (line[i] && line[i] == ' ')
+		i++;
+	if (!line[i] || line[i] == '\n')
+		return (NULL);//OPEN: this or error message?
+	str = ft_substr(line, i, (ft_strlen(line) - 1 - i));
+	return(str);
+}
+
+int	parse_color(char *line)
+{
+	int		i;
+	char	**split;
+	char	*tmp;
+
+	i = 1;
+	while (line[i] && line[i] == ' ')
+		i++;
+	if (!line[i] || line[i] == '\n')
+		ft_error("ERROR: Invalid input for floor / ceiling color.");//OPEN: this or return value?
+	split = ft_split(line, ',');
+	if (!split || !split[0])
+		ft_error("ERROR: Invalid input for floor / ceiling color.");//OPEN: this or return value?
+	i = 0;
+	while (split[i])
+	{
+		tmp = ft_strtrim(split[i], " \n");
+		free(split[i]);
+		split[i] = tmp;
+		i++;
+	}
+	if (i != 3)
+		ft_error("ERROR: Invalid input for floor / ceiling color.");//OPEN: this or return value?
+	return (determine_color_value(split));
+}
+
+int	determine_color_value(char **split)
+{
+	int	c[3];
+	int	i;
+
+	i = 0;
+	while (split[i])
+	{
+		if (!str_is_digit(split[i]))
+			ft_error("ERROR: Invalid input for floor / ceiling color.");//OPEN: this or return value?
+		c[i] = ft_atoi(split[i]);
+		i++;
+	}
+	i = 0;
+	while (i < 3)
+	{
+		if (c[i] < 0 || c[i] > 255)
+			ft_error("ERROR: Invalid input for floor / ceiling color.");//OPEN: this or return value?
+		i++;
+	}
+	return (0 << 24 | r << 16 | g << 8 | b);
+}
+
+int	str_is_digit(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 void	ft_error(char *msg)

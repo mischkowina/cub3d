@@ -24,6 +24,8 @@ typedef	struct s_data
 	char	*E_texture;
 	char	*S_texture;
 	char	*W_texture;
+	int		col_ceiling;
+	int		col_floor;
 }				t_data;
 
 #endif
