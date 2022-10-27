@@ -55,7 +55,7 @@ int	parser(char *file, t_data *data)
 			data->col_floor = parse_color(line);
 		else if (line && !ft_strncmp(line "C "))
 			data->col_ceiling = parse_color(line);
-		//OPEN: else map / invalid input
+		//OPEN: else map / invalid input <--- HERE
 		free(line);
 		line = get_next_line(fd);
 	}
