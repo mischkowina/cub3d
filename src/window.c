@@ -17,6 +17,14 @@ int	key_hooks(int keycode, t_data *data)
 {
 	if (keycode == KEY_ESC)
 		close_x(data);
+	if (keycode == KEY_W)
+		w_key_pressed(data);
+	if (keycode == KEY_A)
+		a_key_pressed(data);
+	if (keycode == KEY_S)
+		s_key_pressed(data);
+	if (keycode == KEY_D)
+		d_key_pressed(data);
 	return (0);
 }
 

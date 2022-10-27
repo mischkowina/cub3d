@@ -10,6 +10,7 @@
 # include <math.h>
 # include "libft/libft.h"
 # include "mlx/mlx.h"
+# include <math.h>
 
 # define WIDTH 			1440
 # define HEIGHT			720
@@ -31,6 +32,9 @@
 # define PINK			0x0F542D4
 # define LIGHT_PINK		0xa3819c
 # define BRIGHT_PINK	0xE6AEDB
+# define YELLOW			0xFFDF07
+
+# define PI				3.1415926535
 
 typedef struct s_trgb
 {
@@ -59,15 +63,31 @@ typedef struct s_data
 	void	*win;
 	t_img	img;
 	t_trgb	trgb;
+	float	pos_x;
+	float	pos_y;
+	float	p_angle;
+	float	pdx;
+	float	pdy;
 }				t_data;
 
+// main.c //
 void	init(t_data *data);
 void	draw_grid(t_data *data);
-void	pixel_put(t_data *data, int color);
+void	handle_player(t_data *data);
 
 // window.c //
 void	pixel_put(t_data *data, int color);
 int		key_hooks(int keycode, t_data *data);
 int		close_x(t_data *data);
+
+// drawing.c //
+void	draw_point(t_data *data);
+void	draw_line(t_data *data);
+
+// keys.c //
+void	w_key_pressed(t_data *data);
+void	a_key_pressed(t_data *data);
+void	s_key_pressed(t_data *data);
+void	d_key_pressed(t_data *data);
 
 #endif

@@ -8,7 +8,9 @@ LIBFT_DIR = libft/
 LIBFT = libft.a
 CFLAGS = -Wall -Wextra -Werror
 SRC = $(SRC_DIR)main.c \
-		$(SRC_DIR)window.c
+		$(SRC_DIR)window.c \
+		$(SRC_DIR)drawing.c \
+		$(SRC_DIR)keys.c
 
 # colors
 GREEN = \033[0;32m
@@ -32,7 +34,7 @@ $(NAME): $(OBJ)
 	@echo "$(RED)Compiling mlx...$(BASIC)"
 	$(MAKE) -C mlx
 	@echo "$(RED)Compiling $(NAME)...$(BASIC)"
-	$(CC) $(CFLAGS) $^ $(LIBFT_DIR)$(LIBFT) $(MLX_DIR)$(MLX) -o $@
+	$(CC) $(CFLAGS) $^ $(LIBFT_DIR)$(LIBFT) $(MLX_DIR)$(MLX) -g -fsanitize=address -o $@
 	@echo "$(GREEN)Successfully compiled Saskia's and Alina's cub3D!$(BASIC)"
 
 clean:
