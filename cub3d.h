@@ -26,6 +26,16 @@ typedef	struct s_data
 	char	*W_texture;
 	int		col_ceiling;
 	int		col_floor;
+	int		**map;
 }				t_data;
+
+int		check_input(int argc, char **argv);
+void	ft_error(char *msg);
+int		parser(char *file, t_data *data);
+char	*parse_texture(char *line);
+int		parse_color(char *line);
+int		determine_color_value(char **split);
+int		str_is_digit(char *str);
+int		parse_map(t_data *data, char *line, int fd);
 
 #endif
