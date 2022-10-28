@@ -86,5 +86,5 @@ void	handle_player(t_data *data)
 {
 	draw_grid(data);
 	draw_point(data);
-	// draw_line(data);
+	draw_line(data);
 }

@@ -20,7 +20,7 @@ void	a_key_pressed(t_data *data)
 	data->p_angle -= 0.1;
 	if (data->p_angle < 0)
 		data->p_angle += 2 * PI;
-	data->pdx = cos(data->p_angle) * 5;
+	data->pdx = cos(data->p_angle) * 5;                                       
 	data->pdy = sin(data->p_angle) * 5;
 }
 
