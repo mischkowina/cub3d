@@ -38,8 +38,10 @@ int	parser(char *file, t_data *data)
 	}
 	if (line && (!ft_strncmp(line, " ", 1)) || !ft_strncmp(line, "1", 1))
 		parse_map(data, line, fd);
-	else
+	else if (line)
 		ft_error("Invalid input in .cub file.");
+	else
+		ft_error("No valid map in .cub file.");
 	return (0);
 }
 
@@ -53,7 +55,7 @@ char	*parse_texture(char *line)
 	while (line[i] && line[i] == ' ')
 		i++;
 	if (!line[i] || line[i] == '\n')
-		return (NULL);//OPEN: this or error message?
+		ft_error("Texture input missing");
 	str = ft_substr(line, i, (ft_strlen(line) - 1 - i));
 	return(str);
 }
@@ -68,10 +70,10 @@ int	parse_color(char *line)
 	while (line[i] && line[i] == ' ')
 		i++;
 	if (!line[i] || line[i] == '\n')
-		ft_error("Invalid input for floor / ceiling color.");//OPEN: this or return value?
+		ft_error("Invalid input for floor / ceiling color.");
 	split = ft_split(line, ',');
 	if (!split || !split[0])
-		ft_error("Invalid input for floor / ceiling color.");//OPEN: this or return value?
+		ft_error("Invalid input for floor / ceiling color.");
 	i = 0;
 	while (split[i])
 	{
@@ -81,7 +83,7 @@ int	parse_color(char *line)
 		i++;
 	}
 	if (i != 3)
-		ft_error("Invalid input for floor / ceiling color.");//OPEN: this or return value?
+		ft_error("Invalid input for floor / ceiling color.");
 	return (determine_color_value(split));
 }
 
@@ -94,7 +96,7 @@ int	determine_color_value(char **split)
 	while (split[i])
 	{
 		if (!str_is_digit(split[i]))
-			ft_error("Invalid input for floor / ceiling color.");//OPEN: this or return value?
+			ft_error("Invalid input for floor / ceiling color.");
 		c[i] = ft_atoi(split[i]);
 		i++;
 	}
@@ -102,7 +104,7 @@ int	determine_color_value(char **split)
 	while (i < 3)
 	{
 		if (c[i] < 0 || c[i] > 255)
-			ft_error("Invalid input for floor / ceiling color.");//OPEN: this or return value?
+			ft_error("Invalid input for floor / ceiling color.");
 		i++;
 	}
 	return (0 << 24 | c[0] << 16 | c[1] << 8 | c[2]);
@@ -163,8 +165,24 @@ int	check_prev_input(t_data *data)
 
 int	fill_map_array(t_data *data, char *map_str)
 {
-	//split string by \n, remove \n at the very end if necessary
-	//determine longest string & number of strings (height and width of map)
-	//create int array
+	char	**map_rows;
+	int		max_width;
+	int		row;
+	int		i;
+	
+	max_width = 0;
+	row = 0;
+	map_rows = ft_split(map_str, '\n');//TEST: is a \n at the end of the map removed?
+	if (!map_rows || ft_strncmp(map_rows[0], "", 1))
+		ft_error("Invalid input for map in .cub file.");
+	while (map_rows[row])
+	{
+		if (ft_strlen(map_rows[row]) > max_width)
+			max_width = ft_strlen(map_rows[row]);
+		row++;
+	}
+	data->map = ft_calloc(sizeof(int), row * max_width);
+	if (!data->map)
+		ft_error("Allocation of map failed.");
 	//fill array and check for invalid letters
 }
