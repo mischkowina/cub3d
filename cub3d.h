@@ -27,6 +27,9 @@ typedef	struct s_data
 	int		col_ceiling;
 	int		col_floor;
 	int		**map;
+	int		width_map;
+	int		height_map;
+	char	player_dir;
 }				t_data;
 
 int		check_input(int argc, char **argv);
@@ -37,5 +40,9 @@ int		parse_color(char *line);
 int		determine_color_value(char **split);
 int		str_is_digit(char *str);
 int		parse_map(t_data *data, char *line, int fd);
+int		check_prev_input(t_data *data);
+int		fill_map_array(t_data *data, char *map_str);
+int		check_map_array(t_data *data);
+void	free_str_arr(char **str);
 
 #endif

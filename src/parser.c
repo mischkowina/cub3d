@@ -148,8 +148,8 @@ int	parse_map(t_data *data, char *line, int fd)
 	if (line)
 		ft_error("Invalid input after map.");
 	fill_map_array(data, map_str);
-	//check for walls
-	//done
+	check_map_array(data);
+	return (0);
 }
 
 int	check_prev_input(t_data *data)
@@ -172,17 +172,112 @@ int	fill_map_array(t_data *data, char *map_str)
 	
 	max_width = 0;
 	row = 0;
+	i = 0;
 	map_rows = ft_split(map_str, '\n');//TEST: is a \n at the end of the map removed?
 	if (!map_rows || ft_strncmp(map_rows[0], "", 1))
-		ft_error("Invalid input for map in .cub file.");
+		ft_error("Invalid input for map.");
+	free(map_str);
 	while (map_rows[row])
 	{
 		if (ft_strlen(map_rows[row]) > max_width)
 			max_width = ft_strlen(map_rows[row]);
 		row++;
 	}
-	data->map = ft_calloc(sizeof(int), row * max_width);
+	data->width_map = max_width;
+	data->width_height = row;
+	data->map = ft_calloc(sizeof(*int), row);
 	if (!data->map)
 		ft_error("Allocation of map failed.");
-	//fill array and check for invalid letters
+	while (i < row)
+	{
+		data->map[i] = ft_calloc(sizeof(int), max_width);
+		if (!data->map[i])
+			ft_error("Allocation of map failed.");
+	}
+	row = 0;
+	while (map_rows[row])
+	{
+		i = 0;
+		while (map_rows[row][i])
+		{
+			if (map_rows[row][i] == ' ')
+				data->map[row][i] = -1;
+			else if (map_rows[row][i] == '1')
+				data->map[row][i] = 1;
+			else if (map_rows[row][i] == '0')
+				data->map[row][i] = 0;
+			else if (map_rows[row][i] == 'N' || map_rows[row][i] == 'E'
+					||map_rows[row][i] == 'S' || map_rows[row][i] == 'W')
+			{
+				data->map[row][i] = 2;
+				data->player_dir = map_rows[row][i];
+			}
+			else
+				ft_error("Invalid input for map.");
+			i++;
+		}
+		while (i < max_length)
+			data->map[row][i++] = -1;
+		row++;
+	}
+	free_str_arr(map_rows);
+	return (0);
+}
+
+int	check_map_array(t_data *data)
+{
+	int		row;
+	int		col;
+	int		pos;
+
+	row = 0;
+	col = 0;
+	pos = 0;
+	while (row < data->height_map)
+	{
+		while (col < data->width_map)
+		{
+			if (data->map[row][col] == 0 || data->map[row][col] == 2)
+			{
+				if (col > 0 && data->map[row][col - 1] < 0)
+					ft_error("Invalid input for map: open walls.");
+				if (col < (data->width_map - 1) &&  data->map[row][col + 1] < 0)
+					ft_error("Invalid input for map: open walls.");
+				if (data->map[row][col] == 2)
+					pos++;
+			}
+			col++;
+		}
+		col = 0;
+		row++;
+	}
+	if (pos != 1)
+		ft_error("Invalid input for map: no or ambiguous starting position.");
+	row = 0;
+	while (col < data->width_map)
+	{
+		while (row < data->height_map)
+		{
+			if (data->map[row][col] == 0 || data->map[row][col] == 2)
+			{
+				if (row > 0 && data->map[row - 1][col] < 0)
+					ft_error("Invalid input for map: open walls.");
+				if (row < (data->height_map - 1) &&  data->map[row + 1][col] < 0)
+					ft_error("Invalid input for map: open walls.");
+			}
+			row++;
+		}
+		row = 0;
+		col++;
+	}
+	return (0);
+}
+
+void	free_str_arr(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		free(str[i++]);
 }
