@@ -36,7 +36,8 @@ int	parser(char *file, t_data *data)
 		free(line);
 		line = get_next_line(fd);
 	}
-	if (line && (!ft_strncmp(line, " ", 1)) || !ft_strncmp(line, "1", 1))
+	printf("TEST after loop\n");
+	if (line && (!ft_strncmp(line, " ", 1) || !ft_strncmp(line, "1", 1)))
 		parse_map(data, line, fd);
 	else if (line)
 		ft_error("Invalid input in .cub file.");
@@ -71,12 +72,15 @@ int	parse_color(char *line)
 		i++;
 	if (!line[i] || line[i] == '\n')
 		ft_error("Invalid input for floor / ceiling color.");
-	split = ft_split(line, ',');
+	tmp = ft_substr(line, i, ft_strlen(line));
+	split = ft_split(tmp, ',');
+	free(tmp);
 	if (!split || !split[0])
 		ft_error("Invalid input for floor / ceiling color.");
 	i = 0;
 	while (split[i])
 	{
+		printf("split[%d]: %s\n", i, split[i]);
 		tmp = ft_strtrim(split[i], " \n");
 		free(split[i]);
 		split[i] = tmp;
@@ -131,7 +135,7 @@ int	parse_map(t_data *data, char *line, int fd)
 
 	check_prev_input(data);
 	map_str = ft_strdup("");
-	while (line && (!ft_strncmp(line, " ", 1)) || !ft_strncmp(line, "1", 1))
+	while (line && (!ft_strncmp(line, " ", 1) || !ft_strncmp(line, "1", 1)))
 	{
 		tmp = map_str;
 		free(map_str);
@@ -159,16 +163,15 @@ int	check_prev_input(t_data *data)
 		ft_error("Incomplete input for textures.");
 	else if (data->col_ceiling == 33554431 || data->col_floor == 33554431)
 		ft_error("Incomplete input for colors.");
-	else
-		return (0);
+	return (0);
 }
 
 int	fill_map_array(t_data *data, char *map_str)
 {
 	char	**map_rows;
-	int		max_width;
-	int		row;
-	int		i;
+	size_t	max_width;
+	size_t	row;
+	size_t	i;
 	
 	max_width = 0;
 	row = 0;
@@ -184,8 +187,8 @@ int	fill_map_array(t_data *data, char *map_str)
 		row++;
 	}
 	data->width_map = max_width;
-	data->width_height = row;
-	data->map = ft_calloc(sizeof(*int), row);
+	data->width_map = row;
+	data->map = ft_calloc(sizeof(int*), row);
 	if (!data->map)
 		ft_error("Allocation of map failed.");
 	while (i < row)
@@ -216,7 +219,7 @@ int	fill_map_array(t_data *data, char *map_str)
 				ft_error("Invalid input for map.");
 			i++;
 		}
-		while (i < max_length)
+		while (i < max_width)
 			data->map[row][i++] = -1;
 		row++;
 	}

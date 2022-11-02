@@ -33,6 +33,7 @@ typedef	struct s_data
 }				t_data;
 
 int		check_input(int argc, char **argv);
+int		init_data(t_data *data);
 void	ft_error(char *msg);
 int		parser(char *file, t_data *data);
 char	*parse_texture(char *line);

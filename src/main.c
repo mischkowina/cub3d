@@ -7,6 +7,16 @@ int	main(int argc, char **argv)
 	check_input(argc, argv);
 	init_data(&data);
 	parser(argv[1], &data);
+	printf("Test after parser\n");
+	printf("N_texture: %s\n", data.N_texture);
+	printf("E_texture: %s\n", data.E_texture);
+	printf("S_texture: %s\n", data.S_texture);
+	printf("W_texture: %s\n", data.W_texture);
+	printf("col_ceiling: %d\n", data.col_ceiling);
+	printf("col_floor: %d\n", data.col_floor);
+	printf("width_map: %d\n", data.width_map);
+	printf("height_map: %d\n", data.height_map);
+	printf("player_dir: %c\n", data.player_dir);
 	return (0);
 }
 
@@ -21,7 +31,7 @@ int	check_input(int argc, char **argv)
 			ft_error("Only one argument allowed.");
 	}
 	//INFO: check if argument ends with .cub
-	else if (ft_strncmp((argv[1] + ft_strlen(argv[1] - 4)), ".cub", 5))
+	else if (ft_strncmp((argv[1] + ft_strlen(argv[1] - 6)), ".cub", 5))
 		ft_error(".cub file as argument required.");
 	return (0);
 }
@@ -34,18 +44,16 @@ int	init_data(t_data *data)
 	data->W_texture = NULL;
 	data->col_ceiling = 33554431;//not possible to be a color when t is 0
 	data->col_floor = 33554431;//not possible to be a color when t is 0
+	data->map = NULL;
+	return (0);
 }
 
 void	ft_error(char *msg)
 {
 	if (msg)
-	{
-		write(2, "Error\n", ft_strlen(msg));
-		write(2, msg, ft_strlen(msg));
-		write(2, "\n", 1);
-	}	
+		printf("Error\n%s\n", msg);
 	else
-		perror("Error\n");
+		perror("Error");
 	//OPEN: anything to be done before exit (mlx_destroy window, ...)?
 	exit(0);//OPEN: any reason for another exit code?
 }
