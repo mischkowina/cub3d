@@ -1,51 +1,75 @@
 
 #include "../cub3d.h"
 
+/**
+ * Opens the .cub file and parses the information line by line, skipping
+ * empty lines and checking for invalid input.
+ * @param file [char *] String identifying the input file.
+ * @param data [t_data *] Pointer to struct storing the input data.
+ * @return [int] 0 on success, 1 on failure.
+*/
 int	parser(char *file, t_data *data)
 {
 	int		fd;
 	char	*line;
 
-	//INFO: open the .cub file and see if it is readable
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		ft_error(NULL);
-	//INFO: iterate through the file and parse the information
-	line = get_next_line(fd);//has to be freed
-	while (line)//OPEN: maybe second condition (line[0] != 1 or 0??)
+	line = get_next_line(fd);
+	while (line)
 	{
 		while (!ft_strncmp(line, "\n", ft_strlen(line)))
 		{
 			free(line);
 			line = get_next_line(fd);
 		}
-		if (line && !ft_strncmp(line, "NO ", 3))
-			data->N_texture = parse_texture(line);
-		else if (line && !ft_strncmp(line, "EA ", 3))
-			data->E_texture = parse_texture(line);
-		else if (line && !ft_strncmp(line, "SO ", 3))
-			data->S_texture = parse_texture(line);
-		else if (line && !ft_strncmp(line, "WE ", 3))
-			data->W_texture = parse_texture(line);
-		else if (line && !ft_strncmp(line, "F ", 2))
-			data->col_floor = parse_color(line);
-		else if (line && !ft_strncmp(line, "C ", 2))
-			data->col_ceiling = parse_color(line);
-		else
+		if (parse_info_type(data, line) == 1)
 			break ;
 		free(line);
 		line = get_next_line(fd);
 	}
 	if (line && (!ft_strncmp(line, " ", 1) || !ft_strncmp(line, "1", 1)))
 		parse_map(data, line, fd);
-	else if (line)
-		ft_error("Invalid input in .cub file.");
 	else
-		ft_error("No valid map in .cub file.");
+		ft_error("Invalid or missing input in .cub file.");
 	return (0);
 }
 
-//creates substring without the identifier and the /n at the end
+/**
+ * Takes a line from the input file and checks for valid identifiers for
+ * wall textures or colors and calls the function to parse the respective
+ * information. Returns 1 if the line does not start with one of those 
+ * identifiers.
+ * @param data [t_data *] Pointer to struct storing the input data.
+ * @param line [char *] String containing a line from the input file.
+ * @return [int] 0 if line contained a valid identifier, else 1.
+*/
+int	parse_info_type(t_data *data, char *line)
+{
+	if (line && !ft_strncmp(line, "NO ", 3))
+		data->N_texture = parse_texture(line);
+	else if (line && !ft_strncmp(line, "EA ", 3))
+		data->E_texture = parse_texture(line);
+	else if (line && !ft_strncmp(line, "SO ", 3))
+		data->S_texture = parse_texture(line);
+	else if (line && !ft_strncmp(line, "WE ", 3))
+		data->W_texture = parse_texture(line);
+	else if (line && !ft_strncmp(line, "F ", 2))
+		data->col_floor = parse_color(line);
+	else if (line && !ft_strncmp(line, "C ", 2))
+		data->col_ceiling = parse_color(line);
+	else
+		return (1);
+	return (0);
+}
+
+/**
+ * Removes the identifier as well as the newline character from the
+ * string line, returning only the path of the texture file.
+ * @param line [char *] String containing texture info from the input file.
+ * @return [char *] String containing the path of a texture file.
+*/
 char	*parse_texture(char *line)
 {
 	int		i;
@@ -57,9 +81,18 @@ char	*parse_texture(char *line)
 	if (!line[i] || line[i] == '\n')
 		ft_error("Texture input missing");
 	str = ft_substr(line, i, (ft_strlen(line) - 1 - i));
-	return(str);
+	//OPEN: check for file type?
+	return (str);
 }
 
+/**
+ * Removes the identifier as well as the newline character from the
+ * string line and then splits it by commas to receive 3 strings containing
+ * the RGB color values. Calls determine_color_value to transform those 
+ * strings into a single integer value for the color.
+ * @param [char *] String containing color information from the input file.
+ * @return [int] Integer value representing the color.
+*/
 int	parse_color(char *line)
 {
 	int		i;
@@ -70,25 +103,26 @@ int	parse_color(char *line)
 	while (line[i] && line[i] == ' ')
 		i++;
 	if (!line[i] || line[i] == '\n')
-		ft_error("Invalid input for floor / ceiling color.");
-	tmp = ft_substr(line, i, ft_strlen(line));
+		ft_error("Color input missing.");
+	tmp = ft_substr(line, i, (ft_strlen(line) - 1 - i));
 	split = ft_split(tmp, ',');
 	free(tmp);
 	if (!split || !split[0])
 		ft_error("Invalid input for floor / ceiling color.");
 	i = 0;
 	while (split[i])
-	{
-		tmp = ft_strtrim(split[i], " \n");
-		free(split[i]);
-		split[i] = tmp;
 		i++;
-	}
 	if (i != 3)
 		ft_error("Invalid input for floor / ceiling color.");
 	return (determine_color_value(split));
 }
 
+/**
+ * Transforms the 3 strings containing color values into integers and
+ * determines the single integer representation of that color.
+ * @param split [char **] String array containing the three color values.
+ * @return [int] Integer value representing the color.
+*/
 int	determine_color_value(char **split)
 {
 	int	c[3];
@@ -110,175 +144,4 @@ int	determine_color_value(char **split)
 		i++;
 	}
 	return (0 << 24 | c[0] << 16 | c[1] << 8 | c[2]);
-}
-
-int	str_is_digit(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-int	parse_map(t_data *data, char *line, int fd)
-{
-	char	*map_str;
-	char	*tmp;
-
-	check_prev_input(data);
-	map_str = ft_strdup("");
-	while (line && (!ft_strncmp(line, " ", 1) || !ft_strncmp(line, "1", 1)))
-	{
-		tmp = map_str;
-		// free(map_str);
-		map_str = ft_strjoin(tmp, line);
-		free(tmp);
-		free(line);
-		line = get_next_line(fd);
-	}
-	while (line && !ft_strncmp(line, "\n", ft_strlen(line)))//OPEN: Do we accept empty newlines at the end of the .cub file?
-	{
-		free(line);
-		line = get_next_line(fd);
-	}
-	if (line)
-		ft_error("Invalid input after map.");
-	fill_map_array(data, map_str);
-	check_map_array(data);
-	return (0);
-}
-
-int	check_prev_input(t_data *data)
-{
-	if (!data->N_texture || !data->E_texture 
-		|| !data->S_texture || !data->W_texture)
-		ft_error("Incomplete input for textures.");
-	else if (data->col_ceiling == 33554431 || data->col_floor == 33554431)
-		ft_error("Incomplete input for colors.");
-	return (0);
-}
-
-int	fill_map_array(t_data *data, char *map_str)
-{
-	char	**map_rows;
-	int		row;
-	int		i;
-	size_t	max_width;
-	
-	max_width = 0;
-	row = 0;
-	i = 0;
-	map_rows = ft_split(map_str, '\n');//TEST: is a \n at the end of the map removed?
-	if (!map_rows || !ft_strncmp(map_rows[0], "", 1))
-		ft_error("Invalid input for map.");
-	free(map_str);
-	while (map_rows[row])
-	{
-		if (ft_strlen(map_rows[row]) > max_width)
-			max_width = ft_strlen(map_rows[row]);
-		row++;
-	}
-	data->height_map = row;
-	data->width_map = (int) max_width;
-	data->map = ft_calloc(sizeof(int*), row);
-	if (!data->map)
-		ft_error("Allocation of map failed.");
-	while (i < row)
-	{
-		data->map[i] = ft_calloc(sizeof(int), data->width_map);
-		if (!data->map[i++])
-			ft_error("Allocation of map failed.");
-	}
-	row = 0;
-	while (map_rows[row])
-	{
-		i = 0;
-		while (map_rows[row][i])
-		{
-			if (map_rows[row][i] == ' ')
-				data->map[row][i] = -1;
-			else if (map_rows[row][i] == '1')
-				data->map[row][i] = 1;
-			else if (map_rows[row][i] == '0')
-				data->map[row][i] = 0;
-			else if (map_rows[row][i] == 'N' || map_rows[row][i] == 'E'
-					||map_rows[row][i] == 'S' || map_rows[row][i] == 'W')
-			{
-				data->map[row][i] = 2;
-				data->player_dir = map_rows[row][i];
-			}
-			else
-				ft_error("Invalid input for map.");
-			i++;
-		}
-		while (i < data->width_map)
-			data->map[row][i++] = -1;
-		row++;
-	}
-	free_str_arr(map_rows);
-	return (0);
-}
-
-int	check_map_array(t_data *data)
-{
-	int	row;
-	int	col;
-	int	pos;
-
-	row = 0;
-	col = 0;
-	pos = 0;
-	while (row < data->height_map)
-	{
-		while (col < data->width_map)
-		{
-			if (data->map[row][col] == 0 || data->map[row][col] == 2)
-			{
-				if (col > 0 && data->map[row][col - 1] < 0)
-					ft_error("Invalid input for map: open walls.");
-				if (col < (data->width_map - 1) &&  data->map[row][col + 1] < 0)
-					ft_error("Invalid input for map: open walls.");
-				if (data->map[row][col] == 2)
-					pos++;
-			}
-			col++;
-		}
-		col = 0;
-		row++;
-	}
-	if (pos != 1)
-		ft_error("Invalid input for map: no or ambiguous starting position.");
-	row = 0;
-	while (col < data->width_map)
-	{
-		while (row < data->height_map)
-		{
-			if (data->map[row][col] == 0 || data->map[row][col] == 2)
-			{
-				if (row > 0 && data->map[row - 1][col] < 0)
-					ft_error("Invalid input for map: open walls.");
-				if (row < (data->height_map - 1) &&  data->map[row + 1][col] < 0)
-					ft_error("Invalid input for map: open walls.");
-			}
-			row++;
-		}
-		row = 0;
-		col++;
-	}
-	return (0);
-}
-
-void	free_str_arr(char **str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		free(str[i++]);
 }
