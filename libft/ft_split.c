@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialinaok <ialinaok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 16:29:28 by ialinaok          #+#    #+#             */
-/*   Updated: 2022/02/22 18:01:45 by ialinaok         ###   ########.fr       */
+/*   Updated: 2022/11/03 11:27:32 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	find_len(const char *start, char c)
 	int	slen;
 
 	slen = 0;
-	while (start[slen] != c)
+	while (start[slen] != c && start[slen])//Saskia: protected against end of string
 		slen++;
 	return (slen);
 }

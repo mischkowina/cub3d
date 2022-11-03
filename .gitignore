@@ -4,3 +4,4 @@ libft/libft.a
 libft/*.o
 .DS_Store
 *.dSYM/
+cub3D

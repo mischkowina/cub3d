@@ -36,7 +36,6 @@ int	parser(char *file, t_data *data)
 		free(line);
 		line = get_next_line(fd);
 	}
-	printf("TEST after loop\n");
 	if (line && (!ft_strncmp(line, " ", 1) || !ft_strncmp(line, "1", 1)))
 		parse_map(data, line, fd);
 	else if (line)
@@ -80,7 +79,6 @@ int	parse_color(char *line)
 	i = 0;
 	while (split[i])
 	{
-		printf("split[%d]: %s\n", i, split[i]);
 		tmp = ft_strtrim(split[i], " \n");
 		free(split[i]);
 		split[i] = tmp;
@@ -138,7 +136,7 @@ int	parse_map(t_data *data, char *line, int fd)
 	while (line && (!ft_strncmp(line, " ", 1) || !ft_strncmp(line, "1", 1)))
 	{
 		tmp = map_str;
-		free(map_str);
+		// free(map_str);
 		map_str = ft_strjoin(tmp, line);
 		free(tmp);
 		free(line);
@@ -169,15 +167,15 @@ int	check_prev_input(t_data *data)
 int	fill_map_array(t_data *data, char *map_str)
 {
 	char	**map_rows;
+	int		row;
+	int		i;
 	size_t	max_width;
-	size_t	row;
-	size_t	i;
 	
 	max_width = 0;
 	row = 0;
 	i = 0;
 	map_rows = ft_split(map_str, '\n');//TEST: is a \n at the end of the map removed?
-	if (!map_rows || ft_strncmp(map_rows[0], "", 1))
+	if (!map_rows || !ft_strncmp(map_rows[0], "", 1))
 		ft_error("Invalid input for map.");
 	free(map_str);
 	while (map_rows[row])
@@ -186,15 +184,15 @@ int	fill_map_array(t_data *data, char *map_str)
 			max_width = ft_strlen(map_rows[row]);
 		row++;
 	}
-	data->width_map = max_width;
-	data->width_map = row;
+	data->height_map = row;
+	data->width_map = (int) max_width;
 	data->map = ft_calloc(sizeof(int*), row);
 	if (!data->map)
 		ft_error("Allocation of map failed.");
 	while (i < row)
 	{
-		data->map[i] = ft_calloc(sizeof(int), max_width);
-		if (!data->map[i])
+		data->map[i] = ft_calloc(sizeof(int), data->width_map);
+		if (!data->map[i++])
 			ft_error("Allocation of map failed.");
 	}
 	row = 0;
@@ -219,7 +217,7 @@ int	fill_map_array(t_data *data, char *map_str)
 				ft_error("Invalid input for map.");
 			i++;
 		}
-		while (i < max_width)
+		while (i < data->width_map)
 			data->map[row][i++] = -1;
 		row++;
 	}
@@ -229,9 +227,9 @@ int	fill_map_array(t_data *data, char *map_str)
 
 int	check_map_array(t_data *data)
 {
-	int		row;
-	int		col;
-	int		pos;
+	int	row;
+	int	col;
+	int	pos;
 
 	row = 0;
 	col = 0;

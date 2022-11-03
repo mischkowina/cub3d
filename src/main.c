@@ -7,15 +7,14 @@ int	main(int argc, char **argv)
 	check_input(argc, argv);
 	init_data(&data);
 	parser(argv[1], &data);
-	printf("Test after parser\n");
 	printf("N_texture: %s\n", data.N_texture);
 	printf("E_texture: %s\n", data.E_texture);
 	printf("S_texture: %s\n", data.S_texture);
 	printf("W_texture: %s\n", data.W_texture);
 	printf("col_ceiling: %d\n", data.col_ceiling);
 	printf("col_floor: %d\n", data.col_floor);
-	printf("width_map: %d\n", data.width_map);
-	printf("height_map: %d\n", data.height_map);
+	printf("width_map: %d\n", (int) data.width_map);
+	printf("height_map: %d\n", (int) data.height_map);
 	printf("player_dir: %c\n", data.player_dir);
 	return (0);
 }
@@ -31,7 +30,7 @@ int	check_input(int argc, char **argv)
 			ft_error("Only one argument allowed.");
 	}
 	//INFO: check if argument ends with .cub
-	else if (ft_strncmp((argv[1] + ft_strlen(argv[1] - 6)), ".cub", 5))
+	if (ft_strncmp((argv[1] + ft_strlen(argv[1]) - 4), ".cub", 5))
 		ft_error(".cub file as argument required.");
 	return (0);
 }
