@@ -10,7 +10,8 @@ CFLAGS = -Wall -Wextra -Werror
 SRC = $(SRC_DIR)main.c \
 		$(SRC_DIR)window.c \
 		$(SRC_DIR)drawing.c \
-		$(SRC_DIR)keys.c
+		$(SRC_DIR)keys.c \
+		$(SRC_DIR)math.c
 
 # colors
 GREEN = \033[0;32m

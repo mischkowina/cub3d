@@ -33,12 +33,15 @@ int	main(int argc, char **argv)
 void	init(t_data *data)
 {
 // here I initialize the position of the player that gets later changed with WASD
-	data->pos_x = 230;
-	data->pos_y = 160;
+	data->pos.x = 230;
+	data->pos.y = 160;
+// initialize the direction of the player's vision: N (0, 1), S (0, -1), E (1, 0), W (-1, 0)
+	data->dir.x = 0;
+	data->dir.y = 1;
 // initialize the player angle to 2 * PI
-	data->p_angle = PI / 2;
-	data->pdx = cos(data->p_angle) * 5;
-	data->pdy = sin(data->p_angle) * 5;
+	// data->p_angle = PI / 2;
+	// data->pdx = cos(data->p_angle) * 5;
+	// data->pdy = sin(data->p_angle) * 5;
 
 	data->mlx = mlx_init();
 	if (data->mlx == NULL)
@@ -84,7 +87,19 @@ void	draw_grid(t_data *data)
 
 void	handle_player(t_data *data)
 {
+	int	x0;
+	int	y0;
+	int	x1;
+	int	y1;
+
+	x0 = data->pos.x;
+	y0 = data->pos.y;
+	x1 = data->dir.x;
+	y1 = data->dir.y;
+	// printf("x0: %d, x1: %d, y0: %d, y1: %d\n", data->pos.x, data->pos.y, x1, y1);
 	draw_grid(data);
 	draw_point(data);
-	draw_line(data);
+	// draw_line(data->pos_x, data->pos.y, (int) data->pos.x + (5 * data->pdx), \
+	// (int) data->pos.y + (5 * data->pdy), data);
+	draw_line(x0, y0, x1, y1, data);
 }

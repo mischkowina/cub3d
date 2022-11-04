@@ -44,7 +44,6 @@ typedef struct s_trgb
 	int	b;
 }				t_trgb;
 
-
 typedef struct s_img
 {
 	void	*img_ptr;
@@ -57,14 +56,20 @@ typedef struct s_img
 	int		px_y;
 }				t_img;
 
+typedef struct s_vec
+{
+	double	x;
+	double	y;
+}				t_vec;
+
 typedef struct s_data
 {
 	void	*mlx;
 	void	*win;
 	t_img	img;
 	t_trgb	trgb;
-	float	pos_x;
-	float	pos_y;
+	t_vec	pos;
+	t_vec	dir;
 	float	p_angle;
 	float	pdx;
 	float	pdy;
@@ -82,12 +87,20 @@ int		close_x(t_data *data);
 
 // drawing.c //
 void	draw_point(t_data *data);
-void	draw_line(t_data *data);
+void	draw_line(int x0, int y0, int x1, int y1, t_data *data);
+// void	draw_line(t_data *data);
+// void	draw_line(int x0, int y0, int dx, int dy, t_data *data);
 
 // keys.c //
 void	w_key_pressed(t_data *data);
 void	a_key_pressed(t_data *data);
 void	s_key_pressed(t_data *data);
 void	d_key_pressed(t_data *data);
+void	left_key_pressed(t_data *data);
+void	right_key_pressed(t_data *data);
+
+// math.c //
+void	find_vector_values(t_vec *vec, double angle);
+void	normalize_vector(t_vec *vec);
 
 #endif

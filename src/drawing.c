@@ -11,8 +11,8 @@ void	draw_point(t_data *data)
 
 	size = 10;
 	color = YELLOW;
-	start_x = data->pos_x - size;
-	start_y = data->pos_y - size;
+	start_x = data->pos.x - size;
+	start_y = data->pos.y - size;
 	data->img.px_y = start_y;
 	while (data->img.px_y < start_y + size)
 	{
@@ -27,31 +27,86 @@ void	draw_point(t_data *data)
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 }
 
-void	draw_line(t_data *data)
+void	draw_line(int x0, int y0, int x1, int y1, t_data *data) // this is the working one
 {
-	float	m;
-	float	c;
-	int		x1;
-	int		y1;
-	float	temp_y;
-	int		i = 0;
+	int	dx;
+	int	dy;
+	int	pk;
 
-	x1 = data->pos_x + (2 * data->pdx);
-	y1 = data->pos_y + (2 * data->pdy);
-	m = (y1 - data->pos_y) / (x1 - data->pos_x);
-	c = data->pos_y - (m * data->pos_x);
-	data->img.px_x = data->pos_x;
-	while (i < data->pdx)
+	dx = x1 - x0;
+	dy = y1 - y0;
+	pk = 2 * (dy - dx);
+	while (x0 <= x1)
 	{
-		temp_y = (m * data->pos_x) + c;
-		printf("temp y = %f\n", temp_y);
-		data->img.px_y = round(temp_y);
+		data->img.px_x = x0;
+		data->img.px_y = y0;
 		pixel_put(data, YELLOW);
-		data->img.px_x++;
-		i++;
+		if (pk < 0)
+			pk += 2 * dy;
+		else
+		{
+			y0++;
+			pk += 2 * (dy - dx);
+		}
+		x0++;
 	}
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 }
+
+// void	draw_line(int x0, int y0, int dx, int dy, t_data *data)
+// {
+// 	int	x1;
+// 	int	y1;
+// 	int	pk;
+
+// 	dx *= 10;
+// 	dy *= 10;
+// 	pk = 2 * dy - dx;
+// 	x1 = x0 + dx;
+// 	y1 = y0 + dy;
+// 	printf("dx: %d, dy: %d, x0: %d, y0: %d, x1: %d, y1: %d\n", dx, dy, x0, y0, x1, y1);
+// 	while (x0 <= x1)
+// 	{
+// 		data->img.px_x = x0;
+// 		data->img.px_y = y0;
+// 		pixel_put(data, YELLOW);
+// 		if (pk < 0)
+// 			pk += 2 * dy;
+// 		else
+// 		{
+// 			y0++;
+// 			pk += 2 * (dy - dx);
+// 		}
+// 		x0++;
+// 	}
+// 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
+// }
+
+// void	draw_line(t_data *data)
+// {
+// 	float	m;
+// 	float	c;
+// 	int		x1;
+// 	int		y1;
+// 	float	temp_y;
+// 	int		i = 0;
+
+// 	x1 = data->pos_x + (2 * data->pdx);
+// 	y1 = data->pos_y + (2 * data->pdy);
+// 	m = (y1 - data->pos_y) / (x1 - data->pos_x);
+// 	c = data->pos_y - (m * data->pos_x);
+// 	data->img.px_x = data->pos_x;
+// 	while (i < data->pdx)
+// 	{
+// 		temp_y = (m * data->pos_x) + c;
+// 		printf("temp y = %f\n", temp_y);
+// 		data->img.px_y = round(temp_y);
+// 		pixel_put(data, YELLOW);
+// 		data->img.px_x++;
+// 		i++;
+// 	}
+// 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
+// }
 
 // void	draw_line(t_data *data)
 // {
