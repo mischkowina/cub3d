@@ -3,26 +3,45 @@
 
 void	w_key_pressed(t_data *data)
 {
-	data->pos.x -= data->dir.x;
-	data->pos.y -= data->dir.y;
+	int	x;
+	int	y;
+
+	x = data->pos.x - data->dir.x * 5;
+	y = data->pos.y - data->dir.y * 5;
+	if (map[x][y] == 0)
+	{
+		data->pos.x -= data->dir.x * 5;
+		data->pos.y -= data->dir.y * 5;
+	}
+	// printf("data.dir.x: %f, data.dir.y: %f\n", data->dir.x, data->dir.y);
+	// draw_line(data->pos.x, data->pos.y, data->dir.x + 10, data->dir.y + 10, data);
 	handle_player(data);
 }
 
 void	s_key_pressed(t_data *data)
 {
-	data->pos.x += data->dir.x;
-	data->pos.y += data->dir.y;
+	int	x;
+	int	y;
+
+	x = data->pos.x + data->dir.x * 5;
+	y = data->pos.y + data->dir.y * 5;
+	if (map[x][y])
+	{
+		data->pos.x += data->dir.x * 5;
+		data->pos.y += data->dir.y * 5;
+	}
+	// draw_line(data->pos.x, data->pos.y, data->dir.x + 10, data->dir.y + 10, data);
 	handle_player(data);
 }
 
-void	a_key_pressed(t_data *data)
+void	a_key_pressed(t_data *data) //this will need camera plane vector
 {
 	data->pos.x += data->dir.x;
 	data->pos.y += data->dir.y;
 	handle_player(data);
 }
 
-void	d_key_pressed(t_data *data)
+void	d_key_pressed(t_data *data) // this also - camera plane vector
 {
 	data->pos.x -= data->dir.x;
 	data->pos.y -= data->dir.y;
@@ -48,9 +67,13 @@ void	left_key_pressed(t_data *data)
 	t_vec	temp;
 
 	angle = atan2(data->dir.y, data->dir.x);
+	printf("angle: %f\n", angle);
 	angle -= M_PI / 36; // 5 degrees
 	find_vector_values(&temp, angle);
 	normalize_vector(&temp);
+	printf("vec.x: %f, vex.y: %f\n", temp.x, temp.y);
 	data->dir.x = temp.x;
 	data->dir.y = temp.y;
+	draw_line(data->pos.x, data->pos.y, data->dir.x + 10, data->dir.y + 10, data);
+	printf("data.dir.x: %f, data.dir.y: %f\n", data->dir.x, data->dir.y);
 }

@@ -33,3 +33,14 @@ void	normalize_vector(t_vec *vec)
 	vec->x /= length;
 	vec->y /= length;
 }
+
+void	perpendicular_vector(t_vec *vec)
+{
+	double	temp_x;
+	double	temp_y;
+
+	temp_x = vec->x;
+	temp_y = vec->y;
+	vec->y = -1 * temp_x;
+	vec->x = temp_y;
+}

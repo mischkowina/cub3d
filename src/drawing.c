@@ -27,28 +27,82 @@ void	draw_point(t_data *data)
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 }
 
-void	draw_line(int x0, int y0, int x1, int y1, t_data *data) // this is the working one
+void	draw_line(double x0, double y0, double x1, double y1, t_data *data) // this is the working one
 {
-	int	dx;
-	int	dy;
-	int	pk;
+	double	dx;
+	double	dy;
+	double	pk;
 
 	dx = x1 - x0;
 	dy = y1 - y0;
 	pk = 2 * (dy - dx);
-	while (x0 <= x1)
+	if (dx > 0 && dy > 0)
 	{
-		data->img.px_x = x0;
-		data->img.px_y = y0;
-		pixel_put(data, YELLOW);
-		if (pk < 0)
-			pk += 2 * dy;
-		else
+		while (x0 <= x1)
 		{
-			y0++;
-			pk += 2 * (dy - dx);
+			data->img.px_x = x0;
+			data->img.px_y = y0;
+			pixel_put(data, YELLOW);
+			if (pk < 0)
+				pk += 2 * dy;
+			else
+			{
+				y0++;
+				pk += 2 * (dy - dx);
+			}
+			x0++;
 		}
-		x0++;
+	}
+	else if (dx < 0 && dy > 0)
+	{
+		while (x0 >= x1)
+		{
+			data->img.px_x = x0;
+			data->img.px_y = y0;
+			pixel_put(data, YELLOW);
+			if (pk < 0)
+				pk += 2 * dy;
+			else
+			{
+				y0++;
+				pk += 2 * (dy - dx);
+			}
+			x0--;
+		}
+	}
+	else if (dx > 0 && dy < 0)
+	{
+		while (x0 <= x1)
+		{
+			data->img.px_x = x0;
+			data->img.px_y = y0;
+			pixel_put(data, YELLOW);
+			if (pk < 0)
+				pk += 2 * dy;
+			else
+			{
+				y0--;
+				pk += 2 * (dy - dx);
+			}
+			x0++;
+		}
+	}
+	else if (dx < 0 && dy < 0)
+	{
+		while (x0 >= x1)
+		{
+			data->img.px_x = x0;
+			data->img.px_y = y0;
+			pixel_put(data, YELLOW);
+			if (pk < 0)
+				pk += 2 * dy;
+			else
+			{
+				y0--;
+				pk += 2 * (dy - dx);
+			}
+			x0--;
+		}
 	}
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 }
