@@ -1,18 +1,18 @@
 #include "../cub3d.h"
 
-// int	map[MAP_WIDTH][MAP_HEIGHT] =
-// {
-// 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
-// 	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
-// 	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
-// 	{1, 0, 0, 1, 1, 1, 0, 0, 0, 1},
-// 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-// 	{1, 0, 0, 0, 0, 0, 0, 1, 1, 1},
-// 	{1, 0, 0, 0, 1, 0, 0, 0, 0, 1},
-// 	{1, 0, 0, 0, 1, 1, 0, 0, 0, 1},
-// 	{1, 0, 0, 0, 0, 1, 0, 0, 0, 1},
-// 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-// };
+int	map[MAP_WIDTH][MAP_HEIGHT] =
+{
+	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
+	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
+	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
+	{1, 0, 0, 1, 1, 1, 0, 0, 0, 1},
+	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	{1, 0, 0, 0, 0, 0, 0, 1, 1, 1},
+	{1, 0, 0, 0, 1, 0, 0, 0, 0, 1},
+	{1, 0, 0, 0, 1, 1, 0, 0, 0, 1},
+	{1, 0, 0, 0, 0, 1, 0, 0, 0, 1},
+	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+};
 
 int	main(int argc, char **argv)
 {
@@ -94,13 +94,16 @@ void	handle_player(t_data *data)
 
 	x0 = data->pos.x;
 	y0 = data->pos.y;
-	x1 = data->dir.x;
-	y1 = data->dir.y;
-	printf("x0: %f, y0: %f, dir.x: %f, dir.y: %f\n", data->pos.x, data->pos.y, data->dir.x, data->dir.y);
+	// x1 = data->pos.x + (data->dir.x + 10);
+	// y1 = data->pos.y + (data->dir.y + 10);
+	x1 = data->pos.x + (data->dir.x * 20);
+	y1 = data->pos.y + (data->dir.y * 20);
+	printf("in handle player: x0: %f, y0: %f, dir.x: %f, dir.y: %f\n", data->pos.x, data->pos.y, data->dir.x, data->dir.y);
 	draw_grid(data);
 	draw_point(data);
 	// draw_line(data->pos_x, data->pos.y, (int) data->pos.x + (5 * data->pdx), \
 	// (int) data->pos.y + (5 * data->pdy), data);
-	// draw_line(x0, y0, x1, y1, data);
+	draw_line(x0, y0, x1, y1, data);
+	// draw_line(600, 800, 600, 500, data);
 	// draw_line(200, 200, 300, 300, data);
 }

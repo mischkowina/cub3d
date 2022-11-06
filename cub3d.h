@@ -36,19 +36,7 @@
 
 # define PI				3.1415926535
 
-int	map[MAP_WIDTH][MAP_HEIGHT] =
-{
-	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
-	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 1, 1, 1, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 1, 1, 1},
-	{1, 0, 0, 0, 1, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 1, 1, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 1, 0, 0, 0, 1},
-	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-};
+int	map[MAP_WIDTH][MAP_HEIGHT];
 
 typedef struct s_trgb
 {
@@ -101,7 +89,8 @@ int		close_x(t_data *data);
 
 // drawing.c //
 void	draw_point(t_data *data);
-void	draw_line(double x0, double y0, double x1, double y1, t_data *data); // this is the working one
+void	draw_line(int x0, int y0, int x1, int y1, t_data *data);
+// void	draw_line(double x0, double y0, double x1, double y1, t_data *data); // this is the working one
 // void	draw_line(t_data *data);
 // void	draw_line(int x0, int y0, int dx, int dy, t_data *data);
 
