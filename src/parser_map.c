@@ -1,6 +1,6 @@
 #include "../cub3d.h"
 
-int	parse_map(t_data *data, char *line, int fd)
+int	parse_map(t_cub *data, char *line, int fd)
 {
 	char	*map_str;
 	char	*tmp;
@@ -28,17 +28,17 @@ int	parse_map(t_data *data, char *line, int fd)
 	return (0);
 }
 
-int	check_prev_input(t_data *data)
+int	check_prev_input(t_cub *data)
 {
-	if (!data->N_texture || !data->E_texture 
-		|| !data->S_texture || !data->W_texture)
+	if (!data->N_texture.filename || !data->E_texture.filename 
+		|| !data->S_texture.filename || !data->W_texture.filename)
 		ft_error("Incomplete input for textures.");
 	else if (data->col_ceiling == 33554431 || data->col_floor == 33554431)
 		ft_error("Incomplete input for colors.");
 	return (0);
 }
 
-int	fill_map_array(t_data *data, char *map_str)
+int	fill_map_array(t_cub *data, char *map_str)
 {
 	char	**map_rows;
 	int		row;
@@ -99,7 +99,7 @@ int	fill_map_array(t_data *data, char *map_str)
 	return (0);
 }
 
-int	check_map_array(t_data *data)
+int	check_map_array(t_cub *data)
 {
 	int	row;
 	int	col;

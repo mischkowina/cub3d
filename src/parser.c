@@ -5,10 +5,10 @@
  * Opens the .cub file and parses the information line by line, skipping
  * empty lines and checking for invalid input.
  * @param file [char *] String identifying the input file.
- * @param data [t_data *] Pointer to struct storing the input data.
+ * @param data [t_cub *] Pointer to struct storing the input data.
  * @return [int] 0 on success, 1 on failure.
 */
-int	parser(char *file, t_data *data)
+int	parser(char *file, t_cub *data)
 {
 	int		fd;
 	char	*line;
@@ -41,20 +41,20 @@ int	parser(char *file, t_data *data)
  * wall textures or colors and calls the function to parse the respective
  * information. Returns 1 if the line does not start with one of those 
  * identifiers.
- * @param data [t_data *] Pointer to struct storing the input data.
+ * @param data [t_cub *] Pointer to struct storing the input data.
  * @param line [char *] String containing a line from the input file.
  * @return [int] 0 if line contained a valid identifier, else 1.
 */
-int	parse_info_type(t_data *data, char *line)
+int	parse_info_type(t_cub *data, char *line)
 {
 	if (line && !ft_strncmp(line, "NO ", 3))
-		data->N_texture = parse_texture(line);
+		data->N_texture.filename = parse_texture(line);
 	else if (line && !ft_strncmp(line, "EA ", 3))
-		data->E_texture = parse_texture(line);
+		data->E_texture.filename = parse_texture(line);
 	else if (line && !ft_strncmp(line, "SO ", 3))
-		data->S_texture = parse_texture(line);
+		data->S_texture.filename = parse_texture(line);
 	else if (line && !ft_strncmp(line, "WE ", 3))
-		data->W_texture = parse_texture(line);
+		data->W_texture.filename = parse_texture(line);
 	else if (line && !ft_strncmp(line, "F ", 2))
 		data->col_floor = parse_color(line);
 	else if (line && !ft_strncmp(line, "C ", 2))

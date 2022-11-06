@@ -9,6 +9,7 @@
 # include "/usr/X11/include/X11/X.h"
 # include <math.h>
 # include "libft/libft.h"
+# include "mlx/mlx.h"
 
 # define WIDTH 			1440
 # define HEIGHT			1080
@@ -18,33 +19,49 @@
 # define KEY_RIGHT		65363
 //add W, A, S, D
 
-typedef	struct s_data
+typedef struct s_data {
+	char	*filename;
+	void	*img;
+	char	*addr;
+	int		bpp;
+	int		line_length;
+	int		endian;
+}				t_data;
+
+typedef	struct s_cub
 {
-	char	*N_texture;
-	char	*E_texture;
-	char	*S_texture;
-	char	*W_texture;
+	t_data	N_texture;
+	t_data	E_texture;
+	t_data	S_texture;
+	t_data	W_texture;
 	int		col_ceiling;
 	int		col_floor;
 	int		**map;
 	int		width_map;
 	int		height_map;
 	char	player_dir;
-}				t_data;
+	void	*mlx_ptr;
+	void	*win_ptr;
+	t_data	img;
+}				t_cub;
 
 int		check_input(int argc, char **argv);
-int		init_data(t_data *data);
+int		init_data(t_cub *data);
 
-int		parser(char *file, t_data *data);
-int		parse_info_type(t_data *data, char *line);
+int		parser(char *file, t_cub *data);
+int		parse_info_type(t_cub *data, char *line);
 char	*parse_texture(char *line);
 int		parse_color(char *line);
 int		determine_color_value(char **split);
 
-int		parse_map(t_data *data, char *line, int fd);
-int		check_prev_input(t_data *data);
-int		fill_map_array(t_data *data, char *map_str);
-int		check_map_array(t_data *data);
+int		parse_map(t_cub *data, char *line, int fd);
+int		check_prev_input(t_cub *data);
+int		fill_map_array(t_cub *data, char *map_str);
+int		check_map_array(t_cub *data);
+
+int		test_textures(t_cub *data);
+int		render(t_cub *data);
+void	ft_mlx_pixel_put(t_data *img, int x, int y, int color);
 
 int		str_is_digit(char *str);
 void	free_str_arr(char **str);

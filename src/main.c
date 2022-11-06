@@ -3,20 +3,12 @@
 
 int	main(int argc, char **argv)
 {
-	t_data	data;
+	t_cub	data;
 
 	check_input(argc, argv);
 	init_data(&data);
 	parser(argv[1], &data);
-	printf("N_texture: %s\n", data.N_texture);
-	printf("E_texture: %s\n", data.E_texture);
-	printf("S_texture: %s\n", data.S_texture);
-	printf("W_texture: %s\n", data.W_texture);
-	printf("col_ceiling: %d\n", data.col_ceiling);
-	printf("col_floor: %d\n", data.col_floor);
-	printf("width_map: %d\n", (int) data.width_map);
-	printf("height_map: %d\n", (int) data.height_map);
-	printf("player_dir: %c\n", data.player_dir);
+	test_textures(&data);
 	return (0);
 }
 
@@ -46,12 +38,12 @@ int	check_input(int argc, char **argv)
  * @param data [t_data *] Pointer to struct storing the input data.
  * @return [int] 0 on success, 1 on failure.
 */
-int	init_data(t_data *data)
+int	init_data(t_cub *data)
 {
-	data->N_texture = NULL;
-	data->E_texture = NULL;
-	data->S_texture = NULL;
-	data->W_texture = NULL;
+	data->N_texture.filename = NULL;
+	data->E_texture.filename = NULL;
+	data->S_texture.filename = NULL;
+	data->W_texture.filename = NULL;
 	data->col_ceiling = 33554431;
 	data->col_floor = 33554431;
 	data->map = NULL;

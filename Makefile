@@ -7,7 +7,7 @@ MLX = libmlx.a -framework OpenGL -framework AppKit
 LIBFT_DIR = libft/
 LIBFT = libft.a
 CFLAGS = -Wall -Wextra -Werror
-SRC = $(SRC_DIR)main.c $(SRC_DIR)parser.c $(SRC_DIR)parser_map.c $(SRC_DIR)utils.c
+SRC = $(SRC_DIR)main.c $(SRC_DIR)parser.c $(SRC_DIR)parser_map.c $(SRC_DIR)utils.c $(SRC_DIR)textures.c
 
 # colors
 GREEN = \033[0;32m

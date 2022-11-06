@@ -1,10 +1,10 @@
-NO data/textures/bluestone.xpm
-SO data/textures/purplestone.xpm
-WE data/textures/greystone.xpm
-EA data/textures/redbrick.xpm
+NO textures/hieroglyphs.xpm
+SO textures/mineral_mortar.xpm
+WE textures/gold.xpm
+EA textures/stone_tiles.xpm
 
-F 255,0,0
-C 0,0,255
+F 122,93,13
+C 38,33,18
 
         1111111111111111111111111
         1000000000110000000000001
