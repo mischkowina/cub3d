@@ -36,6 +36,10 @@
 
 # define PI				3.1415926535
 
+# define FOV_D			60
+# define FOV			M_PI / 180 * FOV_D
+# define ROT_ANGLE		M_PI / 36.0
+
 int	map[MAP_WIDTH][MAP_HEIGHT];
 
 typedef struct s_trgb
@@ -72,6 +76,8 @@ typedef struct s_data
 	t_trgb	trgb;
 	t_vec	pos;
 	t_vec	dir;
+	t_vec	camera_plane;
+	char	player_dir;
 	float	p_angle;
 	float	pdx;
 	float	pdy;
@@ -106,5 +112,8 @@ void	right_key_pressed(t_data *data);
 void	find_vector_values(t_vec *vec, double angle);
 void	normalize_vector(t_vec *vec);
 void	perpendicular_vector(t_vec *vec);
+
+// init.c //
+void	init_orientation(t_data *data);
 
 #endif

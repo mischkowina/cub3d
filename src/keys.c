@@ -49,32 +49,56 @@ void	d_key_pressed(t_data *data) // this also - camera plane vector
 	handle_player(data);
 }
 
-void	right_key_pressed(t_data *data)
+void	right_key_pressed(t_data *data) //clockwise
 {
-	double	angle;
-	t_vec	temp;
+	double	temp_dir_x;
+	double	temp_dir_y;
+	double	temp_plane_x;
+	double	temp_plane_y;
 
-	angle = atan2(data->dir.y, data->dir.x);
-	angle += M_PI / 36.0; // 5 degrees
-	find_vector_values(&temp, angle);
-	normalize_vector(&temp);
-	data->dir.x = temp.x;
-	data->dir.y = temp.y;
+	temp_dir_x = data->dir.x;
+	temp_dir_y = data->dir.y;
+	temp_plane_x = data->camera_plane.x;
+	temp_plane_y = data->camera_plane.y;
+	data->dir.x = cos(ROT_ANGLE) * temp_dir_x - sin(ROT_ANGLE) * temp_dir_y;
+	data->dir.y = sin(ROT_ANGLE) * temp_dir_x + cos(ROT_ANGLE) * temp_dir_y;
+	data->camera_plane.x = cos(ROT_ANGLE) * temp_plane_x - sin(ROT_ANGLE) * temp_plane_y;
+	data->camera_plane.y = sin(ROT_ANGLE) * temp_plane_x + cos(ROT_ANGLE) * temp_plane_y;
 }
 
-void	left_key_pressed(t_data *data)
+void	left_key_pressed(t_data *data) // counterclockwise
 {
-	double	angle;
-	t_vec	temp;
+	double	temp_dir_x;
+	double	temp_dir_y;
+	double	temp_plane_x;
+	double	temp_plane_y;
 
-	angle = atan2(data->dir.y, data->dir.x);
-	// printf("--- angle: %f\n", angle);
-	angle -= M_PI / 36.0; // 5 degrees
-	find_vector_values(&temp, angle);
-	normalize_vector(&temp);
-	// printf("--- vec.x: %f, vex.y: %f\n", temp.x, temp.y);
-	data->dir.x = temp.x;
-	data->dir.y = temp.y;
-	// draw_line(data->pos.x, data->pos.y, data->dir.x + 10.0, data->dir.y + 10.0, data);
-	// printf("--- data.dir.x: %f, data.dir.y: %f\n", data->dir.x, data->dir.y);
+	temp_dir_x = data->dir.x;
+	temp_dir_y = data->dir.y;
+	temp_plane_x = data->camera_plane.x;
+	temp_plane_y = data->camera_plane.y;
+	data->dir.x = cos(ROT_ANGLE) * temp_dir_x + sin(ROT_ANGLE) * temp_dir_y;
+	data->dir.y = - sin(ROT_ANGLE) * temp_dir_x + cos(ROT_ANGLE) * temp_dir_y;
+	data->camera_plane.x = cos(ROT_ANGLE) * temp_plane_x + sin(ROT_ANGLE) * temp_plane_y;
+	data->camera_plane.y = - sin(ROT_ANGLE) * temp_plane_x + cos(ROT_ANGLE) * temp_plane_y;
+
 }
+
+// OLD ROTATION // WITHOUT ROTATION MATRICES
+
+// void	left_key_pressed(t_data *data)
+// {
+// 	double	angle;
+// 	t_vec	temp;
+
+// 	angle = atan2(data->dir.y, data->dir.x);
+// 	// printf("--- angle: %f\n", angle);
+// 	angle -= M_PI / 36.0; // 5 degrees
+// 	find_vector_values(&temp, angle);
+// 	normalize_vector(&temp);
+// 	// printf("--- vec.x: %f, vex.y: %f\n", temp.x, temp.y);
+// 	data->dir.x = temp.x;
+// 	data->dir.y = temp.y;
+// 	// draw_line(data->pos.x, data->pos.y, data->dir.x + 10.0, data->dir.y + 10.0, data);
+// 	// printf("--- data.dir.x: %f, data.dir.y: %f\n", data->dir.x, data->dir.y);
+// }
