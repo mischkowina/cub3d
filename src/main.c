@@ -40,12 +40,19 @@ int	check_input(int argc, char **argv)
 */
 int	init_data(t_cub *data)
 {
+	data->mlx_ptr = NULL;
+	data->win_ptr = NULL;
+	data->map = NULL;
 	data->N_texture.filename = NULL;
 	data->E_texture.filename = NULL;
 	data->S_texture.filename = NULL;
 	data->W_texture.filename = NULL;
-	data->col_ceiling = 33554431;
-	data->col_floor = 33554431;
-	data->map = NULL;
+	data->col_ceiling = -1;
+	data->col_floor = -1;
+	data->width_map = 0;
+	data->height_map = 0;
+	data->player_dir = '0';
+	data->player_pos_x = -1;
+	data->player_pos_y = -1;
 	return (0);
 }

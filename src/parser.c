@@ -66,7 +66,8 @@ int	parse_info_type(t_cub *data, char *line)
 
 /**
  * Removes the identifier as well as the newline character from the
- * string line, returning only the path of the texture file.
+ * string line, returning only the path of the texture file. Also
+ * checks if the texture is a .xpm file.
  * @param line [char *] String containing texture info from the input file.
  * @return [char *] String containing the path of a texture file.
 */
@@ -81,7 +82,10 @@ char	*parse_texture(char *line)
 	if (!line[i] || line[i] == '\n')
 		ft_error("Texture input missing");
 	str = ft_substr(line, i, (ft_strlen(line) - 1 - i));
-	//OPEN: check for file type?
+	if (!str)
+		ft_error("Texture: ft_substr failed.");
+	if (ft_strncmp(&str[ft_strlen(str) - 4], ".xpm", 5))
+		ft_error("Textures have to be .xpm files.");
 	return (str);
 }
 

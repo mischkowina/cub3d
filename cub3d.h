@@ -23,6 +23,8 @@ typedef struct s_data {
 	char	*filename;
 	void	*img;
 	char	*addr;
+	int		width;
+	int		height;
 	int		bpp;
 	int		line_length;
 	int		endian;
@@ -40,6 +42,8 @@ typedef	struct s_cub
 	int		width_map;
 	int		height_map;
 	char	player_dir;
+	int		player_pos_x;
+	int		player_pos_y;
 	void	*mlx_ptr;
 	void	*win_ptr;
 	t_data	img;
@@ -62,6 +66,9 @@ int		check_map_array(t_cub *data);
 int		test_textures(t_cub *data);
 int		render(t_cub *data);
 void	ft_mlx_pixel_put(t_data *img, int x, int y, int color);
+int		open_texture(t_cub *data, t_data *texture);
+int		open_all_textures(t_cub *data);
+unsigned int	get_texture_color(int x, int y, t_data *texture);
 
 int		str_is_digit(char *str);
 void	free_str_arr(char **str);

@@ -10,7 +10,7 @@ int	parse_map(t_cub *data, char *line, int fd)
 	while (line && (!ft_strncmp(line, " ", 1) || !ft_strncmp(line, "1", 1)))
 	{
 		tmp = map_str;
-		//free(map_str);//TEST WITH THIS LINE???
+		//free(map_str);THIS LINE BREAKS SHIT
 		map_str = ft_strjoin(tmp, line);
 		free(tmp);
 		free(line);
@@ -33,7 +33,7 @@ int	check_prev_input(t_cub *data)
 	if (!data->N_texture.filename || !data->E_texture.filename 
 		|| !data->S_texture.filename || !data->W_texture.filename)
 		ft_error("Incomplete input for textures.");
-	else if (data->col_ceiling == 33554431 || data->col_floor == 33554431)
+	else if (data->col_ceiling == -1 || data->col_floor == -1)
 		ft_error("Incomplete input for colors.");
 	return (0);
 }
@@ -119,7 +119,11 @@ int	check_map_array(t_cub *data)
 				if (col < (data->width_map - 1) &&  data->map[row][col + 1] < 0)
 					ft_error("Invalid input for map: open walls.");
 				if (data->map[row][col] == 2)
+				{
+					data->player_pos_x = col;
+					data->player_pos_y = row;
 					pos++;
+				}
 			}
 			col++;
 		}
