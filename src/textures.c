@@ -24,28 +24,25 @@ int	test_textures(t_cub *data)//TEST; DELETE LATER
 
 int	render(t_cub *data)
 {
-	int	x;
-	int	y;
-	int	col;
+	double	x;
+	double	y;
+	double	dist;
+	double	chg;
 
 	x = 0;
 	y = 0;
-	ft_bzero(data->img.addr, WIDTH * HEIGHT * sizeof(int));
-	while (y < HEIGHT)
+	dist = 4 / cos(15);
+	prep_image(data);
+	while (x < WIDTH)
 	{
-		x = 0;
-		while (x < WIDTH)
-		{
-			if (y < (HEIGHT / 3))
-				col = (int)get_texture_color(x, y, &(data->N_texture));
-			else if (y >= (HEIGHT / 3 * 2))
-				col = (int)get_texture_color(x, (y - (HEIGHT / 3 * 2)), &(data->E_texture));
-			else
-				col = (int)get_texture_color(x, (y - (HEIGHT / 3)), &(data->S_texture));
-			ft_mlx_pixel_put(&(data->img), x, y, col);
-			x++;
-		}
-		y++;
+		y = 0;
+		if (x < (WIDTH / 2))
+			chg = (4.0 / cos(45) - 4.0 / cos(15)) / (WIDTH / 2);
+		else
+			chg = (4.0 / cos(15) - 4.0 / cos(45)) / (WIDTH / 2);
+		draw_wall(distance, x, y, &(data->texture));
+		x++;
+		dist += chg;
 	}
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
 	return (0);
@@ -91,4 +88,41 @@ unsigned int	get_texture_color(int x, int y, t_data *texture)
 	y_new = y % texture->height;
 	dst = texture->addr + (y_new * texture->line_length + x_new * (texture->bpp/8));
 	return (*(unsigned int *)dst);
+}
+
+
+//test function, assuming the player position is at 5,5 and looking straight into a corner at 1,1
+//smallest distance is 5,27 (4/cos(15)) and biggest is the corner at 7,61 (4/cos(45)).
+int	draw_wall(int dist, int x, int y, t_data *texture)
+{
+	printf("TEST\n");
+	//bestimme wo angefangen wird zu malen und wo aufgehört wird (x bleibt gleich, 2 y Werte)
+	//bestimme wo im texture angefangen wird
+	//bestimme wie viele pixel in texture übersprungen werden
+	//male ray
+	return (0);
+}
+
+int	prep_image(t_cub *data)
+{
+	int	x;
+	int	y;
+
+	x = 0;
+	y = 0;
+	ft_bzero(data->img.addr, WIDTH * HEIGHT * sizeof(int));
+	while (y < HEIGHT)
+	{
+		x = 0;
+		while (x < WIDTH)
+		{
+			if (y < HEIGHT / 2)
+				ft_mlx_pixel_put(&(data->img), x, y, data->col_ceiling);
+			else
+				ft_mlx_pixel_put(&(data->img), x, y, data->col_floor);
+			x++;
+		}
+		y++;
+	}
+	return (0);
 }
