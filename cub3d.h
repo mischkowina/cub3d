@@ -70,6 +70,7 @@ int		open_texture(t_cub *data, t_data *texture);
 int		open_all_textures(t_cub *data);
 unsigned int	get_texture_color(int x, int y, t_data *texture);
 int		prep_image(t_cub *data);
+int		draw_wall(double dist, int x, t_cub *data);
 
 int		str_is_digit(char *str);
 void	free_str_arr(char **str);

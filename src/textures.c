@@ -25,24 +25,23 @@ int	test_textures(t_cub *data)//TEST; DELETE LATER
 int	render(t_cub *data)
 {
 	double	x;
-	double	y;
 	double	dist;
 	double	chg;
+	double	ray;
 
 	x = 0;
-	y = 0;
-	dist = 4 / cos(15);
+	dist = 4 / cos(15) * -1;
 	prep_image(data);
 	while (x < WIDTH)
 	{
-		y = 0;
+		ray = dist * cos(30);
+		draw_wall(ray, x, data);
 		if (x < (WIDTH / 2))
 			chg = (4.0 / cos(45) - 4.0 / cos(15)) / (WIDTH / 2);
 		else
 			chg = (4.0 / cos(15) - 4.0 / cos(45)) / (WIDTH / 2);
-		draw_wall(distance, x, y, &(data->texture));
-		x++;
 		dist += chg;
+		x++;
 	}
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
 	return (0);
@@ -91,15 +90,28 @@ unsigned int	get_texture_color(int x, int y, t_data *texture)
 }
 
 
-//test function, assuming the player position is at 5,5 and looking straight into a corner at 1,1
-//smallest distance is 5,27 (4/cos(15)) and biggest is the corner at 7,61 (4/cos(45)).
-int	draw_wall(int dist, int x, int y, t_data *texture)
+// test function, assuming the player position is at 5,5 and looking straight into a corner at 1,1
+// smallest distance is 5,27 (4/cos(15)) and biggest is the corner at 7,61 (4/cos(45)).
+int	draw_wall(double dist, int x, t_cub *data)
 {
-	printf("TEST\n");
-	//bestimme wo angefangen wird zu malen und wo aufgehört wird (x bleibt gleich, 2 y Werte)
-	//bestimme wo im texture angefangen wird
-	//bestimme wie viele pixel in texture übersprungen werden
-	//male ray
+	int		start;
+	int		end;
+	double	tex_pos;
+	int		col;
+
+	start = - (HEIGHT / dist) / 2 + HEIGHT / 2.0;
+	if (start < 0)
+		start = 0;
+	end = (HEIGHT / dist) / 2 + HEIGHT / 2.0;
+	if (end >= HEIGHT)
+		end = HEIGHT - 1;
+	tex_pos = start - (HEIGHT / 2.0) + (HEIGHT / dist) / 2.0;
+	while (start < end)
+	{
+		col = get_texture_color(x, tex_pos, &(data->N_texture));
+		ft_mlx_pixel_put(&(data->img), x, start, col);
+		start++;
+	}
 	return (0);
 }
 
