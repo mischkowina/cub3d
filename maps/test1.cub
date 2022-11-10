@@ -1,7 +1,7 @@
-NO textures/hieroglyphs.xpm
-SO textures/mineral_mortar.xpm
+NO textures/hieroglyph_stone.xpm
+SO textures/sandstone_small.xpm
 WE textures/gold.xpm
-EA textures/stone_tiles.xpm
+EA textures/temple_wall.xpm
 
 F 122,93,13
 C 38,33,18

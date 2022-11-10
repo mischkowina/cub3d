@@ -28,18 +28,23 @@ int	render(t_cub *data)
 	double	dist;
 	double	chg;
 	double	ray;
+	t_data	*texture;
 
 	x = 0;
-	dist = 4 / cos(15) * -1;
+	dist = 6 / cos(15) * -1;
 	prep_image(data);
+	texture = &(data->N_texture);
 	while (x < WIDTH)
 	{
 		ray = dist * cos(30);
-		draw_wall(ray, x, data);
+		draw_wall(ray, x, data, texture);
 		if (x < (WIDTH / 2))
-			chg = (4.0 / cos(45) - 4.0 / cos(15)) / (WIDTH / 2);
+			chg = (6.0 / cos(45) - 6.0 / cos(15)) / (WIDTH / 2);
 		else
-			chg = (4.0 / cos(15) - 4.0 / cos(45)) / (WIDTH / 2);
+		{
+			chg = (6.0 / cos(15) - 6.0 / cos(45)) / (WIDTH / 2);
+			texture = &(data->E_texture);
+		}	
 		dist += chg;
 		x++;
 	}
@@ -92,10 +97,11 @@ unsigned int	get_texture_color(int x, int y, t_data *texture)
 
 // test function, assuming the player position is at 5,5 and looking straight into a corner at 1,1
 // smallest distance is 5,27 (4/cos(15)) and biggest is the corner at 7,61 (4/cos(45)).
-int	draw_wall(double dist, int x, t_cub *data)
+int	draw_wall(double dist, int x, t_cub *data, t_data *texture)
 {
 	int		start;
 	int		end;
+	double	step;
 	double	tex_pos;
 	int		col;
 
@@ -105,11 +111,13 @@ int	draw_wall(double dist, int x, t_cub *data)
 	end = (HEIGHT / dist) / 2 + HEIGHT / 2.0;
 	if (end >= HEIGHT)
 		end = HEIGHT - 1;
-	tex_pos = start - (HEIGHT / 2.0) + (HEIGHT / dist) / 2.0;
+	step = 1.0 * texture->height / (HEIGHT / dist);
+	tex_pos = (start - HEIGHT / 2.0 + (HEIGHT / dist) / 2.0) * step;
 	while (start < end)
 	{
-		col = get_texture_color(x, tex_pos, &(data->N_texture));
+		col = get_texture_color(x, tex_pos, texture);
 		ft_mlx_pixel_put(&(data->img), x, start, col);
+		tex_pos += step;
 		start++;
 	}
 	return (0);
