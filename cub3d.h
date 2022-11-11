@@ -6,7 +6,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
-# include "/usr/X11/include/X11/X.h"
+// # include "/usr/X11/include/X11/X.h"
 # include <math.h>
 # include "libft/libft.h"
 # include "mlx/mlx.h"
@@ -25,6 +25,8 @@
 
 # define MAP_WIDTH		10
 # define MAP_HEIGHT		10
+
+# define PLAYER_SIZE	10
 
 # define BLACK			0x000000
 # define WHITE			0xFFFFFF

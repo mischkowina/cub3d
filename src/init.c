@@ -8,7 +8,8 @@ void	init(t_data *data)
 	data->pos.x = 230.0;
 	data->pos.y = 160.0;
 // initialize the direction of the player's vision: N (0, 1), S (0, -1), E (1, 0), W (-1, 0)
-	data->player_dir = 'N';
+	data->player_dir = 'S';
+	init_orientation(data);
 	// data->dir.x = 0.0;
 	// data->dir.y = 1.0;
 // initialize the player angle to 2 * PI

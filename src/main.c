@@ -77,6 +77,7 @@ void	handle_player(t_data *data)
 	printf("in handle player: x0: %f, y0: %f, dir.x: %f, dir.y: %f\n", data->pos.x, data->pos.y, data->dir.x, data->dir.y);
 	draw_grid(data);
 	draw_point(data);
-	draw_line(x0, y0, x1, y1, data);
+	// draw_line(x0, y0, x1, y1, data);
+	draw_line(data->pos.x, data->pos.y, data->pos.x + (data->dir.x * 20), data->pos.y + (data->dir.y * 20), data);
 }
 
