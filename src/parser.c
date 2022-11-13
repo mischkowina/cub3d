@@ -59,6 +59,8 @@ int	parse_info_type(t_cub *data, char *line)
 		data->col_floor = parse_color(line);
 	else if (line && !ft_strncmp(line, "C ", 2))
 		data->col_ceiling = parse_color(line);
+	else if (line && !ft_strncmp(line, "DO ", 2))
+		data->D_texture.filename = parse_texture(line);
 	else
 		return (1);
 	return (0);

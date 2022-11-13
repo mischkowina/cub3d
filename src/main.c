@@ -47,6 +47,7 @@ int	init_data(t_cub *data)
 	data->E_texture.filename = NULL;
 	data->S_texture.filename = NULL;
 	data->W_texture.filename = NULL;
+	data->D_texture.filename = NULL;
 	data->col_ceiling = -1;
 	data->col_floor = -1;
 	data->width_map = 0;
@@ -54,5 +55,58 @@ int	init_data(t_cub *data)
 	data->player_dir = '0';
 	data->player_pos_x = -1;
 	data->player_pos_y = -1;
+	return (0);
+}
+
+//Test function creating the mlx environment and rendering the texture tests
+int	test_textures(t_cub *data)
+{
+	data->mlx_ptr = mlx_init();
+	if (!data->mlx_ptr)
+		ft_error("MLX failed.");
+	data->win_ptr = mlx_new_window(data->mlx_ptr, WIDTH, HEIGHT, "cub3D");
+	if (!data->win_ptr)
+	{
+		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+		free(data->mlx_ptr);
+		return (1);
+	}
+	open_all_textures(data);
+	data->img.img = mlx_new_image(data->mlx_ptr, WIDTH, HEIGHT);
+	data->img.addr = mlx_get_data_addr(data->img.img, &data->img.bpp,
+			&data->img.line_length, &data->img.endian);
+	mlx_loop_hook(data->mlx_ptr, render, data);
+	mlx_loop(data->mlx_ptr);
+	return (0);
+}
+
+//test function to render a simulated shifted wall
+int	render(t_cub *data)
+{
+	double	x;
+	double	dist;
+	double	chg;
+	double	ray;
+	t_data	*texture;
+
+	x = 0;
+	dist = 6 / cos(15) * -1;
+	prep_image(data);
+	texture = &(data->S_texture);
+	while (x < WIDTH)
+	{
+		ray = dist * cos(30);
+		draw_wall(ray, x, data, texture);
+		if (x < (WIDTH / 2))
+			chg = (6.0 / cos(45) - 6.0 / cos(15)) / (WIDTH / 2);
+		else
+		{
+			chg = (6.0 / cos(15) - 6.0 / cos(45)) / (WIDTH / 2);
+			texture = &(data->E_texture);
+		}	
+		dist += chg;
+		x++;
+	}
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
 	return (0);
 }

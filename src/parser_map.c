@@ -1,5 +1,14 @@
 #include "../cub3d.h"
 
+/**
+ * Function to iterate through the map-part of the .cub file and processes 
+ * the content line by line into one long string.
+ * Returns error if it finds any invalid input within or after the map.
+ * @param data [t_cub *] Pointer to struct storing all the input data.
+ * @param line [char *] First line of the map input.
+ * @param fd [fd] File descriptor of the .cub file.
+ * @return [int] 0 on success, 1 on failure.
+*/
 int	parse_map(t_cub *data, char *line, int fd)
 {
 	char	*map_str;
@@ -21,16 +30,23 @@ int	parse_map(t_cub *data, char *line, int fd)
 		free(line);
 		line = get_next_line(fd);
 	}
-	if (line)
-		ft_error("Invalid input after map.");
+	if (line || !ft_strncmp(map_str, "", 1))
+		ft_error("Invalid input for map.");
+	close(fd);
 	fill_map_array(data, map_str);
 	check_map_array(data);
 	return (0);
 }
 
+/**
+ * Function to check if all necessary input has been given before the map
+ * gets parsed.
+ * @param data [t_cub *] Pointer to struct storing all the input data.
+ * @return [int] 0 on success, 1 on failure.
+*/
 int	check_prev_input(t_cub *data)
 {
-	if (!data->N_texture.filename || !data->E_texture.filename 
+	if (!data->N_texture.filename || !data->E_texture.filename
 		|| !data->S_texture.filename || !data->W_texture.filename)
 		ft_error("Incomplete input for textures.");
 	else if (data->col_ceiling == -1 || data->col_floor == -1)
@@ -38,20 +54,59 @@ int	check_prev_input(t_cub *data)
 	return (0);
 }
 
+/**
+ * Function to transfer the map input into a 2D integer array. First allocates 
+ * enough space for the integer array, then it iterates through the string array
+ * representing the map in characters and checks the input as well as transfers
+ * it to the int array.
+ * @param data [t_cub *] Pointer to struct storing all the input data.
+ * @param map_str [char *] String containing the total map data.
+ * @return [int] 0 on success, 1 on failure.
+*/
 int	fill_map_array(t_cub *data, char *map_str)
 {
 	char	**map_rows;
 	int		row;
+	int		col;
+
+	row = 0;
+	col = 0;
+	map_rows = ft_split(map_str, '\n');
+	free(map_str);
+	allocate_map_array(data, map_rows);
+	while (map_rows[row])
+	{
+		col = 0;
+		while (map_rows[row][col])
+		{
+			if (copy_map_tile(map_rows[row][col], row, col, data))
+				ft_error("Invalid input for map.");
+			col++;
+		}
+		while (col < data->width_map)
+			data->map[row][col++] = -1;
+		row++;
+	}
+	free_str_arr(map_rows);
+	return (0);
+}
+
+/**
+ * Function to allocate sufficient memory space for the 2D integer array
+ * representing the map.
+ * @param data [t_cub *] Pointer to struct storing all the input data.
+ * @param map_rows [char **] String array containing the map data.
+ * @return [int] 0 on success, 1 on failure.
+*/
+int	allocate_map_array(t_cub *data, char **map_rows)
+{
+	int		row;
 	int		i;
 	size_t	max_width;
-	
+
 	max_width = 0;
 	row = 0;
 	i = 0;
-	map_rows = ft_split(map_str, '\n');//TEST: is a \n at the end of the map removed?
-	if (!map_rows || !ft_strncmp(map_rows[0], "", 1))
-		ft_error("Invalid input for map.");
-	free(map_str);
 	while (map_rows[row])
 	{
 		if (ft_strlen(map_rows[row]) > max_width)
@@ -60,8 +115,8 @@ int	fill_map_array(t_cub *data, char *map_str)
 	}
 	data->height_map = row;
 	data->width_map = (int) max_width;
-	data->map = ft_calloc(sizeof(int*), row);
-	if (!data->map)
+	data->map = ft_calloc(sizeof(int *), row);
+	if (!data->map || row == 0 || max_width == 0)
 		ft_error("Allocation of map failed.");
 	while (i < row)
 	{
@@ -69,85 +124,39 @@ int	fill_map_array(t_cub *data, char *map_str)
 		if (!data->map[i++])
 			ft_error("Allocation of map failed.");
 	}
-	row = 0;
-	while (map_rows[row])
-	{
-		i = 0;
-		while (map_rows[row][i])
-		{
-			if (map_rows[row][i] == ' ')
-				data->map[row][i] = -1;
-			else if (map_rows[row][i] == '1')
-				data->map[row][i] = 1;
-			else if (map_rows[row][i] == '0')
-				data->map[row][i] = 0;
-			else if (map_rows[row][i] == 'N' || map_rows[row][i] == 'E'
-					||map_rows[row][i] == 'S' || map_rows[row][i] == 'W')
-			{
-				data->map[row][i] = 2;
-				data->player_dir = map_rows[row][i];
-			}
-			else
-				ft_error("Invalid input for map.");
-			i++;
-		}
-		while (i < data->width_map)
-			data->map[row][i++] = -1;
-		row++;
-	}
-	free_str_arr(map_rows);
 	return (0);
 }
 
-int	check_map_array(t_cub *data)
+/**
+ * Function to fill a single field of the 2D integer array with the integer 
+ * representation of the given character.
+ * @param c [char] Character to be transfered into the int array.
+ * @param row [int] Row position of the respective array field.
+ * @param col [int] Column position of the respective array field.
+ * @param data [t_cub *] Pointer to struct storing all the input data.
+ * @return [int] 0 if c is a valid input and has been processed, else 1.
+*/
+int	copy_map_tile(char c, int row, int col, t_cub *data)
 {
-	int	row;
-	int	col;
-	int	pos;
-
-	row = 0;
-	col = 0;
-	pos = 0;
-	while (row < data->height_map)
+	if (c == ' ')
+		data->map[row][col] = -1;
+	else if (c == '1')
+		data->map[row][col] = 1;
+	else if (c == '0')
+		data->map[row][col] = 0;
+	else if (c == 'N' || c == 'E' || c == 'S' || c == 'W')
 	{
-		while (col < data->width_map)
-		{
-			if (data->map[row][col] == 0 || data->map[row][col] == 2)
-			{
-				if (col > 0 && data->map[row][col - 1] < 0)
-					ft_error("Invalid input for map: open walls.");
-				if (col < (data->width_map - 1) &&  data->map[row][col + 1] < 0)
-					ft_error("Invalid input for map: open walls.");
-				if (data->map[row][col] == 2)
-				{
-					data->player_pos_x = col;
-					data->player_pos_y = row;
-					pos++;
-				}
-			}
-			col++;
-		}
-		col = 0;
-		row++;
+		data->map[row][col] = 2;
+		data->player_dir = c;
 	}
-	if (pos != 1)
-		ft_error("Invalid input for map: no or ambiguous starting position.");
-	row = 0;
-	while (col < data->width_map)
+	else if (c == 'D')
 	{
-		while (row < data->height_map)
-		{
-			if (data->map[row][col] == 0 || data->map[row][col] == 2)
-			{
-				if (row > 0 && data->map[row - 1][col] < 0)
-					ft_error("Invalid input for map: open walls.");
-				if (row < (data->height_map - 1) &&  data->map[row + 1][col] < 0)
-					ft_error("Invalid input for map: open walls.");
-			}
-			row++;
-		}
-		row = 0;
-		col++;
+		if (!data->D_texture.filename)
+			ft_error("No texture input for doors.");
+		else
+			data->map[row][col] = 3;
 	}
+	else
+		return (1);
 	return (0);
 }

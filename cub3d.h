@@ -36,6 +36,7 @@ typedef	struct s_cub
 	t_data	E_texture;
 	t_data	S_texture;
 	t_data	W_texture;
+	t_data	D_texture;
 	int		col_ceiling;
 	int		col_floor;
 	int		**map;
@@ -51,6 +52,8 @@ typedef	struct s_cub
 
 int		check_input(int argc, char **argv);
 int		init_data(t_cub *data);
+int		test_textures(t_cub *data);//TEST FUNCTION; TO BE REMOVED
+int		render(t_cub *data);//TEST FUNCTION; TO BE REMOVED
 
 int		parser(char *file, t_cub *data);
 int		parse_info_type(t_cub *data, char *line);
@@ -61,16 +64,19 @@ int		determine_color_value(char **split);
 int		parse_map(t_cub *data, char *line, int fd);
 int		check_prev_input(t_cub *data);
 int		fill_map_array(t_cub *data, char *map_str);
-int		check_map_array(t_cub *data);
+int		allocate_map_array(t_cub *data, char **map_rows);
+int		copy_map_tile(char c, int row, int col, t_cub *data);
 
-int		test_textures(t_cub *data);
-int		render(t_cub *data);
+int		check_map_array(t_cub *data);
+int		check_tile(t_cub *data, int row, int col, int *pos);
+
 void	ft_mlx_pixel_put(t_data *img, int x, int y, int color);
+int		prep_image(t_cub *data);
+int		draw_wall(double dist, int x, t_cub *data, t_data *texture);
+
 int		open_texture(t_cub *data, t_data *texture);
 int		open_all_textures(t_cub *data);
 unsigned int	get_texture_color(int x, int y, t_data *texture);
-int		prep_image(t_cub *data);
-int		draw_wall(double dist, int x, t_cub *data, t_data *texture);
 
 int		str_is_digit(char *str);
 void	free_str_arr(char **str);
