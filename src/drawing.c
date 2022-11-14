@@ -27,7 +27,7 @@ void	draw_point(t_data *data)
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 }
 
-void	draw_line(int x0, int y0, int x1, int y1, t_data * data) // this is the best one so far
+void	draw_line(int x0, int y0, int x1, int y1, t_data * data, int color) // this is the best one so far
 {
 	double	dx;
 	double	dy;
@@ -46,7 +46,7 @@ void	draw_line(int x0, int y0, int x1, int y1, t_data * data) // this is the bes
 	{
 		data->img.px_x = px_x;
 		data->img.px_y = px_y;
-		pixel_put(data, YELLOW);
+		pixel_put(data, color);
 		px_x += dx;
 		px_y += dy;
 		px--;

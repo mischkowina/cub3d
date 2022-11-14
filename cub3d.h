@@ -35,6 +35,7 @@
 # define LIGHT_PINK		0xa3819c
 # define BRIGHT_PINK	0xE6AEDB
 # define YELLOW			0xFFDF07
+# define GREEN			0x00FF00
 
 # define PI				3.1415926535
 
@@ -97,7 +98,7 @@ int		close_x(t_data *data);
 
 // drawing.c //
 void	draw_point(t_data *data);
-void	draw_line(int x0, int y0, int x1, int y1, t_data *data);
+void	draw_line(int x0, int y0, int x1, int y1, t_data *data, int color);
 // void	draw_line(double x0, double y0, double x1, double y1, t_data *data); // this is the working one
 // void	draw_line(t_data *data);
 // void	draw_line(int x0, int y0, int dx, int dy, t_data *data);
