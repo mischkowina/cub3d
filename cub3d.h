@@ -11,6 +11,7 @@
 # include "libft/libft.h"
 # include "mlx/mlx.h"
 # include <math.h>
+# include <stdbool.h>
 
 # define WIDTH 			1440
 # define HEIGHT			720
@@ -85,6 +86,16 @@ typedef struct s_data
 	float	pdx;
 	float	pdy;
 }				t_data;
+
+typedef struct s_ray
+{
+	bool	done;
+	double	x;
+	double	y;
+	double	dir_x;
+	double	dir_y;
+	double	angle;
+}				t_ray;
 
 // main.c //
 void	init(t_data *data);

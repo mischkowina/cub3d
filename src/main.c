@@ -78,8 +78,8 @@ void	handle_player(t_data *data)
 	draw_grid(data);
 	draw_point(data);
 	// draw_line(x0, y0, x1, y1, data);
-	draw_line(data->pos.x - 5, data->pos.y - 5, data->pos.x - 5 + (data->dir.x * 20), data->pos.y - 5 + (data->dir.y * 20), data, YELLOW);
-	draw_line(data->pos.x - 5 + (data->dir.x * 20), data->pos.y - 5 + (data->dir.y * 20), data->pos.x - 5 + (data->dir.x * 20) + (data->camera_plane.x * 40),  data->pos.y - 5 + (data->dir.y * 20) + (data->camera_plane.y * 40), data, GREEN);
-	draw_line(data->pos.x - 5 + (data->dir.x * 20), data->pos.y - 5 + (data->dir.y * 20), data->pos.x - 5 + (data->dir.x * 20) - (data->camera_plane.x * 40),  data->pos.y - 5 + (data->dir.y * 20) - (data->camera_plane.y * 40), data, GREEN);
+	draw_line(data->pos.x - 5, data->pos.y - 5, data->pos.x - 5 + (data->dir.x * 500), data->pos.y - 5 + (data->dir.y * 500), data, YELLOW);
+	draw_line(data->pos.x - 5 + (data->dir.x * 20), data->pos.y - 5 + (data->dir.y * 20), data->pos.x - 5 + (data->dir.x * 20) + (data->camera_plane.x * 20),  data->pos.y - 5 + (data->dir.y * 20) + (data->camera_plane.y * 20), data, GREEN);
+	draw_line(data->pos.x - 5 + (data->dir.x * 20), data->pos.y - 5 + (data->dir.y * 20), data->pos.x - 5 + (data->dir.x * 20) - (data->camera_plane.x * 20),  data->pos.y - 5 + (data->dir.y * 20) - (data->camera_plane.y * 20), data, GREEN);
 }
 
