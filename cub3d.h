@@ -95,6 +95,8 @@ typedef struct s_ray
 	double	dir_x;
 	double	dir_y;
 	double	angle;
+	double	horizontal_line;
+	double	vertical_line;
 }				t_ray;
 
 // main.c //
@@ -108,7 +110,8 @@ int		key_hooks(int keycode, t_data *data);
 int		close_x(t_data *data);
 
 // drawing.c //
-void	draw_point(t_data *data);
+// void	draw_point(t_data *data);
+void	draw_point(int x, int y, t_data *data);
 void	draw_line(int x0, int y0, int x1, int y1, t_data *data, int color);
 // void	draw_line(double x0, double y0, double x1, double y1, t_data *data); // this is the working one
 // void	draw_line(t_data *data);
@@ -129,5 +132,8 @@ void	perpendicular_vector(t_vec *vec);
 
 // init.c //
 void	init_orientation(t_data *data);
+
+// ray.c //
+void	cast_ray(t_data *data);
 
 #endif

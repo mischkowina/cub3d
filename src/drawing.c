@@ -2,7 +2,8 @@
 #include "../cub3d.h"
 
 //function draws the point based on the posx posy saved in data struct
-void	draw_point(t_data *data)
+
+void	draw_point(int x, int y, t_data *data)
 {
 	int	start_x;
 	int	start_y;
@@ -11,8 +12,8 @@ void	draw_point(t_data *data)
 
 	size = 10;
 	color = YELLOW;
-	start_x = data->pos.x - size;
-	start_y = data->pos.y - size;
+	start_x = x - size;
+	start_y = y - size;
 	data->img.px_y = start_y;
 	while (data->img.px_y < start_y + size)
 	{
@@ -26,6 +27,31 @@ void	draw_point(t_data *data)
 	}
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 }
+
+// void	draw_point(t_data *data)
+// {
+// 	int	start_x;
+// 	int	start_y;
+// 	int	size;
+// 	int	color;
+
+// 	size = 10;
+// 	color = YELLOW;
+// 	start_x = data->pos.x - size;
+// 	start_y = data->pos.y - size;
+// 	data->img.px_y = start_y;
+// 	while (data->img.px_y < start_y + size)
+// 	{
+// 		data->img.px_x = start_x;
+// 		while (data->img.px_x < start_x + size)
+// 		{
+// 			pixel_put(data, color);
+// 			data->img.px_x++;
+// 		}
+// 		data->img.px_y++;
+// 	}
+// 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
+// }
 
 void	draw_line(int x0, int y0, int x1, int y1, t_data * data, int color) // this is the best one so far
 {
