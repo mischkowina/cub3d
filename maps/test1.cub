@@ -1,11 +1,11 @@
 NO textures/hieroglyph_stone.xpm
 SO textures/gold.xpm
 WE textures/gold.xpm
-EA textures/temple_wall.xpm
+EA textures/sandstone3.xpm
 DO textures/door2.xpm
 
-F 122,93,13
 C 38,33,18
+F 74,59,12
 
         1111111111111111111111111
         1000000000110000000000001

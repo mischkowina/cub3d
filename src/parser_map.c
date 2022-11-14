@@ -87,6 +87,7 @@ int	fill_map_array(t_cub *data, char *map_str)
 			data->map[row][col++] = -1;
 		row++;
 	}
+	allocate_doors(data);
 	free_str_arr(map_rows);
 	return (0);
 }
@@ -154,7 +155,10 @@ int	copy_map_tile(char c, int row, int col, t_cub *data)
 		if (!data->D_texture.filename)
 			ft_error("No texture input for doors.");
 		else
+		{
 			data->map[row][col] = 3;
+			data->nbr_doors++;
+		}
 	}
 	else
 		return (1);

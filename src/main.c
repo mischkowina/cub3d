@@ -55,6 +55,8 @@ int	init_data(t_cub *data)
 	data->player_dir = '0';
 	data->player_pos_x = -1;
 	data->player_pos_y = -1;
+	data->nbr_doors = 0;
+	data->doors = NULL;
 	return (0);
 }
 
@@ -75,6 +77,7 @@ int	test_textures(t_cub *data)
 	data->img.img = mlx_new_image(data->mlx_ptr, WIDTH, HEIGHT);
 	data->img.addr = mlx_get_data_addr(data->img.img, &data->img.bpp,
 			&data->img.line_length, &data->img.endian);
+	mlx_hook(data->win_ptr, KeyPress, KeyPressMask, handle_keypress, data);
 	mlx_loop_hook(data->mlx_ptr, render, data);
 	mlx_loop(data->mlx_ptr);
 	return (0);
@@ -84,29 +87,41 @@ int	test_textures(t_cub *data)
 int	render(t_cub *data)
 {
 	double	x;
-	double	dist;
-	double	chg;
 	double	ray;
+	int		i;
 	t_data	*texture;
 
-	x = 0;
-	dist = 6 / cos(15) * -1;
+	if (data->counter == 1000)
+		data->counter = 0;
+	else
+		data->counter++;
+	ray = 2;
+	x = 0.0;
+	texture = &(data->E_texture);
+	i = WIDTH / 8;
 	prep_image(data);
-	texture = &(data->S_texture);
-	while (x < WIDTH)
+	while (x < WIDTH)//ALINA: first iteration: always give distance to the next wall, ignore doors
 	{
-		ray = dist * cos(30);
-		draw_wall(ray, x, data, texture);
-		if (x < (WIDTH / 2))
-			chg = (6.0 / cos(45) - 6.0 / cos(15)) / (WIDTH / 2);
-		else
-		{
-			chg = (6.0 / cos(15) - 6.0 / cos(45)) / (WIDTH / 2);
-			texture = &(data->E_texture);
-		}	
-		dist += chg;
+		// if (x == (WIDTH / 2 - i))
+		// 	x = draw_door(ray, x, data);
+		// else
+		draw_wall(ray, x++, data, texture);
+	}
+	x = 0;
+	while (x < WIDTH)//ALINA: second iteration: give distance to doors, ignore rays that hit walls
+	{
+		if (x == (WIDTH / 2 - i))
+			x = draw_door(ray, x, data, data->doors[0]);//
 		x++;
 	}
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
+	return (0);
+}
+
+//test function to render a door opening animation after pressing space
+int	handle_keypress(int key, t_cub *data)
+{
+	if (key == KEY_SPACE)
+		open_door(data);
 	return (0);
 }

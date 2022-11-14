@@ -56,6 +56,11 @@ int	check_tile(t_cub *data, int row, int col, int *pos)
 			data->player_pos_y = row;
 			(*pos)++;
 		}
+		if (data->map[row][col] == 3)
+		{
+			data->doors[data->nbr_doors]->col = col;
+			data->doors[data->nbr_doors--]->row = row;
+		}
 	}
 	return (0);
 }
