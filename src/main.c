@@ -43,6 +43,7 @@ int	init_data(t_cub *data)
 	data->mlx_ptr = NULL;
 	data->win_ptr = NULL;
 	data->map = NULL;
+	data->counter = 0;
 	data->N_texture.filename = NULL;
 	data->E_texture.filename = NULL;
 	data->S_texture.filename = NULL;
@@ -56,6 +57,7 @@ int	init_data(t_cub *data)
 	data->player_pos_x = -1;
 	data->player_pos_y = -1;
 	data->nbr_doors = 0;
+	data->door_counter = 0;
 	data->doors = NULL;
 	return (0);
 }
@@ -95,6 +97,16 @@ int	render(t_cub *data)
 		data->counter = 0;
 	else
 		data->counter++;
+	i = 0;
+	while (i < data->nbr_doors)
+	{
+		if (data->doors[i]->opening == 1 && data->doors[i]->closed > 0)
+		{
+			if (data->counter % 20 == 0)
+				data->doors[i]->closed--;
+		}
+		i++;
+	}
 	ray = 2;
 	x = 0.0;
 	texture = &(data->E_texture);

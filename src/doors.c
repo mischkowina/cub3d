@@ -12,7 +12,6 @@ int	allocate_doors(t_cub *data)
 		data->doors[i]->closed = 100;
 		data->doors[i++]->opening = 0;
 	}
-	data->nbr_doors--;
 	return (0);
 }
 

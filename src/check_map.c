@@ -58,8 +58,8 @@ int	check_tile(t_cub *data, int row, int col, int *pos)
 		}
 		if (data->map[row][col] == 3)
 		{
-			data->doors[data->nbr_doors]->col = col;
-			data->doors[data->nbr_doors--]->row = row;
+			data->doors[data->door_counter]->col = col;
+			data->doors[data->door_counter++]->row = row;
 		}
 	}
 	return (0);

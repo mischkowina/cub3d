@@ -58,6 +58,7 @@ typedef	struct s_cub
 	void	*win_ptr;
 	t_data	img;
 	int		nbr_doors;
+	int		door_counter;
 	t_door	**doors;
 }				t_cub;
 
