@@ -8,7 +8,7 @@ void	w_key_pressed(t_data *data)
 
 	x = (data->pos.x + data->dir.x * 5) / 72;
 	y = (data->pos.y + data->dir.y * 5) / 72;
-	printf(">>>>>> x: %d, y: %d, map[x][y]: %d\n", x, y, map[x][y]);
+	// printf(">>>>>> x: %d, y: %d, map[x][y]: %d\n", x, y, map[x][y]);
 	if (map[x][y] == 0)
 	{
 		data->pos.x += data->dir.x * 5;

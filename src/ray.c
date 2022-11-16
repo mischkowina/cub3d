@@ -23,8 +23,11 @@ void	cast_ray(t_data *data)
 			if (ray.angle < M_PI) // the ray is looking up
 			{
 				ray.y = ceil(data->pos.y / 72.0) * 72.0;
+				printf(">>> %f\n", ray.y);
 				draw_point(72, ray.y, data);
 			}
+			i--;
+			ray.done = true;
 		}
 	}
 }
