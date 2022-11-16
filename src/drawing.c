@@ -3,15 +3,15 @@
 
 //function draws the point based on the posx posy saved in data struct
 
-void	draw_point(int x, int y, t_data *data)
+void	draw_point(int x, int y, t_data *data, int color)
 {
 	int	start_x;
 	int	start_y;
 	int	size;
-	int	color;
+	// int	color;
 
 	size = 10;
-	color = YELLOW;
+	// color = YELLOW;
 	start_x = x - size;
 	start_y = y - size;
 	data->img.px_y = start_y;

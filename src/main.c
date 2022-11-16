@@ -76,7 +76,7 @@ void	handle_player(t_data *data)
 	y1 = data->pos.y + (data->dir.y * 20);
 	// printf("in handle player: x0: %f, y0: %f, dir.x: %f, dir.y: %f\n", data->pos.x, data->pos.y, data->dir.x, data->dir.y);
 	draw_grid(data);
-	draw_point(data->pos.x, data->pos.y, data);
+	draw_point(data->pos.x, data->pos.y, data, YELLOW);
 	// draw_line(x0, y0, x1, y1, data);
 	draw_line(data->pos.x - 5, data->pos.y - 5, data->pos.x - 5 + (data->dir.x * 100), data->pos.y - 5 + (data->dir.y * 100), data, YELLOW);
 	draw_line(data->pos.x - 5 + (data->dir.x * 20), data->pos.y - 5 + (data->dir.y * 20), data->pos.x - 5 + (data->dir.x * 20) + (data->camera_plane.x * 20),  data->pos.y - 5 + (data->dir.y * 20) + (data->camera_plane.y * 20), data, GREEN);
