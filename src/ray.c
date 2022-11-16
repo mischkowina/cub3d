@@ -43,7 +43,7 @@ void	cast_ray(t_data *data)
 			if (ray.angle > M_PI / 2 && ray.angle < 3 * M_PI / 2)
 			{
 				ray.x = floor(data->pos.x / 72.0) * 72.0;
-				printf(" XXXXXXXXXXXXXXX ray.x %f\n", ray.x);
+				printf("ray.x %f\n", ray.x);
 				draw_point(ray.x, 72, data, BLUE);
 			}
 			else if ((ray.angle > 0 && ray.angle < M_PI / 2) || (ray.angle > 3 * M_PI / 2 && ray.angle < 2 * M_PI))
