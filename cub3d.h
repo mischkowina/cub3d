@@ -39,6 +39,11 @@ typedef struct s_door {
 	int		cur_width;
 }				t_door;
 
+typedef struct s_ray {
+	int		x;
+	double	dist;
+}				t_ray;
+
 typedef	struct s_cub
 {
 	t_data	N_texture;
@@ -60,6 +65,7 @@ typedef	struct s_cub
 	int		nbr_doors;
 	int		door_counter;
 	t_door	**doors;
+	t_ray	*cur_ray;
 }				t_cub;
 
 int		check_input(int argc, char **argv);
@@ -92,7 +98,7 @@ int		open_all_textures(t_cub *data);
 unsigned int	get_texture_color(int x, int y, t_data *texture);
 
 int		allocate_doors(t_cub *data);
-int		draw_door(double dist, int x, t_cub *data, t_door *door);
+int		draw_door(t_cub *data, t_door *door, double tex_pos_x);
 int		open_door(t_cub *data);
 int		check_door_opening(t_cub *data);
 

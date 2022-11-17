@@ -58,6 +58,7 @@ int	init_data(t_cub *data)
 	data->nbr_doors = 0;
 	data->door_counter = 0;
 	data->doors = NULL;
+	data->cur_ray = ft_calloc(sizeof(t_ray), 1);
 	return (0);
 }
 
@@ -87,29 +88,38 @@ int	test_textures(t_cub *data)
 //test function to render a simulated shifted wall
 int	render(t_cub *data)
 {
-	double	x;
-	double	ray;
 	int		i;
 	t_data	*texture;
+	double	tex_pos_x;
 
+	tex_pos_x = 0.0;
 	check_door_opening(data);
-	ray = 2;
-	x = 0.0;
+	data->cur_ray->dist = 2;
+	data->cur_ray->x = 0.0;
 	texture = &(data->E_texture);
 	i = WIDTH / 8;
 	prep_image(data);
-	while (x < WIDTH)//ALINA: first iteration: always give distance to the next wall, ignore doors
+	while (data->cur_ray->x < WIDTH)//ALINA: first iteration: always give distance to the next wall, ignore doors
 	{
-		draw_wall(ray, x++, data, texture);
-		//also identify how many rays hit a door and save it in the door struct (door->cur_width)
+		draw_wall(data->cur_ray->dist, data->cur_ray->x++, data, texture);
+		//also identify how many rays hit each door (how wide it is) and save it in the door struct (door->cur_width)
 	}
-	x = 0;
+	data->cur_ray->x = 0;
 	data->doors[0]->cur_width = 400;//for testing, has to be identified in first iteration
-	while (x < WIDTH)//ALINA: second iteration: give distance to doors, ignore rays that hit walls
+	while (data->cur_ray->x < WIDTH)//ALINA: second iteration: give distance to doors, ignore rays that hit walls
 	{
-		if (x == (WIDTH / 2 - i))//instead: identify whether hits a door, and if yes, at which distance and which door -> maybe struct for the ray?
-			x = draw_door(ray, x, data, data->doors[0]);//doesn't work, distance can change throughout the door -> has to be drawn ray by ray
-		x++;
+		//function to recalculate ray
+		if (data->cur_ray->x == (WIDTH / 2 - i))//instead: identify whether hits a door, and if yes, at which distance and which door -> maybe struct for the ray?
+		{
+			while (tex_pos_x < data->D_texture.width && data->cur_ray->x < WIDTH)
+			{
+				draw_door(data, data->doors[0], tex_pos_x);
+				tex_pos_x += 1.0 * data->D_texture.width / data->doors[0]->cur_width;
+				data->cur_ray->x++;
+				//function to recalculate ray
+			}
+		}
+		data->cur_ray->x++;
 	}
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
 	return (0);
