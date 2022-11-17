@@ -43,7 +43,6 @@ int	init_data(t_cub *data)
 	data->mlx_ptr = NULL;
 	data->win_ptr = NULL;
 	data->map = NULL;
-	data->counter = 0;
 	data->N_texture.filename = NULL;
 	data->E_texture.filename = NULL;
 	data->S_texture.filename = NULL;
@@ -93,32 +92,14 @@ int	render(t_cub *data)
 	int		i;
 	t_data	*texture;
 
-	if (data->counter == 1000)
-		data->counter = 0;
-	else
-		data->counter++;
-	i = 0;
-	while (i < data->nbr_doors)
-	{
-		if (data->doors[i]->opening == 1 && data->doors[i]->closed > 0)
-		{
-			if (data->counter % 20 == 0)
-				data->doors[i]->closed--;
-		}
-		i++;
-	}
+	check_door_opening(data);
 	ray = 2;
 	x = 0.0;
 	texture = &(data->E_texture);
 	i = WIDTH / 8;
 	prep_image(data);
 	while (x < WIDTH)//ALINA: first iteration: always give distance to the next wall, ignore doors
-	{
-		// if (x == (WIDTH / 2 - i))
-		// 	x = draw_door(ray, x, data);
-		// else
 		draw_wall(ray, x++, data, texture);
-	}
 	x = 0;
 	while (x < WIDTH)//ALINA: second iteration: give distance to doors, ignore rays that hit walls
 	{

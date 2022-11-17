@@ -40,7 +40,6 @@ typedef struct s_door {
 
 typedef	struct s_cub
 {
-	int		counter;
 	t_data	N_texture;
 	t_data	E_texture;
 	t_data	S_texture;
@@ -94,6 +93,7 @@ unsigned int	get_texture_color(int x, int y, t_data *texture);
 int		allocate_doors(t_cub *data);
 int		draw_door(double dist, int x, t_cub *data, t_door *door);
 int		open_door(t_cub *data);
+int		check_door_opening(t_cub *data);
 
 int		str_is_digit(char *str);
 void	free_str_arr(char **str);
