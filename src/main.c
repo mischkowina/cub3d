@@ -108,7 +108,7 @@ int	render(t_cub *data)
 	while (x < WIDTH)//ALINA: second iteration: give distance to doors, ignore rays that hit walls
 	{
 		if (x == (WIDTH / 2 - i))//instead: identify whether hits a door, and if yes, at which distance and which door -> maybe struct for the ray?
-			x = draw_door(ray, x, data, data->doors[0]);//
+			x = draw_door(ray, x, data, data->doors[0]);//doesn't work, distance can change throughout the door -> has to be drawn ray by ray
 		x++;
 	}
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
