@@ -99,11 +99,15 @@ int	render(t_cub *data)
 	i = WIDTH / 8;
 	prep_image(data);
 	while (x < WIDTH)//ALINA: first iteration: always give distance to the next wall, ignore doors
+	{
 		draw_wall(ray, x++, data, texture);
+		//also identify how many rays hit a door and save it in the door struct (door->cur_width)
+	}
 	x = 0;
+	data->doors[0]->cur_width = 400;//for testing, has to be identified in first iteration
 	while (x < WIDTH)//ALINA: second iteration: give distance to doors, ignore rays that hit walls
 	{
-		if (x == (WIDTH / 2 - i))
+		if (x == (WIDTH / 2 - i))//instead: identify whether hits a door, and if yes, at which distance and which door -> maybe struct for the ray?
 			x = draw_door(ray, x, data, data->doors[0]);//
 		x++;
 	}

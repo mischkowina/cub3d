@@ -36,6 +36,7 @@ typedef struct s_door {
 	int		row;
 	int		opening;
 	int		closed;
+	int		cur_width;
 }				t_door;
 
 typedef	struct s_cub

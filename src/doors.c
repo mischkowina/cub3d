@@ -10,7 +10,8 @@ int	allocate_doors(t_cub *data)
 	{	
 		data->doors[i] = ft_calloc(sizeof(t_door), 1);
 		data->doors[i]->closed = 100;
-		data->doors[i++]->opening = 0;
+		data->doors[i]->opening = 0;
+		data->doors[i++]->cur_width = 0;
 	}
 	return (0);
 }
@@ -19,16 +20,10 @@ int	draw_door(double dist, int x, t_cub *data, t_door *door)
 {
 	int		start;
 	int		end;
-	double	step_x;
-	double	step_y;
 	double	tex_pos_x;
 	double	tex_pos_y;
-	int		door_px;
 
-	
 	tex_pos_x = 0;
-	door_px = 400;//has to be handed over somehow!
-	step_x = 1.0 * data->D_texture.width / door_px;
 	while (tex_pos_x < data->D_texture.width)
 	{
 		start = - (HEIGHT / dist) / 2 + HEIGHT / 2.0;
@@ -39,16 +34,15 @@ int	draw_door(double dist, int x, t_cub *data, t_door *door)
 			start = 0;
 		if (end >= HEIGHT)
 			end = HEIGHT - 1;
-		step_y = 1.0 * data->D_texture.height / (HEIGHT / dist);
 		tex_pos_y = 0;
 		while (start < end)
 		{
 			ft_mlx_pixel_put(&(data->img), x, start, 
 				get_texture_color(tex_pos_x, tex_pos_y, &(data->D_texture)));
-			tex_pos_y += step_y;
+			tex_pos_y += 1.0 * data->D_texture.height / (HEIGHT / dist);
 			start++;
 		}
-		tex_pos_x += step_x;
+		tex_pos_x += 1.0 * data->D_texture.width / door->cur_width;
 		x++;
 	}
 	return (x);
@@ -76,6 +70,7 @@ int	check_door_opening(t_cub *data)
 			data->doors[i]->closed--;
 		if (data->doors[i]->closed == 0)
 			data->map[data->doors[i]->row][data->doors[i]->col] = 0;
+		data->doors[i]->cur_width = 0;
 		i++;
 	}
 	return (0);
