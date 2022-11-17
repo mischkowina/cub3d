@@ -90,11 +90,21 @@ typedef struct s_data
 	float	pdy;
 }				t_data;
 
+typedef struct s_delta
+{
+	double	dx;
+	double	dy;
+	double	angle;
+	double	small_ray;
+}				t_delta;
+
 typedef struct s_ray
 {
 	bool	done;
-	double	x;
-	double	y;
+	double	x_grid;
+	double	y_grid;
+	t_delta	hor;
+	t_delta	ver;
 	double	dir_x;
 	double	dir_y;
 	double	angle;
@@ -139,5 +149,6 @@ void	init_orientation(t_data *data);
 
 // ray.c //
 void	cast_ray(t_data *data);
+void	find_nearest_grid(t_ray *ray, t_data *data);
 
 #endif
