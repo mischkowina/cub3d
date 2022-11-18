@@ -21,9 +21,8 @@ void	ft_mlx_pixel_put(t_data *img, int x, int y, int color)
  * and then adding ceiling and floor colors. The pixels for the walls are added
  * at a later point.
  * @param data [t_cub *] Pointer to struct storing all the input data.
- * @return [int] 0 on success, 1 on failure.
 */
-int	prep_image(t_cub *data)
+void	prep_image(t_cub *data)
 {
 	int	x;
 	int	y;
@@ -44,20 +43,20 @@ int	prep_image(t_cub *data)
 		}
 		y++;
 	}
-	return (0);
 }
 
 /**
  * Function to draw a wall based on the distance to the player position, using
- * a specified texture.
+ * the specified texture. Identifies the height of the wall using the distance
+ * of the ray. Then, iterates through every pixel of the ray and identifies 
+ * the respective color from the door texture.
  * @param dist [double] Distance to be used for calculating the wall height.
  * @param x [int] X-coordinate of the ray on the screen.
  * @param data [t_cub *] Pointer to struct storing all the input data.
  * @param texture [t_data *] Pointer to the struct containing all image data of
  * the texture.
- * @return [int] 0 on success, 1 on failure.
 */
-int	draw_wall(double dist, int x, t_cub *data, t_data *texture)
+void	draw_wall(t_cub *data, t_data *texture)
 {
 	int		start;
 	int		end;
@@ -65,21 +64,20 @@ int	draw_wall(double dist, int x, t_cub *data, t_data *texture)
 	double	tex_pos;
 	int		col;
 
-	start = - (HEIGHT / dist) / 2 + HEIGHT / 2.0;
+	start = - (HEIGHT / data->cur_ray->dist) / 2 + HEIGHT / 2.0;
+	end = (HEIGHT / data->cur_ray->dist) / 2 + HEIGHT / 2.0;
 	if (start < 0)
 		start = 0;
-	end = (HEIGHT / dist) / 2 + HEIGHT / 2.0;
 	if (end >= HEIGHT)
 		end = HEIGHT - 1;
-	step = 1.0 * texture->height / (HEIGHT / dist);
-	tex_pos = (start - HEIGHT / 2.0 + (HEIGHT / dist) / 2.0) * step;
+	step = 1.0 * texture->height / (HEIGHT / data->cur_ray->dist);
+	tex_pos = (start - HEIGHT / 2.0
+			+ (HEIGHT / data->cur_ray->dist) / 2.0) * step;
 	while (start < end)
 	{
-		col = get_texture_color(x, tex_pos, texture);
-		ft_mlx_pixel_put(&(data->img), x, start, col);
+		col = get_texture_color(data->cur_ray->x, tex_pos, texture);
+		ft_mlx_pixel_put(&(data->img), data->cur_ray->x, start, col);
 		tex_pos += step;
 		start++;
 	}
-	return (0);
 }
-

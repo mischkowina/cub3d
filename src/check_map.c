@@ -5,9 +5,8 @@
  * Checks the map input tile by tile for open walls and unambiguous 
  * starting position.
  * @param data [t_cub *] Pointer to struct storing all the input data.
- * @return [int] 0 on success, 1 on failure.
 */
-int	check_map_array(t_cub *data)
+void	check_map_array(t_cub *data)
 {
 	int	row;
 	int	col;
@@ -25,7 +24,6 @@ int	check_map_array(t_cub *data)
 	}
 	if (pos != 1)
 		ft_error("Invalid input for map: no or ambiguous starting position.");
-	return (0);
 }
 
 /**
@@ -36,9 +34,8 @@ int	check_map_array(t_cub *data)
  * @param row [int] Row position of the respective map tile.
  * @param col [int] Column position of the respective map tile.
  * @param pos [int *] Pointer to the int storing the number of player positions.
- * @return [int] 0 on success, 1 on failure.
 */
-int	check_tile(t_cub *data, int row, int col, int *pos)
+void	check_tile(t_cub *data, int row, int col, int *pos)
 {
 	if (data->map[row][col] == 0 || data->map[row][col] >= 2)
 	{
@@ -62,5 +59,4 @@ int	check_tile(t_cub *data, int row, int col, int *pos)
 			data->doors[data->door_counter++]->row = row;
 		}
 	}
-	return (0);
 }

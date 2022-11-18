@@ -6,9 +6,8 @@
  * @param data [t_cub *] Pointer to struct storing all the input data.
  * @param texture [t_data *] Pointer to the struct containing all image data of
  * the texture.
- * @return [int] 0 on success, 1 on failure.
 */
-int	open_texture(t_cub *data, t_data *texture)
+void	open_texture(t_cub *data, t_data *texture)
 {
 	texture->img = mlx_xpm_file_to_image(data->mlx_ptr, texture->filename,
 			&(texture->width), &(texture->height));
@@ -16,15 +15,13 @@ int	open_texture(t_cub *data, t_data *texture)
 		ft_error("Failed reading .xpm file.");
 	texture->addr = mlx_get_data_addr(texture->img, &(texture->bpp),
 			&(texture->line_length), &(texture->endian));
-	return (0);
 }
 
 /**
  * Function to open all textures and load all their relevant information.
  * @param data [t_cub *] Pointer to struct storing all the input data.
- * @return [int] 0 on success, 1 on failure.
 */
-int	open_all_textures(t_cub *data)
+void	open_all_textures(t_cub *data)
 {
 	open_texture(data, &(data->N_texture));
 	open_texture(data, &(data->E_texture));
@@ -32,7 +29,6 @@ int	open_all_textures(t_cub *data)
 	open_texture(data, &(data->W_texture));
 	if (data->D_texture.filename)
 		open_texture(data, &(data->D_texture));
-	return (0);
 }
 
 /**

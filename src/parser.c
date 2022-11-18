@@ -6,9 +6,8 @@
  * empty lines and checking for invalid input.
  * @param file [char *] String identifying the input file.
  * @param data [t_cub *] Pointer to struct storing the input data.
- * @return [int] 0 on success, 1 on failure.
 */
-int	parser(char *file, t_cub *data)
+void	parser(char *file, t_cub *data)
 {
 	int		fd;
 	char	*line;
@@ -33,7 +32,6 @@ int	parser(char *file, t_cub *data)
 		parse_map(data, line, fd);
 	else
 		ft_error("Invalid or missing input in .cub file.");
-	return (0);
 }
 
 /**

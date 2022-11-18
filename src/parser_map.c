@@ -7,9 +7,8 @@
  * @param data [t_cub *] Pointer to struct storing all the input data.
  * @param line [char *] First line of the map input.
  * @param fd [fd] File descriptor of the .cub file.
- * @return [int] 0 on success, 1 on failure.
 */
-int	parse_map(t_cub *data, char *line, int fd)
+void	parse_map(t_cub *data, char *line, int fd)
 {
 	char	*map_str;
 	char	*tmp;
@@ -35,23 +34,20 @@ int	parse_map(t_cub *data, char *line, int fd)
 	close(fd);
 	fill_map_array(data, map_str);
 	check_map_array(data);
-	return (0);
 }
 
 /**
  * Function to check if all necessary input has been given before the map
  * gets parsed.
  * @param data [t_cub *] Pointer to struct storing all the input data.
- * @return [int] 0 on success, 1 on failure.
 */
-int	check_prev_input(t_cub *data)
+void	check_prev_input(t_cub *data)
 {
 	if (!data->N_texture.filename || !data->E_texture.filename
 		|| !data->S_texture.filename || !data->W_texture.filename)
 		ft_error("Incomplete input for textures.");
 	else if (data->col_ceiling == -1 || data->col_floor == -1)
 		ft_error("Incomplete input for colors.");
-	return (0);
 }
 
 /**
@@ -61,9 +57,8 @@ int	check_prev_input(t_cub *data)
  * it to the int array.
  * @param data [t_cub *] Pointer to struct storing all the input data.
  * @param map_str [char *] String containing the total map data.
- * @return [int] 0 on success, 1 on failure.
 */
-int	fill_map_array(t_cub *data, char *map_str)
+void	fill_map_array(t_cub *data, char *map_str)
 {
 	char	**map_rows;
 	int		row;
@@ -89,7 +84,6 @@ int	fill_map_array(t_cub *data, char *map_str)
 	}
 	allocate_doors(data);
 	free_str_arr(map_rows);
-	return (0);
 }
 
 /**
@@ -97,9 +91,8 @@ int	fill_map_array(t_cub *data, char *map_str)
  * representing the map.
  * @param data [t_cub *] Pointer to struct storing all the input data.
  * @param map_rows [char **] String array containing the map data.
- * @return [int] 0 on success, 1 on failure.
 */
-int	allocate_map_array(t_cub *data, char **map_rows)
+void	allocate_map_array(t_cub *data, char **map_rows)
 {
 	int		row;
 	int		i;
@@ -125,7 +118,6 @@ int	allocate_map_array(t_cub *data, char **map_rows)
 		if (!data->map[i++])
 			ft_error("Allocation of map failed.");
 	}
-	return (0);
 }
 
 /**

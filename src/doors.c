@@ -1,6 +1,13 @@
 #include "../cub3d.h"
 
-int	allocate_doors(t_cub *data)
+/**
+ * Function to allocate and initialize a struct for every door, 
+ * holding a flag if the door is opening or not, the precentage
+ * to which it is closed and the width of the door in pixels
+ * for the current image.
+ * @param data [t_data *] Pointer to struct storing the input data.
+*/
+void	allocate_doors(t_cub *data)
 {
 	int	i;
 
@@ -13,46 +20,70 @@ int	allocate_doors(t_cub *data)
 		data->doors[i]->opening = 0;
 		data->doors[i++]->cur_width = 0;
 	}
-	return (0);
 }
 
-int	draw_door(t_cub *data, t_door *door, double tex_pos_x)
+/**
+ * Function to draw a ray containing a door instead of a wall. Identifies
+ * the height of the wall using the distance of the ray, just as the
+ * draw_wall function. Then adjusts the starting position in case the door
+ * is opened to a certain degree. Lastly, iterates through every pixel
+ * of the ray and identifies the respective color from the door texture.
+ * @param data [t_cub *] Pointer to struct storing all the input data.
+ * @param door [t_door *] Pointer to the struct storing the information
+ * about the respective door.
+ * @param tex_pos [double] Contains the respective x-coordinate for the texture.
+*/
+void	draw_door(t_cub *data, t_door *door, double tex_pos_x)
 {
 	int		start;
 	int		end;
 	double	tex_pos_y;
+	double	step;
+	int		col;
 
 	start = - (HEIGHT / data->cur_ray->dist) / 2 + HEIGHT / 2.0;
 	end = (HEIGHT / data->cur_ray->dist) / 2 + HEIGHT / 2.0;
-	if (door->opening == 1)
-		start += (end - start) * (100 - door->closed) / 100;
+	start += (end - start) * (100 - door->closed) / 100;
 	if (start < 0)
 		start = 0;
 	if (end >= HEIGHT)
 		end = HEIGHT - 1;
 	tex_pos_y = 0;
+	step = 1.0 * data->D_texture.height / (HEIGHT / data->cur_ray->dist);
 	while (start < end)
 	{
-		ft_mlx_pixel_put(&(data->img), data->cur_ray->x, start, 
-			get_texture_color(tex_pos_x, tex_pos_y, &(data->D_texture)));
-		tex_pos_y += 1.0 * data->D_texture.height / (HEIGHT / data->cur_ray->dist);
+		col = get_texture_color(tex_pos_x, tex_pos_y, &(data->D_texture));
+		ft_mlx_pixel_put(&(data->img), data->cur_ray->x, start, col);
+		tex_pos_y += step;
 		start++;
 	}
-	return (0);
 }
 
-int	open_door(t_cub *data)
+/**
+ * Function to interact with a door. First checks if there is a door in the
+ * proximity / FOV (???) to interact with. If so, changes the opening flag of
+ * the door, depending on whether it was currently closing or opening.
+ * @param [t_cub *] Pointer to struct storing all the input data.
+*/
+void	open_door(t_cub *data)
 {
 	int	idx;
-	
+
 	//check if conditions are met: adjacent to the door and door within FOV?
-	//identify idx of door
+	//identify which door!
 	idx = 0;//to be replaced
-	data->doors[idx]->opening = 1;
-	return (0);
+	if (data->doors[idx]->opening == 0)
+		data->doors[idx]->opening = 1;
+	else
+		data->doors[idx]->opening = 0;
 }
 
-int	check_door_opening(t_cub *data)
+/**
+ * Function to check if any doors are in the process of opening/closing,
+ * and if so adjusts the percentage with every picture.
+ * @param [t_cub *] Pointer to struct storing all the input data.
+*/
+void	check_door_opening(t_cub *data)
 {
 	int	i;
 
@@ -61,10 +92,9 @@ int	check_door_opening(t_cub *data)
 	{
 		if (data->doors[i]->opening == 1 && data->doors[i]->closed > 0)
 			data->doors[i]->closed--;
-		if (data->doors[i]->closed == 0)
-			data->map[data->doors[i]->row][data->doors[i]->col] = 0;
+		if (data->doors[i]->opening == 0 && data->doors[i]->closed < 100)
+			data->doors[i]->closed++;
 		data->doors[i]->cur_width = 0;
 		i++;
 	}
-	return (0);
 }

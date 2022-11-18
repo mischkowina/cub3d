@@ -74,33 +74,33 @@ int		test_textures(t_cub *data);//TEST FUNCTION; TO BE REPLACED
 int		render(t_cub *data);//TEST FUNCTION; TO BE REPLACED
 int		handle_keypress(int key, t_cub *data);//TEST FUNCTION, TO BE REPLACED
 
-int		parser(char *file, t_cub *data);
+void	parser(char *file, t_cub *data);
 int		parse_info_type(t_cub *data, char *line);
 char	*parse_texture(char *line);
 int		parse_color(char *line);
 int		determine_color_value(char **split);
 
-int		parse_map(t_cub *data, char *line, int fd);
-int		check_prev_input(t_cub *data);
-int		fill_map_array(t_cub *data, char *map_str);
-int		allocate_map_array(t_cub *data, char **map_rows);
+void	parse_map(t_cub *data, char *line, int fd);
+void	check_prev_input(t_cub *data);
+void	fill_map_array(t_cub *data, char *map_str);
+void	allocate_map_array(t_cub *data, char **map_rows);
 int		copy_map_tile(char c, int row, int col, t_cub *data);
 
-int		check_map_array(t_cub *data);
-int		check_tile(t_cub *data, int row, int col, int *pos);
+void	check_map_array(t_cub *data);
+void	check_tile(t_cub *data, int row, int col, int *pos);
 
 void	ft_mlx_pixel_put(t_data *img, int x, int y, int color);
-int		prep_image(t_cub *data);
-int		draw_wall(double dist, int x, t_cub *data, t_data *texture);
+void	prep_image(t_cub *data);
+void	draw_wall(t_cub *data, t_data *texture);
 
-int		open_texture(t_cub *data, t_data *texture);
-int		open_all_textures(t_cub *data);
+void	open_texture(t_cub *data, t_data *texture);
+void	open_all_textures(t_cub *data);
 unsigned int	get_texture_color(int x, int y, t_data *texture);
 
-int		allocate_doors(t_cub *data);
-int		draw_door(t_cub *data, t_door *door, double tex_pos_x);
-int		open_door(t_cub *data);
-int		check_door_opening(t_cub *data);
+void	allocate_doors(t_cub *data);
+void	draw_door(t_cub *data, t_door *door, double tex_pos_x);
+void	open_door(t_cub *data);
+void	check_door_opening(t_cub *data);
 
 int		str_is_digit(char *str);
 void	free_str_arr(char **str);

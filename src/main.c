@@ -33,16 +33,13 @@ int	check_input(int argc, char **argv)
 }
 
 /**
- * Initializes the values to be stored in the data struct, setting string
- * values to NULL and the color values to an impossible value.
+ * Initializes the values to be stored in the data struct, setting pointer
+ * values to NULL and primitive data types to 0 or -1 (based on context).
  * @param data [t_data *] Pointer to struct storing the input data.
  * @return [int] 0 on success, 1 on failure.
 */
 int	init_data(t_cub *data)
 {
-	data->mlx_ptr = NULL;
-	data->win_ptr = NULL;
-	data->map = NULL;
 	data->N_texture.filename = NULL;
 	data->E_texture.filename = NULL;
 	data->S_texture.filename = NULL;
@@ -50,11 +47,14 @@ int	init_data(t_cub *data)
 	data->D_texture.filename = NULL;
 	data->col_ceiling = -1;
 	data->col_floor = -1;
+	data->map = NULL;
 	data->width_map = 0;
 	data->height_map = 0;
 	data->player_dir = '0';
 	data->player_pos_x = -1;
 	data->player_pos_y = -1;
+	data->mlx_ptr = NULL;
+	data->win_ptr = NULL;
 	data->nbr_doors = 0;
 	data->door_counter = 0;
 	data->doors = NULL;
@@ -101,7 +101,8 @@ int	render(t_cub *data)
 	prep_image(data);
 	while (data->cur_ray->x < WIDTH)//ALINA: first iteration: always give distance to the next wall, ignore doors
 	{
-		draw_wall(data->cur_ray->dist, data->cur_ray->x++, data, texture);
+		draw_wall(data, texture);
+		data->cur_ray->x++;
 		//also identify how many rays hit each door (how wide it is) and save it in the door struct (door->cur_width)
 	}
 	data->cur_ray->x = 0;
