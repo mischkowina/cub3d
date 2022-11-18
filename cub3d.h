@@ -101,8 +101,8 @@ typedef struct s_delta
 typedef struct s_ray
 {
 	bool	done;
-	double	x_grid;
-	double	y_grid;
+	double	hor_grid;
+	double	ver_grid;
 	t_delta	hor;
 	t_delta	ver;
 	double	dir_x;
