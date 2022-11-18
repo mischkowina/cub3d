@@ -59,6 +59,8 @@ int	init_data(t_cub *data)
 	data->door_counter = 0;
 	data->doors = NULL;
 	data->cur_ray = ft_calloc(sizeof(t_ray), 1);
+	if (!data->cur_ray)
+		ft_error("Allocation of ray struct failed.");
 	return (0);
 }
 
@@ -118,6 +120,23 @@ int	render(t_cub *data)
 				tex_pos_x += 1.0 * data->D_texture.width / data->doors[0]->cur_width;
 				data->cur_ray->x++;
 				//function to recalculate ray
+			}
+		}
+		data->cur_ray->x++;
+	}
+	data->cur_ray->x = 0;
+	tex_pos_x = 0;
+	data->cur_ray->dist = 1;
+	while (data->cur_ray->x < WIDTH)//ALINA: third iteration, paints sprites
+	{
+		//function to recalculate ray
+		if (data->cur_ray->x == WIDTH / 2)//instead: identify whether it hits a sprite before any wall
+		{
+			printf("TEST\n");
+			while (tex_pos_x < data->mummy[0]->width && data->cur_ray->x < WIDTH)
+			{
+				tex_pos_x += draw_sprites(data, tex_pos_x);//PROBLEM
+				data->cur_ray->x++;
 			}
 		}
 		data->cur_ray->x++;

@@ -66,6 +66,7 @@ typedef	struct s_cub
 	int		door_counter;
 	t_door	**doors;
 	t_ray	*cur_ray;
+	t_data	**mummy;
 }				t_cub;
 
 int		check_input(int argc, char **argv);
@@ -95,12 +96,15 @@ void	draw_wall(t_cub *data, t_data *texture);
 
 void	open_texture(t_cub *data, t_data *texture);
 void	open_all_textures(t_cub *data);
-unsigned int	get_texture_color(int x, int y, t_data *texture);
+int		get_texture_color(int x, int y, t_data *texture);
 
 void	allocate_doors(t_cub *data);
 void	draw_door(t_cub *data, t_door *door, double tex_pos_x);
 void	open_door(t_cub *data);
 void	check_door_opening(t_cub *data);
+
+void	init_sprites(t_cub *data);
+double	draw_sprites(t_cub *data, double tex_pos_x);
 
 int		str_is_digit(char *str);
 void	free_str_arr(char **str);

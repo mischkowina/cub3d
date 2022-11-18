@@ -29,6 +29,7 @@ void	open_all_textures(t_cub *data)
 	open_texture(data, &(data->W_texture));
 	if (data->D_texture.filename)
 		open_texture(data, &(data->D_texture));
+	init_sprites(data);
 }
 
 /**
@@ -40,7 +41,7 @@ void	open_all_textures(t_cub *data)
  * the texture.
  * @return [unsigned int] The color at the specified position of the texture.
 */
-unsigned int	get_texture_color(int x, int y, t_data *texture)
+int	get_texture_color(int x, int y, t_data *texture)
 {
 	char	*dst;
 	int		x_new;
@@ -50,7 +51,7 @@ unsigned int	get_texture_color(int x, int y, t_data *texture)
 	y_new = y % texture->height;
 	dst = texture->addr + (y_new * texture->line_length + x_new
 			* (texture->bpp / 8));
-	return (*(unsigned int *)dst);
+	return (*(int *)dst);
 }
 
 // int	render_door_animation(t_cub *data, int col, int row, int idx)
