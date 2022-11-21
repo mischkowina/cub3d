@@ -65,22 +65,13 @@ void	find_nearest_grid(t_ray *ray, t_data *data)
 
 void	calculate_small_ray(t_ray *ray, t_data *data)
 {
-	float	atan;
-	
-	atan = tan(ray->angle);
+	double	alpha;
+
 	// calculate for angle > 0 && < 90 //
 	if (ray->angle > 0 && ray->angle < M_PI_2)
-	{
-		//calculate for vertical line//
-		ray->ver.dy = data->pos.y - ray->hor_grid;
-		ray->ver.angle = M_PI_2 - ray->angle;
-		atan = tan(ray->ver.angle);
-		ray->ver.dx = atan * ray->ver.dy;
-		ray->ver.small_ray = sqrt(ray->ver.dx * ray->ver.dx + ray->ver.dy * ray->ver.dy);
-
-		//calculate for horizontal line//
-		ray->hor.dx = ray->ver_grid - data->pos.x;
-		ray->hor.dy = atan * ray->hor.dx;
-		ray->hor.small_ray = sqrt(ray->hor.dx * ray->hor.dx + ray->hor.dy * ray->hor.dy);
-	}
+		alpha = M_PI_2 - ray->angle;
+	else if (ray->angle > M_PI_2 && ray->angle < M_PI)
+		alpha = ray->angle - M_PI_2;
+	else if (ray->angle > M_PI && ray->angle < 3 * M_PI_2)
+		
 }
