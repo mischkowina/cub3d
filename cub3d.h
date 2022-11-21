@@ -40,6 +40,7 @@
 # define ORANGE			0xFF9933
 # define BLUE			0x0099FF
 # define RED			0xFF0000
+# define PURPLE			0x9900FF
 
 # define PI				3.1415926535
 
@@ -94,7 +95,6 @@ typedef struct s_delta
 {
 	double	dx;
 	double	dy;
-	double	angle;
 	double	small_ray;
 }				t_delta;
 
@@ -150,5 +150,6 @@ void	init_orientation(t_data *data);
 // ray.c //
 void	cast_ray(t_data *data);
 void	find_nearest_grid(t_ray *ray, t_data *data);
+void	calculate_small_ray(t_ray *ray, t_data *data);
 
 #endif

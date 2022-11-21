@@ -15,7 +15,7 @@ void	cast_ray(t_data *data)
 		while (i > 0)
 		{
 			find_nearest_grid(&ray, data);
-			// calculate_small_ray(&ray);
+			calculate_small_ray(&ray, data);
 			ray.done = true;
 			i--;
 		}
@@ -24,7 +24,6 @@ void	cast_ray(t_data *data)
 
 void	find_nearest_grid(t_ray *ray, t_data *data)
 {
-
 	ray->dir_x = data->dir.x;
 	ray->dir_y = data->dir.y;
 	ray->angle = atan2(ray->dir_y, ray->dir_x);
@@ -67,11 +66,24 @@ void	calculate_small_ray(t_ray *ray, t_data *data)
 {
 	double	alpha;
 
-	// calculate for angle > 0 && < 90 //
+	alpha = 0;
+	// calculate the alpha that will be used in future calculations //
 	if (ray->angle > 0 && ray->angle < M_PI_2)
 		alpha = M_PI_2 - ray->angle;
 	else if (ray->angle > M_PI_2 && ray->angle < M_PI)
 		alpha = ray->angle - M_PI_2;
 	else if (ray->angle > M_PI && ray->angle < 3 * M_PI_2)
-		
+		alpha = 1.5 * M_PI;
+	else if (ray->angle > 3 * M_PI_2 && ray->angle < 2 * M_PI)
+		alpha = ray->angle - 3 * M_PI_2;
+	// calculate dy and dx for horizontal gridlines //
+	ray->hor.dy = fabs(data->pos.y - ray->hor_grid);
+	ray->hor.dx = tan(alpha) * ray->hor.dy;
+	// calculate dy and dx for vertical gridlines //
+	ray->ver.dx = fabs(data->pos.x - ray->ver_grid);
+	ray->ver.dy = ray->ver.dx / tan(alpha);
+	// calculate the small ray, aka the hypotenuse for both horizontal and vertical //
+	ray->hor.small_ray = sqrt((ray->hor.dy * ray->hor.dy) + (ray->hor.dx * ray->hor.dx));
+	ray->ver.small_ray = sqrt((ray->ver.dy * ray->ver.dy) + (ray->ver.dx * ray->ver.dx));
+	draw_line(data->pos.x + ray->hor.dx, data->pos.y + ray->hor.dy, data->pos.x, data->pos.y, data, PURPLE);
 }
