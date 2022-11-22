@@ -46,6 +46,7 @@ typedef struct s_ray {
 
 typedef	struct s_cub
 {
+	int		counter;
 	t_data	N_texture;
 	t_data	E_texture;
 	t_data	S_texture;
@@ -67,6 +68,7 @@ typedef	struct s_cub
 	t_door	**doors;
 	t_ray	*cur_ray;
 	t_data	**mummy;
+	int		cur_mummy;
 }				t_cub;
 
 int		check_input(int argc, char **argv);

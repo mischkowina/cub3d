@@ -22,7 +22,6 @@ void	init_sprites(t_cub *data)
 	i = 0;
 	while (i < 4)
 		open_texture(data, data->mummy[i++]);
-	printf("TEST\n");
 }
 
 double	draw_sprites(t_cub *data, double tex_pos_x)
@@ -36,7 +35,6 @@ double	draw_sprites(t_cub *data, double tex_pos_x)
 	start = - (HEIGHT / data->cur_ray->dist) / 2 + HEIGHT / 2.0;
 	end = (HEIGHT / data->cur_ray->dist) / 2 + HEIGHT / 2.0;
 	height = end - start;
-	printf("%d\n", height);
 	if (start < 0)
 		start = 0;
 	if (end >= HEIGHT)
@@ -44,11 +42,11 @@ double	draw_sprites(t_cub *data, double tex_pos_x)
 	tex_pos_y = 0;
 	while (start < end)
 	{
-		col = get_texture_color(tex_pos_x, tex_pos_y, data->mummy[0]);
+		col = get_texture_color(tex_pos_x, tex_pos_y, data->mummy[data->cur_mummy]);
 		if (col != 16777215)
 			ft_mlx_pixel_put(&(data->img), data->cur_ray->x, start, col);
-		tex_pos_y += 1.0 * data->mummy[0]->height / (HEIGHT / data->cur_ray->dist);
+		tex_pos_y += 1.0 * data->mummy[data->cur_mummy]->height / (HEIGHT / data->cur_ray->dist);
 		start++;
 	}
-	return (1.0 * data->mummy[0]->width * (height / data->mummy[0]->height));
+	return (1.0 * data->mummy[data->cur_mummy]->width / (WIDTH / data->cur_ray->dist));
 }

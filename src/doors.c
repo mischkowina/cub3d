@@ -77,24 +77,3 @@ void	open_door(t_cub *data)
 	else
 		data->doors[idx]->opening = 0;
 }
-
-/**
- * Function to check if any doors are in the process of opening/closing,
- * and if so adjusts the percentage with every picture.
- * @param [t_cub *] Pointer to struct storing all the input data.
-*/
-void	check_door_opening(t_cub *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->nbr_doors)
-	{
-		if (data->doors[i]->opening == 1 && data->doors[i]->closed > 0)
-			data->doors[i]->closed--;
-		if (data->doors[i]->opening == 0 && data->doors[i]->closed < 100)
-			data->doors[i]->closed++;
-		data->doors[i]->cur_width = 0;
-		i++;
-	}
-}

@@ -40,6 +40,7 @@ int	check_input(int argc, char **argv)
 */
 int	init_data(t_cub *data)
 {
+	data->counter = 0;
 	data->N_texture.filename = NULL;
 	data->E_texture.filename = NULL;
 	data->S_texture.filename = NULL;
@@ -58,6 +59,7 @@ int	init_data(t_cub *data)
 	data->nbr_doors = 0;
 	data->door_counter = 0;
 	data->doors = NULL;
+	data->cur_mummy = 0;
 	data->cur_ray = ft_calloc(sizeof(t_ray), 1);
 	if (!data->cur_ray)
 		ft_error("Allocation of ray struct failed.");
@@ -126,16 +128,15 @@ int	render(t_cub *data)
 	}
 	data->cur_ray->x = 0;
 	tex_pos_x = 0;
-	data->cur_ray->dist = 1;
+	data->cur_ray->dist = 1.5;
 	while (data->cur_ray->x < WIDTH)//ALINA: third iteration, paints sprites
 	{
 		//function to recalculate ray
 		if (data->cur_ray->x == WIDTH / 2)//instead: identify whether it hits a sprite before any wall
 		{
-			printf("TEST\n");
 			while (tex_pos_x < data->mummy[0]->width && data->cur_ray->x < WIDTH)
 			{
-				tex_pos_x += draw_sprites(data, tex_pos_x);//PROBLEM
+				tex_pos_x += draw_sprites(data, tex_pos_x);
 				data->cur_ray->x++;
 			}
 		}
@@ -151,4 +152,35 @@ int	handle_keypress(int key, t_cub *data)
 	if (key == KEY_SPACE)
 		open_door(data);
 	return (0);
+}
+
+/**
+ * ///TBD
+ * @param [t_cub *] Pointer to struct storing all the input data.
+*/
+void	check_door_opening(t_cub *data)
+{
+	int	i;
+
+	i = 0;
+	if (data->counter < 1000)
+		data->counter++;
+	else
+		data->counter = 0;
+	if (data->counter % 10 == 0)
+	{
+		if (data->cur_mummy < 3)
+			data->cur_mummy++;
+		else
+			data->cur_mummy = 0;
+	}
+	while (i < data->nbr_doors)
+	{
+		if (data->doors[i]->opening == 1 && data->doors[i]->closed > 0)
+			data->doors[i]->closed--;
+		if (data->doors[i]->opening == 0 && data->doors[i]->closed < 100)
+			data->doors[i]->closed++;
+		data->doors[i]->cur_width = 0;
+		i++;
+	}
 }
