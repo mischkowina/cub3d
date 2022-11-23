@@ -21,11 +21,16 @@ void	init_sprites(t_cub *data)
 	data->mummy[3]->filename = ft_strdup("textures/mummy_4.xpm");
 	i = 0;
 	while (i < 4)
-		open_texture(data, data->mummy[i++]);
+	{
+		open_texture(data, data->mummy[i]);
+		data->mummy[i++]->offset = 20;
+	}
 	data->chest.filename = ft_strdup("textures/chest.xpm");
 	open_texture(data, &(data->chest));
+	data->chest.offset = 2;
 	data->tut.filename = ft_strdup("textures/tut.xpm");
 	open_texture(data, &(data->tut));
+	data->tut.offset = 0;
 }
 
 double	ray_sprite(t_cub *data, double tex_pos_x, double dist, t_data *sprite)
@@ -39,6 +44,11 @@ double	ray_sprite(t_cub *data, double tex_pos_x, double dist, t_data *sprite)
 	start = - (HEIGHT / dist) / 2 + HEIGHT / 2.0;
 	end = (HEIGHT / dist) / 2 + HEIGHT / 2.0;
 	height = end - start;
+	if (sprite->offset > 0)
+	{
+		start += height / sprite->offset;
+		end += height / sprite->offset;
+	}
 	if (start < 0)
 		start = 0;
 	if (end >= HEIGHT)
@@ -63,7 +73,7 @@ void	draw_sprites(t_cub *data)
 
 	data->cur_ray->x = 0;
 	tex_pos_x = 0;
-	data->cur_ray->dist = 3;//instead has to be determined by raycaster
+	data->cur_ray->dist = 2;//instead has to be determined by raycaster
 	while (data->cur_ray->x < WIDTH)//ALINA: second iteration, paints sprites
 	{
 		//function to recalculate ray
