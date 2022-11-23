@@ -21,7 +21,7 @@ void	init_sprites(t_cub *data)
 	data->mummy[3]->filename = ft_strdup("textures/mummy_4.xpm");
 	i = 0;
 	while (i < 4)
-		open_texture(data, data->mummy[i]);
+		open_texture(data, data->mummy[i++]);
 	data->chest.filename = ft_strdup("textures/chest.xpm");
 	open_texture(data, &(data->chest));
 	data->tut.filename = ft_strdup("textures/tut.xpm");
@@ -70,7 +70,7 @@ void	draw_sprites(t_cub *data)
 		if (data->cur_ray->x == WIDTH / 2)//instead: identify whether it hits a sprite before any wall
 		{
 			dist = data->cur_ray->dist;
-			cur_sprite = data->mummy[data->cur_mummy];//has to be identified too
+			cur_sprite = &(data->chest);//has to be identified too
 			while (tex_pos_x < cur_sprite->width && data->cur_ray->x < WIDTH)//does not recalculate distance, so the whole sprite works with the full distance
 			{
 				tex_pos_x += 
