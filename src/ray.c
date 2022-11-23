@@ -90,32 +90,34 @@ void	calculate_small_ray(t_ray *ray, t_data *data)
 	// calculate the small ray, aka the hypotenuse for both horizontal and vertical //
 	ray->hor.small_ray = sqrt((ray->hor.dy * ray->hor.dy) + (ray->hor.dx * ray->hor.dx));
 	ray->ver.small_ray = sqrt((ray->ver.dy * ray->ver.dy) + (ray->ver.dx * ray->ver.dx));
-	if (ray->angle > 0 && ray->angle < M_PI_2)
-	{
-		if (ray->hor.small_ray < ray->ver.small_ray)
-			draw_line(data->pos.x, data->pos.y, data->pos.x + ray->hor.dx, data->pos.y - ray->hor.dy, data, PURPLE);
-		else
-			draw_line(data->pos.x, data->pos.y, data->pos.x + ray->ver.dx, data->pos.y - ray->ver.dy, data, PURPLE);
-	}
-	else if (ray->angle > M_PI_2 && ray->angle < M_PI)
-	{
-		if (ray->hor.small_ray < ray->ver.small_ray)
-			draw_line(data->pos.x, data->pos.y, data->pos.x - ray->hor.dx, data->pos.y - ray->hor.dy, data, PURPLE);
-		else
-			draw_line(data->pos.x, data->pos.y, data->pos.x - ray->ver.dx, data->pos.y - ray->ver.dy, data, PURPLE);
-	}
-	else if (ray->angle > M_PI && ray->angle < 3 * M_PI_2)
-	{
-		if (ray->hor.small_ray < ray->ver.small_ray)
-			draw_line(data->pos.x, data->pos.y, data->pos.x - ray->hor.dx, data->pos.y + ray->hor.dy, data, PURPLE);
-		else
-			draw_line(data->pos.x, data->pos.y, data->pos.x - ray->ver.dx, data->pos.y + ray->ver.dy, data, PURPLE);
-	}
-	else if (ray->angle > 3 * M_PI_2 && ray->angle < 2 * M_PI)
-	{
-		if (ray->hor.small_ray < ray->ver.small_ray)
-			draw_line(data->pos.x, data->pos.y, data->pos.x + ray->hor.dx, data->pos.y + ray->hor.dy, data, PURPLE);
-		else
-			draw_line(data->pos.x, data->pos.y, data->pos.x + ray->ver.dx, data->pos.y + ray->ver.dy, data, PURPLE);
-	}
+	// to visualise small ray //
+	// if (ray->angle > 0 && ray->angle < M_PI_2)
+	// {
+	// 	if (ray->hor.small_ray < ray->ver.small_ray)
+	// 		draw_line(data->pos.x, data->pos.y, data->pos.x + ray->hor.dx, data->pos.y - ray->hor.dy, data, PURPLE);
+	// 	else
+	// 		draw_line(data->pos.x, data->pos.y, data->pos.x + ray->ver.dx, data->pos.y - ray->ver.dy, data, PURPLE);
+	// }
+	// else if (ray->angle > M_PI_2 && ray->angle < M_PI)
+	// {
+	// 	if (ray->hor.small_ray < ray->ver.small_ray)
+	// 		draw_line(data->pos.x, data->pos.y, data->pos.x - ray->hor.dx, data->pos.y - ray->hor.dy, data, PURPLE);
+	// 	else
+	// 		draw_line(data->pos.x, data->pos.y, data->pos.x - ray->ver.dx, data->pos.y - ray->ver.dy, data, PURPLE);
+	// }
+	// else if (ray->angle > M_PI && ray->angle < 3 * M_PI_2)
+	// {
+	// 	if (ray->hor.small_ray < ray->ver.small_ray)
+	// 		draw_line(data->pos.x, data->pos.y, data->pos.x - ray->hor.dx, data->pos.y + ray->hor.dy, data, PURPLE);
+	// 	else
+	// 		draw_line(data->pos.x, data->pos.y, data->pos.x - ray->ver.dx, data->pos.y + ray->ver.dy, data, PURPLE);
+	// }
+	// else if (ray->angle > 3 * M_PI_2 && ray->angle < 2 * M_PI)
+	// {
+	// 	if (ray->hor.small_ray < ray->ver.small_ray)
+	// 		draw_line(data->pos.x, data->pos.y, data->pos.x + ray->hor.dx, data->pos.y + ray->hor.dy, data, PURPLE);
+	// 	else
+	// 		draw_line(data->pos.x, data->pos.y, data->pos.x + ray->ver.dx, data->pos.y + ray->ver.dy, data, PURPLE);
+	// }
+	
 }
