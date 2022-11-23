@@ -38,7 +38,7 @@ int	check_input(int argc, char **argv)
  * @param data [t_data *] Pointer to struct storing the input data.
  * @return [int] 0 on success, 1 on failure.
 */
-int	init_data(t_cub *data)
+void	init_data(t_cub *data)
 {
 	data->counter = 0;
 	data->N_texture.filename = NULL;
@@ -63,7 +63,6 @@ int	init_data(t_cub *data)
 	data->cur_ray = ft_calloc(sizeof(t_ray), 1);
 	if (!data->cur_ray)
 		ft_error("Allocation of ray struct failed.");
-	return (0);
 }
 
 //Test function creating the mlx environment and rendering the texture tests
@@ -92,56 +91,11 @@ int	test_textures(t_cub *data)
 //test function to render a simulated shifted wall
 int	render(t_cub *data)
 {
-	int		i;
-	t_data	*texture;
-	double	tex_pos_x;
-
-	tex_pos_x = 0.0;
-	check_door_opening(data);
-	data->cur_ray->dist = 2;
-	data->cur_ray->x = 0.0;
-	texture = &(data->E_texture);
-	i = WIDTH / 8;
+	move_doors_sprites(data);
 	prep_image(data);
-	while (data->cur_ray->x < WIDTH)//ALINA: first iteration: always give distance to the next wall, ignore doors
-	{
-		draw_wall(data, texture);
-		data->cur_ray->x++;
-		//also identify how many rays hit each door (how wide it is) and save it in the door struct (door->cur_width)
-	}
-	data->cur_ray->x = 0;
-	data->doors[0]->cur_width = 400;//for testing, has to be identified in first iteration
-	while (data->cur_ray->x < WIDTH)//ALINA: second iteration: give distance to doors, ignore rays that hit walls
-	{
-		//function to recalculate ray
-		if (data->cur_ray->x == (WIDTH / 2 - i))//instead: identify whether hits a door, and if yes, at which distance and which door -> maybe struct for the ray?
-		{
-			while (tex_pos_x < data->D_texture.width && data->cur_ray->x < WIDTH)
-			{
-				draw_door(data, data->doors[0], tex_pos_x);
-				tex_pos_x += 1.0 * data->D_texture.width / data->doors[0]->cur_width;
-				data->cur_ray->x++;
-				//function to recalculate ray
-			}
-		}
-		data->cur_ray->x++;
-	}
-	data->cur_ray->x = 0;
-	tex_pos_x = 0;
-	data->cur_ray->dist = 1.5;
-	while (data->cur_ray->x < WIDTH)//ALINA: third iteration, paints sprites
-	{
-		//function to recalculate ray
-		if (data->cur_ray->x == WIDTH / 2)//instead: identify whether it hits a sprite before any wall
-		{
-			while (tex_pos_x < data->mummy[0]->width && data->cur_ray->x < WIDTH)
-			{
-				tex_pos_x += draw_sprites(data, tex_pos_x);
-				data->cur_ray->x++;
-			}
-		}
-		data->cur_ray->x++;
-	}
+	draw_walls(data);
+	draw_sprites(data);
+	draw_doors(data);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
 	return (0);
 }
@@ -152,35 +106,4 @@ int	handle_keypress(int key, t_cub *data)
 	if (key == KEY_SPACE)
 		open_door(data);
 	return (0);
-}
-
-/**
- * ///TBD
- * @param [t_cub *] Pointer to struct storing all the input data.
-*/
-void	check_door_opening(t_cub *data)
-{
-	int	i;
-
-	i = 0;
-	if (data->counter < 1000)
-		data->counter++;
-	else
-		data->counter = 0;
-	if (data->counter % 10 == 0)
-	{
-		if (data->cur_mummy < 3)
-			data->cur_mummy++;
-		else
-			data->cur_mummy = 0;
-	}
-	while (i < data->nbr_doors)
-	{
-		if (data->doors[i]->opening == 1 && data->doors[i]->closed > 0)
-			data->doors[i]->closed--;
-		if (data->doors[i]->opening == 0 && data->doors[i]->closed < 100)
-			data->doors[i]->closed++;
-		data->doors[i]->cur_width = 0;
-		i++;
-	}
 }

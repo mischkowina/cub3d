@@ -56,7 +56,7 @@ void	prep_image(t_cub *data)
  * @param texture [t_data *] Pointer to the struct containing all image data of
  * the texture.
 */
-void	draw_wall(t_cub *data, t_data *texture)
+void	ray_wall(t_cub *data, t_data *texture)
 {
 	int		start;
 	int		end;
@@ -79,5 +79,20 @@ void	draw_wall(t_cub *data, t_data *texture)
 		ft_mlx_pixel_put(&(data->img), data->cur_ray->x, start, col);
 		tex_pos += step;
 		start++;
+	}
+}
+
+void	draw_walls(t_cub *data)
+{
+	t_data	*texture;
+
+	data->cur_ray->dist = 2;//instead has to be determined by raycaster
+	data->cur_ray->x = 0;
+	texture = &(data->E_texture);//instead, determine which texture has to be chosen based on the direction of the wall
+	while (data->cur_ray->x < WIDTH)//ALINA: first iteration: always give distance to the next wall, ignore doors
+	{
+		//function to calculate the distance to the wall and save it in ray struct, also return how wide a door is if it hits it and save it in door struct (cur_width)
+		ray_wall(data, texture);
+		data->cur_ray->x++;
 	}
 }

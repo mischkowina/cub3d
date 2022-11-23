@@ -53,30 +53,3 @@ int	get_texture_color(int x, int y, t_data *texture)
 			* (texture->bpp / 8));
 	return (*(int *)dst);
 }
-
-// int	render_door_animation(t_cub *data, int col, int row, int idx)
-// {
-// 	double	x;
-// 	double	ray;
-// 	int		i;
-// 	t_data	*texture;
-
-// 	col = 0;
-// 	row = 0;
-// 	ray = 2;
-// 	x = 0.0;
-// 	texture = &(data->W_texture);
-// 	i = WIDTH / 8;
-// 	prep_image(data);
-// 	idx = 0;
-// 	while (x < WIDTH)
-// 		draw_wall(ray, x++, data, texture);
-// 	x = 0;
-// 	while (x < WIDTH)
-// 	{
-// 		if (x == (WIDTH / 2 - i))
-// 			x = draw_door(ray, x, data);
-// 	}
-// 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
-// 	return (0);
-// }

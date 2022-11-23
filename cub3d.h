@@ -69,10 +69,12 @@ typedef	struct s_cub
 	t_ray	*cur_ray;
 	t_data	**mummy;
 	int		cur_mummy;
+	t_data	chest;
+	t_data	tut;
 }				t_cub;
 
 int		check_input(int argc, char **argv);
-int		init_data(t_cub *data);
+void	init_data(t_cub *data);
 int		test_textures(t_cub *data);//TEST FUNCTION; TO BE REPLACED
 int		render(t_cub *data);//TEST FUNCTION; TO BE REPLACED
 int		handle_keypress(int key, t_cub *data);//TEST FUNCTION, TO BE REPLACED
@@ -94,19 +96,22 @@ void	check_tile(t_cub *data, int row, int col, int *pos);
 
 void	ft_mlx_pixel_put(t_data *img, int x, int y, int color);
 void	prep_image(t_cub *data);
-void	draw_wall(t_cub *data, t_data *texture);
+void	ray_wall(t_cub *data, t_data *texture);
+void	draw_walls(t_cub *data);
 
 void	open_texture(t_cub *data, t_data *texture);
 void	open_all_textures(t_cub *data);
 int		get_texture_color(int x, int y, t_data *texture);
 
 void	allocate_doors(t_cub *data);
-void	draw_door(t_cub *data, t_door *door, double tex_pos_x);
+void	ray_door(t_cub *data, t_door *door, double tex_pos_x);
+void	draw_doors(t_cub *data);
 void	open_door(t_cub *data);
-void	check_door_opening(t_cub *data);
 
 void	init_sprites(t_cub *data);
-double	draw_sprites(t_cub *data, double tex_pos_x);
+double	ray_sprite(t_cub *data, double tex_pos_x, double dist, t_data *sprite);
+void	draw_sprites(t_cub *data);
+void	move_doors_sprites(t_cub *data);
 
 int		str_is_digit(char *str);
 void	free_str_arr(char **str);

@@ -33,7 +33,7 @@ void	allocate_doors(t_cub *data)
  * about the respective door.
  * @param tex_pos [double] Contains the respective x-coordinate for the texture.
 */
-void	draw_door(t_cub *data, t_door *door, double tex_pos_x)
+void	ray_door(t_cub *data, t_door *door, double tex_pos_x)
 {
 	int		start;
 	int		end;
@@ -56,6 +56,33 @@ void	draw_door(t_cub *data, t_door *door, double tex_pos_x)
 		ft_mlx_pixel_put(&(data->img), data->cur_ray->x, start, col);
 		tex_pos_y += step;
 		start++;
+	}
+}
+
+void	draw_doors(t_cub *data)
+{
+	double	tex_pos_x;
+	int		i;//to be deleted
+	
+	i = WIDTH / 8;//to be deleted
+	data->cur_ray->x = 0;
+	tex_pos_x = 0;
+	data->cur_ray->dist = 2;//instead has to be determined by raycaster
+	data->doors[0]->cur_width = 400;//for testing, has to be identified in first iteration
+	while (data->cur_ray->x < WIDTH)//ALINA: second iteration: give distance to doors, ignore rays that hit walls
+	{
+		//function to recalculate ray
+		if (data->cur_ray->x == (WIDTH / 2 - i))//instead: identify whether hits a door, and if yes, at which distance and which door -> maybe struct for the ray?
+		{
+			while (tex_pos_x < data->D_texture.width && data->cur_ray->x < WIDTH)
+			{
+				ray_door(data, data->doors[0], tex_pos_x);
+				tex_pos_x += 1.0 * data->D_texture.width / data->doors[0]->cur_width;
+				data->cur_ray->x++;
+				//function to recalculate ray
+			}
+		}
+		data->cur_ray->x++;
 	}
 }
 
