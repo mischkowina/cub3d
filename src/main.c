@@ -79,6 +79,7 @@ int	test_textures(t_cub *data)
 		return (1);
 	}
 	open_all_textures(data);
+	background_music();
 	data->img.img = mlx_new_image(data->mlx_ptr, WIDTH, HEIGHT);
 	data->img.addr = mlx_get_data_addr(data->img.img, &data->img.bpp,
 			&data->img.line_length, &data->img.endian);

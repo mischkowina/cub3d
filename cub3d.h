@@ -115,6 +115,8 @@ double	ray_sprite(t_cub *data, double tex_pos_x, double dist, t_data *sprite);
 void	draw_sprites(t_cub *data);
 void	move_doors_sprites(t_cub *data);
 
+void	background_music(void);
+
 int		str_is_digit(char *str);
 void	free_str_arr(char **str);
 void	ft_error(char *msg);
