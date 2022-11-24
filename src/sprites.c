@@ -23,14 +23,17 @@ void	init_sprites(t_cub *data)
 	while (i < 4)
 	{
 		open_texture(data, data->mummy[i]);
-		data->mummy[i++]->offset = 20;
+		data->mummy[i]->offset = 20;
+		data->mummy[i++]->size_factor = 1.0;
 	}
 	data->chest.filename = ft_strdup("textures/chest.xpm");
 	open_texture(data, &(data->chest));
-	data->chest.offset = 2;
+	data->chest.offset = 1.4;
+	data->chest.size_factor = 3.0;
 	data->tut.filename = ft_strdup("textures/tut.xpm");
 	open_texture(data, &(data->tut));
-	data->tut.offset = 0;
+	data->tut.offset = 20;
+	data->tut.size_factor = 1.0;
 }
 
 double	ray_sprite(t_cub *data, double tex_pos_x, double dist, t_data *sprite)
@@ -46,20 +49,20 @@ double	ray_sprite(t_cub *data, double tex_pos_x, double dist, t_data *sprite)
 	height = end - start;
 	if (sprite->offset > 0)
 	{
-		start += height / sprite->offset;
-		end += height / sprite->offset;
+		start += 1.0 * height / sprite->offset;
+		end += 1.0 * height / sprite->offset;
 	}
 	if (start < 0)
 		start = 0;
 	if (end >= HEIGHT)
 		end = HEIGHT - 1;
 	tex_pos_y = 0;
-	while (start < end)
+	while (start < end && tex_pos_y < sprite->height)
 	{
 		col = get_texture_color(tex_pos_x, tex_pos_y, sprite);
 		if (col != 16777215)
 			ft_mlx_pixel_put(&(data->img), data->cur_ray->x, start, col);
-		tex_pos_y += 1.0 * sprite->height / (HEIGHT / dist);
+		tex_pos_y += sprite->size_factor * sprite->height / (HEIGHT / dist);
 		start++;
 	}
 	return (1.0 * sprite->width / (WIDTH / dist));
@@ -80,11 +83,11 @@ void	draw_sprites(t_cub *data)
 		if (data->cur_ray->x == WIDTH / 2)//instead: identify whether it hits a sprite before any wall
 		{
 			dist = data->cur_ray->dist;
-			cur_sprite = &(data->chest);//has to be identified too
+			cur_sprite = data->mummy[data->cur_mummy];//has to be identified too
 			while (tex_pos_x < cur_sprite->width && data->cur_ray->x < WIDTH)//does not recalculate distance, so the whole sprite works with the full distance
 			{
-				tex_pos_x += 
-					ray_sprite(data, tex_pos_x, dist, cur_sprite);
+				tex_pos_x += ray_sprite(data, tex_pos_x,
+						dist, cur_sprite) * cur_sprite->size_factor;
 				data->cur_ray->x++;
 			}
 		}

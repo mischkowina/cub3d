@@ -29,7 +29,8 @@ typedef struct s_data {
 	int		bpp;
 	int		line_length;
 	int		endian;
-	int		offset;
+	double	offset;
+	double	size_factor;
 }				t_data;
 
 typedef struct s_door {

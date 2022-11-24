@@ -93,8 +93,8 @@ int	render(t_cub *data)
 {
 	move_doors_sprites(data);
 	prep_image(data);
-	draw_walls(data);
-	draw_sprites(data);
+	draw_walls(data);//instead of calling these functions, probably check for every all the obstacles it hits before the wall and then drawing them on top of each other
+	draw_sprites(data);//instead of calling these functions, probably check for every all the obstacles it hits before the wall and then drawing them on top of each other
 	draw_doors(data);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
 	return (0);
