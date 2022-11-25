@@ -65,8 +65,14 @@ void	init_data(t_cub *data)
 		ft_error("Allocation of ray struct failed.");
 }
 
-//Test function creating the mlx environment and rendering the texture tests
-int	test_textures(t_cub *data)
+/**
+ * Function to start the game. First initializes all the MLX variables.
+ * Then opens the textures as images and starts the game music.
+ * Lastly, creates the image to be displayed and calls the MLX loop and 
+ * hook functions.
+ * @param [t_data *] Pointer to struct storing the input data.
+*/
+void	start_game(t_cub *data)
 {
 	data->mlx_ptr = mlx_init();
 	if (!data->mlx_ptr)
@@ -75,8 +81,7 @@ int	test_textures(t_cub *data)
 	if (!data->win_ptr)
 	{
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-		free(data->mlx_ptr);
-		return (1);
+		ft_error("MLX failed.");
 	}
 	open_all_textures(data);
 	background_music();
@@ -86,22 +91,30 @@ int	test_textures(t_cub *data)
 	mlx_hook(data->win_ptr, KeyPress, KeyPressMask, handle_keypress, data);
 	mlx_loop_hook(data->mlx_ptr, render, data);
 	mlx_loop(data->mlx_ptr);
-	return (0);
 }
 
-//test function to render a simulated shifted wall
+/**
+ * Function to render an image and put it to the screen. First, variables
+ * for sprite and door movement are incremented and the image is prepped
+ * with the ceiling and floor colors. Then all walls are calculated and drawn.
+ * Lastly, the obstacles (doors and sprites) a ray crosses before hitting a
+ * wall are drawn from furthest away to closest for every ray.
+ * @param data [t_cub *] Pointer to struct storing the input data.
+ * @return [int] 0 on success, 1 on failure.
+*/
 int	render(t_cub *data)
 {
 	move_doors_sprites(data);
 	prep_image(data);
-	draw_walls(data);//instead of calling these functions, probably check for every all the obstacles it hits before the wall and then drawing them on top of each other
-	draw_sprites(data);//instead of calling these functions, probably check for every all the obstacles it hits before the wall and then drawing them on top of each other
-	draw_doors(data);
+	draw_walls(data);
+	draw_sprites(data);//instead of calling draw_sprites and draw_doors in this order, determine how many objects the
+	draw_doors(data);//ray crosses and then call the respective function once for each - from furthest to closest
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
 	return (0);
 }
 
 //test function to render a door opening animation after pressing space
+//to be integrated into Alina's function to handle keys
 int	handle_keypress(int key, t_cub *data)
 {
 	if (key == KEY_SPACE)

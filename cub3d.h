@@ -77,9 +77,9 @@ typedef	struct s_cub
 
 int		check_input(int argc, char **argv);
 void	init_data(t_cub *data);
-int		test_textures(t_cub *data);//TEST FUNCTION; TO BE REPLACED
-int		render(t_cub *data);//TEST FUNCTION; TO BE REPLACED
-int		handle_keypress(int key, t_cub *data);//TEST FUNCTION, TO BE REPLACED
+void	start_game(t_cub *data);
+int		render(t_cub *data);
+int		handle_keypress(int key, t_cub *data);//TEST FUNCTION, TO BE INTEGRATED
 
 void	parser(char *file, t_cub *data);
 int		parse_info_type(t_cub *data, char *line);
