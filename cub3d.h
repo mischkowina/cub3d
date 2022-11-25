@@ -100,14 +100,20 @@ typedef struct s_delta
 
 typedef struct s_ray
 {
-	bool	done;
+	double	dir_x;
+	double	dir_y;
+	t_vec	delta_dist;
+	int		map_x;
+	int		map_y;
+	t_vec	side_dist;
+	int		step_x;
+	int		step_y;
+	int		ori;
+	double	angle;
 	double	hor_grid;
 	double	ver_grid;
 	t_delta	hor;
 	t_delta	ver;
-	double	dir_x;
-	double	dir_y;
-	double	angle;
 	double	horizontal_line;
 	double	vertical_line;
 }				t_ray;
@@ -151,5 +157,7 @@ void	init_orientation(t_data *data);
 void	cast_ray(t_data *data);
 void	find_nearest_grid(t_ray *ray, t_data *data);
 void	calculate_small_ray(t_ray *ray, t_data *data);
+void	do_the_dda(t_ray *ray, t_data *data);
+void	calculate_step(t_ray *ray, t_data *data);
 
 #endif

@@ -5,27 +5,91 @@ void	cast_ray(t_data *data)
 {
 	t_ray	ray;
 	int		i;
+	double	view;
+	double	w;
 
-	ray.done = false;
-	// ray.ver_grid = data->pos.x;
-	// ray.hor_grid = data->pos.y;
-	i = 1;
-	while (ray.done == false)
+	i = 0;
+	w = (double) WIDTH / 2.0;
+	while (i < w)
 	{
-		while (i > 0)
+		view = 2 * i / w - 1;
+		ray.dir_x = data->dir.x + data->camera_plane.x * view;
+		ray.dir_y = data->dir.y + data->camera_plane.y * view;
+		ray.map_x = (int) data->pos.x;
+		ray.map_y = (int) data->pos.y;
+	// this is set to avoid division by zero //
+		if (ray.dir_x == 0)
+			ray.delta_dist.x = INFINITY;
+		else
+			ray.delta_dist.x = fabs(1 / ray.dir_x);
+		if (ray.dir_y == 0)
+			ray.delta_dist.y = INFINITY;
+		else
+			ray.delta_dist.y = fabs(1 / ray.dir_y);
+		calculate_step(&ray, data);
+		printf("LEL\n");
+		do_the_dda(&ray, data);
+		i++;
+	}
+}
+
+void	calculate_step(t_ray *ray, t_data *data)
+{
+	if (ray->dir_x < 0)
+	{
+		ray->step_x = -1;
+		ray->side_dist.x = (data->pos.x - ray->map_x) * ray->delta_dist.x;
+	}
+	else
+	{
+		ray->step_x = 1;
+		ray->side_dist.x = (ray->map_x + 1.0 - data->pos.x) * ray->delta_dist.x;
+	}
+	if (ray->dir_y < 0)
+	{
+		ray->step_y = -1;
+		ray->side_dist.y = (data->pos.y - ray->map_y) * ray->delta_dist.y;
+	}
+	else
+	{
+		ray->step_y = 1;
+		ray->side_dist.y = (ray->map_y + 1.0 - data->pos.y);
+	}
+}
+
+void	do_the_dda(t_ray *ray, t_data *data)
+{
+	int	hit;
+
+	hit = 0;
+	while (hit == 0)
+	{
+		if (ray->side_dist.x < ray->side_dist.y)
 		{
-			find_nearest_grid(&ray, data);
-			calculate_small_ray(&ray, data);
-			ray.done = true;
-			i--;
+			ray->side_dist.x += ray->delta_dist.x;
+			ray->map_x += ray->step_x;
+			ray->ori = 0;
+		}
+		else
+		{
+			ray->side_dist.y += ray->delta_dist.y;
+			ray->map_y += ray->step_y;
+			ray->ori = 1;
+		}
+		printf("mapx : %d, mapy: %d\n", ray->map_x, ray->map_y);
+		if (map[ray->map_x][ray->map_y] > 0)
+		{
+			hit = 1;
+			printf("-------> finishing x: %f y:%f\n", data->pos.x + (ray->side_dist.x + ray->delta_dist.x) * ray->step_x, \
+			data->pos.y + (ray->side_dist.y + ray->delta_dist.y) * ray->step_y);
+			draw_line(data->pos.x, data->pos.y, data->pos.x + (ray->side_dist.x + ray->delta_dist.x) * ray->step_x, \
+			data->pos.y + (ray->side_dist.y + ray->delta_dist.y) * ray->step_y, data, PURPLE);
 		}
 	}
 }
 
 void	find_nearest_grid(t_ray *ray, t_data *data)
 {
-	ray->dir_x = data->dir.x;
-	ray->dir_y = data->dir.y;
 	ray->angle = atan2(ray->dir_y, ray->dir_x);
 	if (ray->angle < 0)
 		ray->angle *= -1;
@@ -90,7 +154,9 @@ void	calculate_small_ray(t_ray *ray, t_data *data)
 	// calculate the small ray, aka the hypotenuse for both horizontal and vertical //
 	ray->hor.small_ray = sqrt((ray->hor.dy * ray->hor.dy) + (ray->hor.dx * ray->hor.dx));
 	ray->ver.small_ray = sqrt((ray->ver.dy * ray->ver.dy) + (ray->ver.dx * ray->ver.dx));
+
 	// to visualise small ray //
+
 	// if (ray->angle > 0 && ray->angle < M_PI_2)
 	// {
 	// 	if (ray->hor.small_ray < ray->ver.small_ray)
@@ -101,7 +167,7 @@ void	calculate_small_ray(t_ray *ray, t_data *data)
 	// else if (ray->angle > M_PI_2 && ray->angle < M_PI)
 	// {
 	// 	if (ray->hor.small_ray < ray->ver.small_ray)
-	// 		draw_line(data->pos.x, data->pos.y, data->pos.x - ray->hor.dx, data->pos.y - ray->hor.dy, data, PURPLE);
+			// draw_line(data->pos.x, data->pos.y, data->pos.x - ray->hor.dx, data->pos.y - ray->hor.dy, data, PURPLE);
 	// 	else
 	// 		draw_line(data->pos.x, data->pos.y, data->pos.x - ray->ver.dx, data->pos.y - ray->ver.dy, data, PURPLE);
 	// }
@@ -119,5 +185,4 @@ void	calculate_small_ray(t_ray *ray, t_data *data)
 	// 	else
 	// 		draw_line(data->pos.x, data->pos.y, data->pos.x + ray->ver.dx, data->pos.y + ray->ver.dy, data, PURPLE);
 	// }
-	
 }
