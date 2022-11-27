@@ -6,28 +6,40 @@ void	cast_ray(t_data *data)
 	t_ray	ray;
 	int		i;
 	double	view;
-	double	w;
+	int		w;
 
 	i = 0;
-	w = (double) WIDTH / 2.0;
+	w = (int) WIDTH / 4;
 	while (i < w)
 	{
-		view = 2 * i / w - 1;
+		view = 2.0 * i / (double)w - 1;
 		ray.dir_x = data->dir.x + data->camera_plane.x * view;
 		ray.dir_y = data->dir.y + data->camera_plane.y * view;
 		ray.map_x = (int) data->pos.x;
 		ray.map_y = (int) data->pos.y;
 	// this is set to avoid division by zero //
 		if (ray.dir_x == 0)
+		{
+			printf("ray dirx == 0\n");
 			ray.delta_dist.x = INFINITY;
+		}
 		else
+		{
+			printf("ray dirx != 0\n");
 			ray.delta_dist.x = fabs(1 / ray.dir_x);
+		}
 		if (ray.dir_y == 0)
+		{
+			printf("ray dir y == 0\n");
 			ray.delta_dist.y = INFINITY;
+		}
 		else
+		{
+			printf("ray dir y != 0\n");
 			ray.delta_dist.y = fabs(1 / ray.dir_y);
+		}
 		calculate_step(&ray, data);
-		printf("LEL\n");
+		// printf("LEL %d %d\n", i, w);
 		do_the_dda(&ray, data);
 		i++;
 	}
@@ -37,21 +49,25 @@ void	calculate_step(t_ray *ray, t_data *data)
 {
 	if (ray->dir_x < 0)
 	{
+		printf("ray dir x < 0\n");
 		ray->step_x = -1;
 		ray->side_dist.x = (data->pos.x - ray->map_x) * ray->delta_dist.x;
 	}
 	else
 	{
+		printf("ray dir x > 0\n");
 		ray->step_x = 1;
 		ray->side_dist.x = (ray->map_x + 1.0 - data->pos.x) * ray->delta_dist.x;
 	}
 	if (ray->dir_y < 0)
 	{
+		printf("ray dir y < 0\n");
 		ray->step_y = -1;
 		ray->side_dist.y = (data->pos.y - ray->map_y) * ray->delta_dist.y;
 	}
 	else
 	{
+		printf("ray dir y > 0\n");
 		ray->step_y = 1;
 		ray->side_dist.y = (ray->map_y + 1.0 - data->pos.y);
 	}
@@ -76,12 +92,13 @@ void	do_the_dda(t_ray *ray, t_data *data)
 			ray->map_y += ray->step_y;
 			ray->ori = 1;
 		}
-		printf("mapx : %d, mapy: %d\n", ray->map_x, ray->map_y);
+		// printf("mapx : %d, mapy: %d\n", ray->map_x, ray->map_y);
 		if (map[ray->map_x][ray->map_y] > 0)
 		{
+			printf("finished\n");
 			hit = 1;
-			printf("-------> finishing x: %f y:%f\n", data->pos.x + (ray->side_dist.x + ray->delta_dist.x) * ray->step_x, \
-			data->pos.y + (ray->side_dist.y + ray->delta_dist.y) * ray->step_y);
+			// printf("-------> finishing x: %f y:%f\n", data->pos.x + (ray->side_dist.x + ray->delta_dist.x) * ray->step_x, 
+			// data->pos.y + (ray->side_dist.y + ray->delta_dist.y) * ray->step_y);
 			draw_line(data->pos.x, data->pos.y, data->pos.x + (ray->side_dist.x + ray->delta_dist.x) * ray->step_x, \
 			data->pos.y + (ray->side_dist.y + ray->delta_dist.y) * ray->step_y, data, PURPLE);
 		}
