@@ -15,31 +15,31 @@ void	cast_ray(t_data *data)
 		view = 2.0 * i / (double)w - 1;
 		ray.dir_x = data->dir.x + data->camera_plane.x * view;
 		ray.dir_y = data->dir.y + data->camera_plane.y * view;
-		ray.map_x = (int) data->pos.x;
-		ray.map_y = (int) data->pos.y;
+		ray.map_x = (int) data->pos.x / 72;
+		ray.map_y = (int) data->pos.y / 72;
 	// this is set to avoid division by zero //
 		if (ray.dir_x == 0)
 		{
-			printf("ray dirx == 0\n");
+			// printf("ray dirx == 0\n");
 			ray.delta_dist.x = INFINITY;
 		}
 		else
 		{
-			printf("ray dirx != 0\n");
+			// printf("ray dirx != 0\n");
 			ray.delta_dist.x = fabs(1 / ray.dir_x);
 		}
 		if (ray.dir_y == 0)
 		{
-			printf("ray dir y == 0\n");
+			// printf("ray dir y == 0\n");
 			ray.delta_dist.y = INFINITY;
 		}
 		else
 		{
-			printf("ray dir y != 0\n");
+			// printf("ray dir y != 0\n");
 			ray.delta_dist.y = fabs(1 / ray.dir_y);
 		}
 		calculate_step(&ray, data);
-		// printf("LEL %d %d\n", i, w);
+		printf("LEL %d %d\n", i, w);
 		do_the_dda(&ray, data);
 		i++;
 	}
@@ -99,8 +99,8 @@ void	do_the_dda(t_ray *ray, t_data *data)
 			hit = 1;
 			// printf("-------> finishing x: %f y:%f\n", data->pos.x + (ray->side_dist.x + ray->delta_dist.x) * ray->step_x, 
 			// data->pos.y + (ray->side_dist.y + ray->delta_dist.y) * ray->step_y);
-			draw_line(data->pos.x, data->pos.y, data->pos.x + (ray->side_dist.x + ray->delta_dist.x) * ray->step_x, \
-			data->pos.y + (ray->side_dist.y + ray->delta_dist.y) * ray->step_y, data, PURPLE);
+			draw_line(data->pos.x, data->pos.y, data->pos.x + (ray->side_dist.x + ray->delta_dist.x), \
+			data->pos.y + (ray->side_dist.y + ray->delta_dist.y), data, PURPLE);
 		}
 	}
 }
