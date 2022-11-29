@@ -8,7 +8,7 @@ int	main(int argc, char **argv)
 	check_input(argc, argv);
 	init_data(&data);
 	parser(argv[1], &data);
-	test_textures(&data);
+	start_game(&data);
 	return (0);
 }
 
@@ -59,10 +59,16 @@ void	init_data(t_cub *data)
 	data->nbr_doors = 0;
 	data->door_counter = 0;
 	data->doors = NULL;
+	data->nbr_sprites = 0;
+	data->sprite_counter = 0;
+	data->sprites = NULL;
 	data->cur_mummy = 0;
 	data->cur_ray = ft_calloc(sizeof(t_ray), 1);
 	if (!data->cur_ray)
 		ft_error("Allocation of ray struct failed.");
+	data->cur_ray->dist = 0.0;
+	data->cur_ray->x = 0;
+	data->cur_ray->nbr_objects = 0;
 }
 
 /**

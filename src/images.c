@@ -89,7 +89,7 @@ void	draw_walls(t_cub *data)
 	data->cur_ray->dist = 2;//instead has to be determined by raycaster
 	data->cur_ray->x = 0;
 	texture = &(data->E_texture);//instead, determine which texture has to be chosen based on the direction of the wall
-	while (data->cur_ray->x < WIDTH)//ALINA: first iteration: always give distance to the next wall, ignore doors
+	while (data->cur_ray->x < WIDTH)//ALINA: first iteration: always give distance to the next wall, but count how many objects are crossed before and if they are doors, how many rays hit them
 	{
 		//function to calculate the distance to the wall and save it in ray struct, also return how wide a door is if it hits it and save it in door struct (cur_width)
 		ray_wall(data, texture);

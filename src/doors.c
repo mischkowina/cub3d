@@ -7,7 +7,7 @@
  * for the current image.
  * @param data [t_data *] Pointer to struct storing the input data.
 */
-void	allocate_doors(t_cub *data)
+void	allocate_doors_sprites(t_cub *data)
 {
 	int	i;
 
@@ -18,7 +18,15 @@ void	allocate_doors(t_cub *data)
 		data->doors[i] = ft_calloc(sizeof(t_door), 1);
 		data->doors[i]->closed = 100;
 		data->doors[i]->opening = 0;
-		data->doors[i++]->cur_width = 0;
+		data->doors[i]->cur_width = 0;
+		data->doors[i++]->tex_pos_x = 0.0;
+	}
+	i = 0;
+	data->sprites = ft_calloc(sizeof(t_obj *), data->nbr_sprites);
+	while (i < data->nbr_sprites)
+	{	
+		data->sprites[i] = ft_calloc(sizeof(t_obj), 1);
+		data->sprites[i++]->tex_pos_x = 0.0;
 	}
 }
 
@@ -103,4 +111,5 @@ void	open_door(t_cub *data)
 		data->doors[idx]->opening = 1;
 	else
 		data->doors[idx]->opening = 0;
+	door_sound();
 }

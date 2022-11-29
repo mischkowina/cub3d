@@ -82,7 +82,7 @@ void	fill_map_array(t_cub *data, char *map_str)
 			data->map[row][col++] = -1;
 		row++;
 	}
-	allocate_doors(data);
+	allocate_doors_sprites(data);
 	free_str_arr(map_rows);
 }
 
@@ -123,6 +123,15 @@ void	allocate_map_array(t_cub *data, char **map_rows)
 /**
  * Function to fill a single field of the 2D integer array with the integer 
  * representation of the given character.
+ * Map explanation:
+ * -1 = empty space outside walls (' ')
+ * 1 = wall
+ * 0 = empty space within walls
+ * 2 = player position
+ * 3 = door positions
+ * 4 = mummy positions
+ * 5 = sarcophagus ("tut") positions
+ * 6 = chest positions
  * @param c [char] Character to be transfered into the int array.
  * @param row [int] Row position of the respective array field.
  * @param col [int] Column position of the respective array field.
@@ -152,7 +161,7 @@ int	copy_map_tile(char c, int row, int col, t_cub *data)
 			data->nbr_doors++;
 		}
 	}
-	else
+	else if (parse_sprites(c, row, col, data) > 0)
 		return (1);
 	return (0);
 }

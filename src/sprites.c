@@ -1,5 +1,19 @@
 #include "../cub3d.h"
 
+int	parse_sprites(char c, int row, int col, t_cub *data)
+{
+	if (c == 'M')
+		data->map[row][col] = 4;
+	else if (c == 'T')
+		data->map[row][col] = 5;
+	else if (c == 'C')
+		data->map[row][col] = 6;
+	else
+		return (1);
+	data->nbr_sprites++;
+	return (0);
+}
+
 void	init_sprites(t_cub *data)
 {
 	int		i;
@@ -120,9 +134,9 @@ void	move_doors_sprites(t_cub *data)
 	while (i < data->nbr_doors)
 	{
 		if (data->doors[i]->opening == 1 && data->doors[i]->closed > 0)
-			data->doors[i]->closed--;
+			data->doors[i]->closed -= 2;
 		if (data->doors[i]->opening == 0 && data->doors[i]->closed < 100)
-			data->doors[i]->closed++;
+			data->doors[i]->closed += 2;
 		data->doors[i]->cur_width = 0;
 		i++;
 	}

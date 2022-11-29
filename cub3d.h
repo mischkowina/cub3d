@@ -39,11 +39,22 @@ typedef struct s_door {
 	int		opening;
 	int		closed;
 	int		cur_width;
+	double	tex_pos_x;
 }				t_door;
+
+typedef struct s_obj
+{
+	int		col;
+	int		row;
+	double	tex_pos_x;
+	t_data	*texture;
+}				t_obj;
+
 
 typedef struct s_ray {
 	int		x;
 	double	dist;
+	int		nbr_objects;
 }				t_ray;
 
 typedef	struct s_cub
@@ -68,6 +79,9 @@ typedef	struct s_cub
 	int		nbr_doors;
 	int		door_counter;
 	t_door	**doors;
+	int		nbr_sprites;
+	int		sprite_counter;
+	t_obj	**sprites;
 	t_ray	*cur_ray;
 	t_data	**mummy;
 	int		cur_mummy;
@@ -95,6 +109,7 @@ int		copy_map_tile(char c, int row, int col, t_cub *data);
 
 void	check_map_array(t_cub *data);
 void	check_tile(t_cub *data, int row, int col, int *pos);
+void	prep_sprite(t_cub *data, int row, int col);
 
 void	ft_mlx_pixel_put(t_data *img, int x, int y, int color);
 void	prep_image(t_cub *data);
@@ -105,17 +120,19 @@ void	open_texture(t_cub *data, t_data *texture);
 void	open_all_textures(t_cub *data);
 int		get_texture_color(int x, int y, t_data *texture);
 
-void	allocate_doors(t_cub *data);
+void	allocate_doors_sprites(t_cub *data);
 void	ray_door(t_cub *data, t_door *door, double tex_pos_x);
 void	draw_doors(t_cub *data);
 void	open_door(t_cub *data);
 
+int		parse_sprites(char c, int row, int col, t_cub *data);
 void	init_sprites(t_cub *data);
 double	ray_sprite(t_cub *data, double tex_pos_x, double dist, t_data *sprite);
 void	draw_sprites(t_cub *data);
 void	move_doors_sprites(t_cub *data);
 
 void	background_music(void);
+void	door_sound(void);
 
 int		str_is_digit(char *str);
 void	free_str_arr(char **str);
