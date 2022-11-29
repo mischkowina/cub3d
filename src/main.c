@@ -127,3 +127,9 @@ int	handle_keypress(int key, t_cub *data)
 		open_door(data);
 	return (0);
 }
+
+
+//TO-DO: 
+//sprite structs übergeben statt textures
+//tex_pos_x im jeweiligen sprite/door speichern
+//tex_pos_x nach jedem image wieder auf 0 setzen für alle sprites and doors
