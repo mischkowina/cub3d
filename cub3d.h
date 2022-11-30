@@ -89,54 +89,67 @@ typedef	struct s_cub
 	t_data	tut;
 }				t_cub;
 
+//main.c
 int		check_input(int argc, char **argv);
 void	init_data(t_cub *data);
 void	start_game(t_cub *data);
 int		render(t_cub *data);
 int		handle_keypress(int key, t_cub *data);//TEST FUNCTION, TO BE INTEGRATED
 
+//parser.c
 void	parser(char *file, t_cub *data);
 int		parse_info_type(t_cub *data, char *line);
 char	*parse_texture(char *line);
 int		parse_color(char *line);
 int		determine_color_value(char **split);
 
+//parser_map.c
 void	parse_map(t_cub *data, char *line, int fd);
 void	check_prev_input(t_cub *data);
 void	fill_map_array(t_cub *data, char *map_str);
 void	allocate_map_array(t_cub *data, char **map_rows);
 int		copy_map_tile(char c, int row, int col, t_cub *data);
 
+//check_map.c
 void	check_map_array(t_cub *data);
 void	check_tile(t_cub *data, int row, int col, int *pos);
-void	prep_sprite(t_cub *data, int row, int col);
 
+//images.c
 void	ft_mlx_pixel_put(t_data *img, int x, int y, int color);
 void	prep_image(t_cub *data);
+
+//ray.c
 void	ray_wall(t_cub *data, t_data *texture);
 void	draw_walls(t_cub *data);
+void	ray_door(t_cub *data, t_door *door);
+void	draw_doors(t_cub *data);
+void	ray_sprite(t_cub *data, double dist, t_obj *sprite);
+void	draw_sprites(t_cub *data);
 
+//textures.c
 void	open_texture(t_cub *data, t_data *texture);
 void	open_all_textures(t_cub *data);
 int		get_texture_color(int x, int y, t_data *texture);
 
+//doors.c
 void	allocate_doors_sprites(t_cub *data);
-void	ray_door(t_cub *data, t_door *door, double tex_pos_x);
-void	draw_doors(t_cub *data);
-void	open_door(t_cub *data);
-
-int		parse_sprites(char c, int row, int col, t_cub *data);
-void	init_sprites(t_cub *data);
-void	ray_sprite(t_cub *data, double dist, t_obj *sprite);
-void	draw_sprites(t_cub *data);
 void	move_doors_sprites(t_cub *data);
 void	reset_tex_pos(t_cub *data);
+void	open_door(t_cub *data);
 
+//sprites.c
+int		parse_sprites(char c, int row, int col, t_cub *data);
+void	init_sprites(t_cub *data);
+void	fill_sprite(t_cub *data, int row, int col);
+
+//sounds.c
 void	background_music(void);
 void	door_sound(void);
 
+//utils.c
 int		str_is_digit(char *str);
 void	free_str_arr(char **str);
+void	free_all_shit(t_cub *data);
 void	ft_error(char *msg);
 
 #endif

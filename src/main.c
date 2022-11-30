@@ -101,10 +101,11 @@ void	start_game(t_cub *data)
 
 /**
  * Function to render an image and put it to the screen. First, variables
- * for sprite and door movement are incremented and the image is prepped
- * with the ceiling and floor colors. Then all walls are calculated and drawn.
- * Lastly, the obstacles (doors and sprites) a ray crosses before hitting a
- * wall are drawn from furthest away to closest for every ray.
+ * for sprite and door movement are incremented and the texture position for
+ * is reset for all sprites. Further, the image is prepped with the ceiling 
+ * and floor colors. 
+ * //TBD
+ * Lastly, the image is pushed to the window.
  * @param data [t_cub *] Pointer to struct storing the input data.
  * @return [int] 0 on success, 1 on failure.
 */
@@ -113,9 +114,9 @@ int	render(t_cub *data)
 	move_doors_sprites(data);
 	reset_tex_pos(data);
 	prep_image(data);
-	draw_walls(data);
-	draw_sprites(data);//instead of calling draw_sprites and draw_doors in this order, determine how many objects the
-	draw_doors(data);//ray crosses and then call the respective function once for each - from furthest to closest
+	draw_walls(data);//instead of calling draw walls, draw sprites and draw_doors
+	draw_sprites(data);//we will need one loop to check each ray once and draw its
+	draw_doors(data);//content layer by layer, from furthest to closest
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
 	return (0);
 }

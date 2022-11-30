@@ -14,6 +14,7 @@ SRC =	$(SRC_DIR)main.c \
 		$(SRC_DIR)utils.c \
 		$(SRC_DIR)textures.c \
 		$(SRC_DIR)images.c \
+		$(SRC_DIR)ray.c \
 		$(SRC_DIR)doors.c \
 		$(SRC_DIR)sprites.c \
 		$(SRC_DIR)sounds.c

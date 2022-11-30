@@ -40,67 +40,48 @@ void	allocate_doors_sprites(t_cub *data)
 }
 
 /**
- * Function to draw a ray containing a door instead of a wall. Identifies
- * the height of the wall using the distance of the ray, just as the
- * draw_wall function. Then adjusts the starting position in case the door
- * is opened to a certain degree. Lastly, iterates through every pixel
- * of the ray and identifies the respective color from the door texture.
- * @param data [t_cub *] Pointer to struct storing all the input data.
- * @param door [t_door *] Pointer to the struct storing the information
- * about the respective door.
- * @param tex_pos [double] Contains the respective x-coordinate for the texture.
+ * Increments the counter of the game and adjusts the sprite used for the
+ * mummy every 10 images. Also continues the movement of the doors by 1%
+ * every image.
+ * @param [t_cub *] Pointer to struct storing all the input data.
 */
-void	ray_door(t_cub *data, t_door *door, double tex_pos_x)
+void	move_doors_sprites(t_cub *data)
 {
-	int		start;
-	int		end;
-	double	tex_pos_y;
-	double	step;
-	int		col;
+	int	i;
 
-	start = - (HEIGHT / data->cur_ray->dist) / 2 + HEIGHT / 2.0;
-	end = (HEIGHT / data->cur_ray->dist) / 2 + HEIGHT / 2.0;
-	start += (end - start) * (100 - door->closed) / 100;
-	if (start < 0)
-		start = 0;
-	if (end >= HEIGHT)
-		end = HEIGHT - 1;
-	tex_pos_y = 0;
-	step = 1.0 * data->D_texture.height / (HEIGHT / data->cur_ray->dist);
-	while (start < end)
+	i = 0;
+	if (data->counter < 1000)
+		data->counter++;
+	else
+		data->counter = 0;
+	if (data->counter % 10 == 0)
 	{
-		col = get_texture_color(tex_pos_x, tex_pos_y, &(data->D_texture));
-		ft_mlx_pixel_put(&(data->img), data->cur_ray->x, start, col);
-		tex_pos_y += step;
-		start++;
+		if (data->cur_mummy < 3)
+			data->cur_mummy++;
+		else
+			data->cur_mummy = 0;
+	}
+	while (i < data->nbr_doors)
+	{
+		if (data->doors[i]->opening == 1 && data->doors[i]->closed > 0)
+			data->doors[i]->closed -= 2;
+		if (data->doors[i]->opening == 0 && data->doors[i]->closed < 100)
+			data->doors[i]->closed += 2;
+		data->doors[i]->cur_width = 0;
+		i++;
 	}
 }
 
-void	draw_doors(t_cub *data)
+void	reset_tex_pos(t_cub *data)
 {
-	double	tex_pos_x;
-	int		i;//to be deleted
-	
-	i = WIDTH / 8;//to be deleted
-	data->cur_ray->x = 0;
-	tex_pos_x = 0;
-	data->cur_ray->dist = 2;//instead has to be determined by raycaster
-	data->doors[0]->cur_width = 400;//for testing, has to be identified in first iteration
-	while (data->cur_ray->x < WIDTH)//ALINA: second iteration: give distance to doors, ignore rays that hit walls
-	{
-		//function to recalculate ray
-		if (data->cur_ray->x == (WIDTH / 2 - i))//instead: identify whether hits a door, and if yes, at which distance and which door -> maybe struct for the ray?
-		{
-			while (tex_pos_x < data->D_texture.width && data->cur_ray->x < WIDTH)
-			{
-				ray_door(data, data->doors[0], tex_pos_x);
-				tex_pos_x += 1.0 * data->D_texture.width / data->doors[0]->cur_width;
-				data->cur_ray->x++;
-				//function to recalculate ray
-			}
-		}
-		data->cur_ray->x++;
-	}
+	int	i;
+
+	i = 0;
+	while (i < data->nbr_sprites)
+		data->sprites[i++]->tex_pos_x = 0.0;
+	i = 0;
+	while (i < data->nbr_doors)
+		data->doors[i++]->tex_pos_x = 0.0;
 }
 
 /**

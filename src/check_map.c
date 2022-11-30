@@ -59,18 +59,6 @@ void	check_tile(t_cub *data, int row, int col, int *pos)
 			data->doors[data->door_counter++]->row = row;
 		}
 		if (data->map[row][col] > 3 && data->map[row][col] < 7)
-			prep_sprite(data, row, col);
+			fill_sprite(data, row, col);
 	}
-}
-
-void	prep_sprite(t_cub *data, int row, int col)
-{
-	data->sprites[data->sprite_counter]->col = col;
-	data->sprites[data->sprite_counter]->row = row;
-	if (data->map[row][col] == 4)
-		data->sprites[data->sprite_counter++]->tex = NULL;
-	else if (data->map[row][col] == 5)
-		data->sprites[data->sprite_counter++]->tex = &(data->tut);
-	else if (data->map[row][col] == 6)
-		data->sprites[data->sprite_counter++]->tex = &(data->chest);
 }
