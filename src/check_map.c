@@ -68,7 +68,7 @@ void	prep_sprite(t_cub *data, int row, int col)
 	data->sprites[data->sprite_counter]->col = col;
 	data->sprites[data->sprite_counter]->row = row;
 	if (data->map[row][col] == 4)
-		data->sprites[data->sprite_counter++] = NULL;
+		data->sprites[data->sprite_counter++]->tex = NULL;
 	else if (data->map[row][col] == 5)
 		data->sprites[data->sprite_counter++]->tex = &(data->tut);
 	else if (data->map[row][col] == 6)

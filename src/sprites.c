@@ -91,6 +91,7 @@ void	draw_sprites(t_cub *data)
 {
 	double	dist;
 	t_obj	*cur_sprite;
+	int		width;
 
 	data->cur_ray->x = 0;
 	data->cur_ray->dist = 2;//instead has to be determined by raycaster
@@ -101,7 +102,11 @@ void	draw_sprites(t_cub *data)
 		{
 			dist = data->cur_ray->dist;
 			cur_sprite = data->sprites[0];//has to be identified to 
-			while (cur_sprite->tex_pos_x < cur_sprite->tex->width && data->cur_ray->x < WIDTH)//does not recalculate distance, so the whole sprite works with the full distance
+			if (cur_sprite->tex)
+				width = cur_sprite->tex->width;
+			else
+				width = data->mummy[data->cur_mummy]->width;
+			while (cur_sprite->tex_pos_x < width && data->cur_ray->x < WIDTH)//does not recalculate distance, so the whole sprite works with the full distance
 			{
 				ray_sprite(data, dist, cur_sprite);
 				data->cur_ray->x++;
