@@ -50,46 +50,49 @@ void	init_sprites(t_cub *data)
 	data->tut.size_factor = 1.0;
 }
 
-double	ray_sprite(t_cub *data, double tex_pos_x, double dist, t_data *sprite)
+void	ray_sprite(t_cub *data, double dist, t_obj *sprite)
 {
 	int		start;
 	int		end;
 	double	tex_pos_y;
 	int		height;
 	int		col;
+	t_data	*texture;
 
 	start = - (HEIGHT / dist) / 2 + HEIGHT / 2.0;
 	end = (HEIGHT / dist) / 2 + HEIGHT / 2.0;
 	height = end - start;
-	if (sprite->offset > 0)
+	if (sprite->tex == NULL)
+		texture = data->mummy[data->cur_mummy];
+	else
+		texture = sprite->tex;
+	if (texture->offset > 0)
 	{
-		start += 1.0 * height / sprite->offset;
-		end += 1.0 * height / sprite->offset;
+		start += 1.0 * height / texture->offset;
+		end += 1.0 * height / texture->offset;
 	}
 	if (start < 0)
 		start = 0;
 	if (end >= HEIGHT)
 		end = HEIGHT - 1;
 	tex_pos_y = 0;
-	while (start < end && tex_pos_y < sprite->height)
+	while (start < end && tex_pos_y < texture->height)
 	{
-		col = get_texture_color(tex_pos_x, tex_pos_y, sprite);
+		col = get_texture_color(sprite->tex_pos_x, tex_pos_y, texture);
 		if (col != 16777215)
 			ft_mlx_pixel_put(&(data->img), data->cur_ray->x, start, col);
-		tex_pos_y += sprite->size_factor * sprite->height / (HEIGHT / dist);
+		tex_pos_y += texture->size_factor * texture->height / (HEIGHT / dist);
 		start++;
 	}
-	return (1.0 * sprite->width / (WIDTH / dist));
+	sprite->tex_pos_x += (1.0 * texture->width / (WIDTH / dist) * texture->size_factor);
 }
 
 void	draw_sprites(t_cub *data)
 {
-	double	tex_pos_x;
 	double	dist;
-	t_data	*cur_sprite;
+	t_obj	*cur_sprite;
 
 	data->cur_ray->x = 0;
-	tex_pos_x = 0;
 	data->cur_ray->dist = 2;//instead has to be determined by raycaster
 	while (data->cur_ray->x < WIDTH)//ALINA: second iteration, paints sprites
 	{
@@ -97,11 +100,10 @@ void	draw_sprites(t_cub *data)
 		if (data->cur_ray->x == WIDTH / 2)//instead: identify whether it hits a sprite before any wall
 		{
 			dist = data->cur_ray->dist;
-			cur_sprite = data->mummy[data->cur_mummy];//has to be identified too
-			while (tex_pos_x < cur_sprite->width && data->cur_ray->x < WIDTH)//does not recalculate distance, so the whole sprite works with the full distance
+			cur_sprite = data->sprites[0];//has to be identified to 
+			while (cur_sprite->tex_pos_x < cur_sprite->tex->width && data->cur_ray->x < WIDTH)//does not recalculate distance, so the whole sprite works with the full distance
 			{
-				tex_pos_x += ray_sprite(data, tex_pos_x,
-						dist, cur_sprite) * cur_sprite->size_factor;
+				ray_sprite(data, dist, cur_sprite);
 				data->cur_ray->x++;
 			}
 		}
@@ -140,4 +142,16 @@ void	move_doors_sprites(t_cub *data)
 		data->doors[i]->cur_width = 0;
 		i++;
 	}
+}
+
+void	reset_tex_pos(t_cub *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->nbr_sprites)
+		data->sprites[i++]->tex_pos_x = 0.0;
+	i = 0;
+	while (i < data->nbr_doors)
+		data->doors[i++]->tex_pos_x = 0.0;
 }

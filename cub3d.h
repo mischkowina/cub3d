@@ -47,7 +47,7 @@ typedef struct s_obj
 	int		col;
 	int		row;
 	double	tex_pos_x;
-	t_data	*texture;
+	t_data	*tex;
 }				t_obj;
 
 
@@ -127,9 +127,10 @@ void	open_door(t_cub *data);
 
 int		parse_sprites(char c, int row, int col, t_cub *data);
 void	init_sprites(t_cub *data);
-double	ray_sprite(t_cub *data, double tex_pos_x, double dist, t_data *sprite);
+void	ray_sprite(t_cub *data, double dist, t_obj *sprite);
 void	draw_sprites(t_cub *data);
 void	move_doors_sprites(t_cub *data);
+void	reset_tex_pos(t_cub *data);
 
 void	background_music(void);
 void	door_sound(void);

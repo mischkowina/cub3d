@@ -111,6 +111,7 @@ void	start_game(t_cub *data)
 int	render(t_cub *data)
 {
 	move_doors_sprites(data);
+	reset_tex_pos(data);
 	prep_image(data);
 	draw_walls(data);
 	draw_sprites(data);//instead of calling draw_sprites and draw_doors in this order, determine how many objects the
