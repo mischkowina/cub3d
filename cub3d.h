@@ -100,8 +100,8 @@ typedef struct s_delta
 
 typedef struct s_ray
 {
-	double	dir_x;
-	double	dir_y;
+	// this is for a solution from the guide //
+	t_vec	dir;
 	t_vec	delta_dist;
 	int		map_x;
 	int		map_y;
@@ -109,6 +109,8 @@ typedef struct s_ray
 	int		step_x;
 	int		step_y;
 	int		ori;
+	double	full_dist;
+	// this is for my solution //
 	double	angle;
 	double	hor_grid;
 	double	ver_grid;
@@ -118,26 +120,26 @@ typedef struct s_ray
 	double	vertical_line;
 }				t_ray;
 
-// main.c //
+	// main.c //
 void	init(t_data *data);
 void	draw_grid(t_data *data);
 void	handle_player(t_data *data);
 
-// window.c //
+	// window.c //
 void	pixel_put(t_data *data, int color);
 int		key_hooks(int keycode, t_data *data);
 int		close_x(t_data *data);
 
-// drawing.c //
-// void	draw_point(t_data *data);
-// void	draw_point(int x, int y, t_data *data);
+	// drawing.c //
 void	draw_point(int x, int y, t_data *data, int color);
 void	draw_line(int x0, int y0, int x1, int y1, t_data *data, int color);
+// void	draw_point(t_data *data);
+// void	draw_point(int x, int y, t_data *data);
 // void	draw_line(double x0, double y0, double x1, double y1, t_data *data); // this is the working one
 // void	draw_line(t_data *data);
 // void	draw_line(int x0, int y0, int dx, int dy, t_data *data);
 
-// keys.c //
+	// keys.c //
 void	w_key_pressed(t_data *data);
 void	a_key_pressed(t_data *data);
 void	s_key_pressed(t_data *data);
@@ -145,19 +147,22 @@ void	d_key_pressed(t_data *data);
 void	left_key_pressed(t_data *data);
 void	right_key_pressed(t_data *data);
 
-// math.c //
+	// math.c //
 void	find_vector_values(t_vec *vec, double angle);
 void	normalize_vector(t_vec *vec);
 void	perpendicular_vector(t_vec *vec);
 
-// init.c //
+	// init.c //
 void	init_orientation(t_data *data);
 
-// ray.c //
+	// ray.c //
+//--- solution from the guide ---//
 void	cast_ray(t_data *data);
+void	calculate_step(t_ray *ray, t_data *data);
+void	do_the_dda(t_ray *ray, t_data *data);
+//--- my solution ---//
+void	cast_the_rays(t_data *data);
 void	find_nearest_grid(t_ray *ray, t_data *data);
 void	calculate_small_ray(t_ray *ray, t_data *data);
-void	do_the_dda(t_ray *ray, t_data *data);
-void	calculate_step(t_ray *ray, t_data *data);
 
 #endif

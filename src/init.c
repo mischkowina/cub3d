@@ -5,7 +5,7 @@
 void	init(t_data *data)
 {
 // here I initialize the position of the player that gets later changed with WASD
-	data->pos.x = 230.0;
+	data->pos.x = 130.0;
 	data->pos.y = 160.0;
 // initialize the direction of the player's vision: N (0, 1), S (0, -1), E (1, 0), W (-1, 0)
 	data->player_dir = 'N';

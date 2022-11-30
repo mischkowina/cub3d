@@ -1,13 +1,13 @@
 #include "../cub3d.h"
 
-int	map[MAP_WIDTH][MAP_HEIGHT] =
+int	map[MAP_HEIGHT][MAP_WIDTH] =
 {
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
 	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
 	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
 	{1, 0, 0, 1, 1, 1, 0, 0, 0, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 1, 1, 1},
+	{1, 1, 0, 0, 0, 0, 0, 1, 1, 1},
 	{1, 0, 0, 0, 1, 0, 0, 0, 0, 1},
 	{1, 0, 0, 0, 1, 1, 0, 0, 0, 1},
 	{1, 0, 0, 0, 0, 1, 0, 0, 0, 1},
@@ -46,9 +46,9 @@ void	draw_grid(t_data *data)
 		{
 			y = data->img.px_y / 72;
 			x = data->img.px_x / 72;
-			if (map[x][y] == 1)
+			if (map[y][x] == 1)
 				color = LIGHT_PINK;
-			else if (map[x][y] == 0)
+			else if (map[y][x] == 0)
 				color = BLACK;
 			if ((data->img.px_x % 72 == 0 || data->img.px_y % 72 == 0) \
 				&& data->img.px_x != 0 && data->img.px_y != 0)
@@ -81,6 +81,7 @@ void	handle_player(t_data *data)
 	draw_line(data->pos.x - 5, data->pos.y - 5, data->pos.x - 5 + (data->dir.x * 100), data->pos.y - 5 + (data->dir.y * 100), data, YELLOW);
 	draw_line(data->pos.x - 5 + (data->dir.x * 20), data->pos.y - 5 + (data->dir.y * 20), data->pos.x - 5 + (data->dir.x * 20) + (data->camera_plane.x * 20),  data->pos.y - 5 + (data->dir.y * 20) + (data->camera_plane.y * 20), data, GREEN);
 	draw_line(data->pos.x - 5 + (data->dir.x * 20), data->pos.y - 5 + (data->dir.y * 20), data->pos.x - 5 + (data->dir.x * 20) - (data->camera_plane.x * 20),  data->pos.y - 5 + (data->dir.y * 20) - (data->camera_plane.y * 20), data, GREEN);
-	cast_ray(data);
+	// cast_ray(data); // solution from the guide
+	cast_the_rays(data); // my solution
 }
 
