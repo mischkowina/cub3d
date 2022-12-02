@@ -149,7 +149,11 @@ void	door_sound(void);
 //utils.c
 int		str_is_digit(char *str);
 void	free_str_arr(char **str);
-void	free_all_shit(t_cub *data);
 void	ft_error(char *msg);
+
+//free.c
+void	free_all_shit(t_cub *data);
+void    free_wall_textures(t_cub *data);
+void    free_map(t_cub *data);
 
 #endif

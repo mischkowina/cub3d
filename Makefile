@@ -17,7 +17,8 @@ SRC =	$(SRC_DIR)main.c \
 		$(SRC_DIR)ray.c \
 		$(SRC_DIR)doors.c \
 		$(SRC_DIR)sprites.c \
-		$(SRC_DIR)sounds.c
+		$(SRC_DIR)sounds.c \
+		$(SRC_DIR)free.c
 
 # colors
 GREEN = \033[0;32m
