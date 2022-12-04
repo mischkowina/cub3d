@@ -8,10 +8,8 @@ void	draw_point(int x, int y, t_data *data, int color)
 	int	start_x;
 	int	start_y;
 	int	size;
-	// int	color;
 
 	size = 10;
-	// color = YELLOW;
 	start_x = x - size;
 	start_y = y - size;
 	data->img.px_y = start_y;
@@ -79,6 +77,33 @@ void	draw_line(int x0, int y0, int x1, int y1, t_data * data, int color) // this
 	}
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 }
+
+void	draw_floor_and_ceiling(t_data *data)
+{
+	data->img.px_y = 0;
+	while (data->img.px_y < HEIGHT / 2)
+	{
+		data->img.px_x = WIDTH / 2;
+		while (data->img.px_x < WIDTH)
+		{
+			pixel_put(data, BLUE_SKY);
+			data->img.px_x++;
+		}
+		data->img.px_y++;
+	}
+	while (data->img.px_y < HEIGHT)
+	{
+		data->img.px_x = WIDTH / 2;
+		while (data->img.px_x < WIDTH)
+		{
+			pixel_put(data, GREEN_GRASS);
+			data->img.px_x++;
+		}
+		data->img.px_y++;
+	}
+}
+
+// ********* CODE GRAVEYARD ********* //
 
 // void	draw_line(double x0, double y0, double x1, double y1, t_data *data) // this is the working one
 // {

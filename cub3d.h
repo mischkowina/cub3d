@@ -15,6 +15,7 @@
 
 # define WIDTH 			1440
 # define HEIGHT			720
+# define GRID_SIZE		72
 
 # define KEY_ESC		53
 # define KEY_LEFT		123
@@ -23,6 +24,7 @@
 # define KEY_A			0
 # define KEY_S			1
 # define KEY_D			2
+# define MOVESPEED		0.1
 
 # define MAP_WIDTH		10
 # define MAP_HEIGHT		10
@@ -41,6 +43,8 @@
 # define BLUE			0x0099FF
 # define RED			0xFF0000
 # define PURPLE			0x9900FF
+# define BLUE_SKY		0xb3fcff
+# define GREEN_GRASS	0xed2459
 
 # define PI				3.1415926535
 
@@ -76,25 +80,37 @@ typedef struct s_vec
 	double	y;
 }				t_vec;
 
+typedef struct s_vec_int
+{
+	double	x;
+	double	y;
+}				t_vec_int;
+
+typedef struct s_minimap
+{
+	t_vec_int	pos;
+}				t_minimap;
+
 typedef struct s_data
 {
-	void	*mlx;
-	void	*win;
-	t_img	img;
-	t_trgb	trgb;
-	t_vec	pos;
-	t_vec	dir;
-	t_vec	camera_plane;
-	char	player_dir;
-	float	p_angle;
-	float	pdx;
-	float	pdy;
+	t_minimap	map;
+	void		*mlx;
+	void		*win;
+	t_img		img;
+	t_trgb		trgb;
+	t_vec		pos;
+	t_vec		dir;
+	t_vec		camera_plane;
+	char		player_dir;
+	float		p_angle;
+	float		pdx;
+	float		pdy;
 }				t_data;
 
 typedef struct s_delta
 {
-	double	dx;
-	double	dy;
+	int	dx;
+	int	dy;
 	double	small_ray;
 }				t_delta;
 
@@ -112,8 +128,10 @@ typedef struct s_ray
 	double	full_dist;
 	// this is for my solution //
 	double	angle;
-	double	hor_grid;
-	double	ver_grid;
+	double	pi_3_2;
+	double	pi_2;
+	int		hor_grid;
+	int		ver_grid;
 	t_delta	hor;
 	t_delta	ver;
 	double	horizontal_line;
@@ -121,45 +139,45 @@ typedef struct s_ray
 }				t_ray;
 
 	// main.c //
-void	init(t_data *data);
 void	draw_grid(t_data *data);
-void	handle_player(t_data *data);
+void	draw_minimap(t_data *data);
+
+	// drawing.c //
+void	draw_point(int x, int y, t_data *data, int color);
+void	draw_line(int x0, int y0, int x1, int y1, t_data *data, int color);
+void	draw_floor_and_ceiling(t_data *data);
+
+	// init.c //
+void	init(t_data *data);
+void	init_minimap(t_data *data);
+void	init_orientation(t_data *data);
 
 	// window.c //
 void	pixel_put(t_data *data, int color);
 int		key_hooks(int keycode, t_data *data);
 int		close_x(t_data *data);
 
-	// drawing.c //
-void	draw_point(int x, int y, t_data *data, int color);
-void	draw_line(int x0, int y0, int x1, int y1, t_data *data, int color);
-// void	draw_point(t_data *data);
-// void	draw_point(int x, int y, t_data *data);
-// void	draw_line(double x0, double y0, double x1, double y1, t_data *data); // this is the working one
-// void	draw_line(t_data *data);
-// void	draw_line(int x0, int y0, int dx, int dy, t_data *data);
 
 	// keys.c //
 void	w_key_pressed(t_data *data);
-void	a_key_pressed(t_data *data);
 void	s_key_pressed(t_data *data);
+void	a_key_pressed(t_data *data);
 void	d_key_pressed(t_data *data);
-void	left_key_pressed(t_data *data);
 void	right_key_pressed(t_data *data);
+void	left_key_pressed(t_data *data);
 
 	// math.c //
 void	find_vector_values(t_vec *vec, double angle);
 void	normalize_vector(t_vec *vec);
 void	perpendicular_vector(t_vec *vec);
 
-	// init.c //
-void	init_orientation(t_data *data);
-
 	// ray.c //
 //--- solution from the guide ---//
-void	cast_ray(t_data *data);
-void	calculate_step(t_ray *ray, t_data *data);
-void	do_the_dda(t_ray *ray, t_data *data);
+void	cast_rays(t_data *data, t_ray *ray, int i);
+void	do_the_dda(t_ray *ray);
+void	calculate_step(t_data *data, t_ray *ray);
+void	paint_my_3d_world(t_ray *ray);
+void	raycasting(t_data *data);
 //--- my solution ---//
 void	cast_the_rays(t_data *data);
 void	find_nearest_grid(t_ray *ray, t_data *data);

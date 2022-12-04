@@ -1,22 +1,38 @@
 
 #include "../cub3d.h"
 
+#define KNRM  "\x1B[0m"
+#define KRED  "\x1B[31m"
+#define KGRN  "\x1B[32m"
+#define KYEL  "\x1B[33m"
+#define KBLU  "\x1B[34m"
+#define KMAG  "\x1B[35m"
+#define KCYN  "\x1B[36m"
+#define KWHT  "\x1B[37m"
+
 void	w_key_pressed(t_data *data)
 {
 	int	x;
 	int	y;
 
-	x = (data->pos.x + data->dir.x * 5) / 72;
-	y = (data->pos.y + data->dir.y * 5) / 72;
-	// printf(">>>>>> x: %d, y: %d, map[x][y]: %d\n", x, y, map[x][y]);
-	if (map[x][y] == 0)
+	x = data->pos.x + data->dir.x * MOVESPEED;
+	y = data->pos.y + data->dir.y * MOVESPEED;
+	printf("%s\n", KCYN);
+	printf("w_key: indexes: %d %d, map: %d\n", y, x, map[y][x]);
+	printf("%s\n", KWHT);
+	printf("w key: pos x, pos y: %f, %f\n", data->pos.x, data->pos.y);
+	if (map[y][x] == 0)
 	{
-		data->pos.x += data->dir.x * 5;
-		data->pos.y += data->dir.y * 5;
+		data->pos.x += data->dir.x * MOVESPEED;
+		data->pos.y += data->dir.y * MOVESPEED;
 	}
-	// printf("data.dir.x: %f, data.dir.y: %f\n", data->dir.x, data->dir.y);
-	// draw_line(data->pos.x, data->pos.y, data->dir.x + 10, data->dir.y + 10, data);
-	handle_player(data);
+	printf("w key: after: pos x, pos y: %f, %f\n", data->pos.x, data->pos.y);
+	data->map.pos.x = data->pos.x * GRID_SIZE;
+	data->map.pos.y = data->pos.y * GRID_SIZE;
+	printf("w key: minimap x, minimap y: %f, %f\n", data->map.pos.x, data->map.pos.y);
+	draw_minimap(data);
+	draw_floor_and_ceiling(data);
+	raycasting(data);
 }
 
 void	s_key_pressed(t_data *data)
@@ -24,15 +40,18 @@ void	s_key_pressed(t_data *data)
 	int	x;
 	int	y;
 
-	x = (data->pos.x - data->dir.x * 5) / 72;
-	y = (data->pos.y - data->dir.y * 5) / 72;
-	if (map[x][y] == 0)
+	x = data->pos.x - data->dir.x * MOVESPEED;
+	y = data->pos.y - data->dir.y * MOVESPEED;
+	if (map[y][x] == 0)
 	{
-		data->pos.x -= data->dir.x * 5;
-		data->pos.y -= data->dir.y * 5;
+		data->pos.x -= data->dir.x * MOVESPEED;
+		data->pos.y -= data->dir.y * MOVESPEED;
 	}
-	// draw_line(data->pos.x + 10, data->pos.y + 10, data->pos.x + data->dir.x + 10, data->pos.y + data->dir.y + 10, data);
-	handle_player(data);
+	data->map.pos.x = data->pos.x * GRID_SIZE;
+	data->map.pos.y = data->pos.y * GRID_SIZE;
+	draw_minimap(data);
+	draw_floor_and_ceiling(data);
+	raycasting(data);
 }
 
 void	a_key_pressed(t_data *data) //this will need camera plane vector
@@ -40,14 +59,24 @@ void	a_key_pressed(t_data *data) //this will need camera plane vector
 	int	x;
 	int	y;
 
-	x = (data->pos.x + data->camera_plane.x) / 72;
-	y = (data->pos.y + data->camera_plane.y) / 72;
-	if (map[x][y] == 0)
+	x = data->pos.x + data->camera_plane.x * MOVESPEED;
+	y = data->pos.y + data->camera_plane.y * MOVESPEED;
+	printf("%s", KMAG);
+	printf("a key: indexes: %d %d\n", y, x);
+	printf("%s", KWHT);
+	printf("a key: pos x, pos y: %f, %f\n", data->pos.x, data->pos.y);
+	if (map[y][x] == 0)
 	{
-		data->pos.x += data->camera_plane.x * 5;
-		data->pos.y += data->camera_plane.y * 5;
+		data->pos.x += data->camera_plane.x * MOVESPEED;
+		data->pos.y += data->camera_plane.y * MOVESPEED;
 	}
-	handle_player(data);
+	printf("a key: after: pos x, pos y: %f, %f\n", data->pos.x, data->pos.y);
+	data->map.pos.x = data->pos.x * GRID_SIZE;
+	data->map.pos.y = data->pos.y * GRID_SIZE;
+	printf("a key: minimap x, minimap y: %f, %f\n", data->map.pos.x, data->map.pos.y);
+	draw_minimap(data);
+	draw_floor_and_ceiling(data);
+	raycasting(data);
 }
 
 void	d_key_pressed(t_data *data) // this also - camera plane vector
@@ -55,14 +84,18 @@ void	d_key_pressed(t_data *data) // this also - camera plane vector
 	int	x;
 	int	y;
 
-	x = (data->pos.x - data->camera_plane.x) / 72;
-	y = (data->pos.y - data->camera_plane.y) / 72;
-	if (map[x][y] == 0)
+	x = data->pos.x - data->camera_plane.x * MOVESPEED;
+	y = data->pos.y - data->camera_plane.y * MOVESPEED;
+	if (map[y][x] == 0)
 	{
-		data->pos.x -= data->camera_plane.x * 5;
-		data->pos.y -= data->camera_plane.y * 5;
+		data->pos.x -= data->camera_plane.x * MOVESPEED;
+		data->pos.y -= data->camera_plane.y * MOVESPEED;
 	}
-	handle_player(data);
+	data->map.pos.x = data->pos.x * GRID_SIZE;
+	data->map.pos.y = data->pos.y * GRID_SIZE;
+	draw_minimap(data);
+	draw_floor_and_ceiling(data);
+	raycasting(data);
 }
 
 void	right_key_pressed(t_data *data) //clockwise
@@ -80,7 +113,10 @@ void	right_key_pressed(t_data *data) //clockwise
 	data->dir.y = sin(ROT_ANGLE) * temp_dir_x + cos(ROT_ANGLE) * temp_dir_y;
 	data->camera_plane.x = cos(ROT_ANGLE) * temp_plane_x - sin(ROT_ANGLE) * temp_plane_y;
 	data->camera_plane.y = sin(ROT_ANGLE) * temp_plane_x + cos(ROT_ANGLE) * temp_plane_y;
-	handle_player(data);
+	printf("dir x:%f, dir y:%f, camera plane x:%f, camera plane y:%f\n", data->dir.x, data->dir.y, data->camera_plane.x, data->camera_plane.y);
+	draw_minimap(data);
+	draw_floor_and_ceiling(data);
+	raycasting(data);
 }
 
 void	left_key_pressed(t_data *data) // counterclockwise
@@ -98,10 +134,13 @@ void	left_key_pressed(t_data *data) // counterclockwise
 	data->dir.y = - sin(ROT_ANGLE) * temp_dir_x + cos(ROT_ANGLE) * temp_dir_y;
 	data->camera_plane.x = cos(ROT_ANGLE) * temp_plane_x + sin(ROT_ANGLE) * temp_plane_y;
 	data->camera_plane.y = - sin(ROT_ANGLE) * temp_plane_x + cos(ROT_ANGLE) * temp_plane_y;
-	handle_player(data);
+	printf("dir x:%f, dir y:%f, camera plane x:%f, camera plane y:%f\n", data->dir.x, data->dir.y, data->camera_plane.x, data->camera_plane.y);
+	draw_minimap(data);
+	draw_floor_and_ceiling(data);
+	raycasting(data);
 }
 
-// OLD ROTATION // WITHOUT ROTATION MATRICES
+// OLD ROTATION // WITHOUT ROTATION MATRICES //
 
 // void	left_key_pressed(t_data *data)
 // {
