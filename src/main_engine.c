@@ -14,22 +14,22 @@
 // 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 // };
 
-int	main(int argc, char **argv)
-{
-	t_data	data;
+// int	main(int argc, char **argv)
+// {
+// 	t_data	data;
 
-	argc = 1;
-	argv[0][0] = 'a';
+// 	argc = 1;
+// 	argv[0][0] = 'a';
 
-	init(&data);
-	draw_minimap(&data);
-	draw_floor_and_ceiling(&data);
-	raycasting(&data);
-	mlx_hook(data.win, 17, 0, &close_x, &data); // exits the program when x is clicked
-	mlx_key_hook(data.win, &key_hooks, &data);
-	mlx_loop(data.mlx);
-	mlx_destroy_window(data.mlx, data.win);
-}
+// 	init(&data);
+// 	draw_minimap(&data);
+// 	draw_floor_and_ceiling(&data);
+// 	raycasting(&data);
+// 	mlx_hook(data.win, 17, 0, &close_x, &data); // exits the program when x is clicked
+// 	mlx_key_hook(data.win, &key_hooks, &data);
+// 	mlx_loop(data.mlx);
+// 	mlx_destroy_window(data.mlx, data.win);
+// }
 
 // function interprets the 2d array and draws white squares for walls and
 // black squares for floor, leaving a small gap in between to show grey grid

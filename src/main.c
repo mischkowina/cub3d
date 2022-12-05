@@ -1,16 +1,16 @@
 
 #include "../cub3d.h"
 
-// int	main(int argc, char **argv)
-// {
-// 	t_data	data;
+int	main(int argc, char **argv)
+{
+	t_data	data;
 
-// 	check_input(argc, argv);
-// 	init_data(&data);
-// 	parser(argv[1], &data);
-// 	start_game(&data);
-// 	return (0);
-// }
+	check_input(argc, argv);
+	init_data(&data);
+	parser(argv[1], &data);
+	start_game(&data);
+	return (0);
+}
 
 /**
  * Checks if there is only one argument and if it is a .cub file.
@@ -114,9 +114,10 @@ int	render(t_data *data)
 	move_doors_sprites(data);
 	reset_tex_pos(data);
 	prep_image(data);
-	draw_walls(data);//instead of calling draw walls, draw sprites and draw_doors
-	draw_sprites(data);//we will need one loop to check each ray once and draw its
-	draw_doors(data);//content layer by layer, from furthest to closest
+	raycasting(data);
+	// draw_walls(data);//instead of calling draw walls, draw sprites and draw_doors
+	// draw_sprites(data);//we will need one loop to check each ray once and draw its
+	// draw_doors(data);//content layer by layer, from furthest to closest
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 	return (0);
 }
