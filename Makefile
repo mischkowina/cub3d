@@ -7,7 +7,13 @@ MLX = libmlx.a -framework OpenGL -framework AppKit
 LIBFT_DIR = libft/
 LIBFT = libft.a
 CFLAGS = -Wall -Wextra -Werror
-SRC = $(SRC_DIR)main.c
+SRC = $(SRC_DIR)main.c \
+		$(SRC_DIR)window.c \
+		$(SRC_DIR)drawing.c \
+		$(SRC_DIR)keys.c \
+		$(SRC_DIR)math.c \
+		$(SRC_DIR)init.c \
+		$(SRC_DIR)ray.c
 
 # colors
 GREEN = \033[0;32m
@@ -18,7 +24,7 @@ BASIC = \033[0m
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 all: $(NAME) 
-	@echo "$$credit"
+# @echo "$$credit"
 
 # creates obj/ before .o files are compiled
 $(OBJ): $(OBJ_DIR)%.o: $(SRC_DIR)%.c
@@ -31,7 +37,7 @@ $(NAME): $(OBJ)
 	@echo "$(RED)Compiling mlx...$(BASIC)"
 	$(MAKE) -C mlx
 	@echo "$(RED)Compiling $(NAME)...$(BASIC)"
-	$(CC) $(CFLAGS) $^ $(LIBFT_DIR)$(LIBFT) $(MLX_DIR)$(MLX) -o $@
+	$(CC) $(CFLAGS) $^ $(LIBFT_DIR)$(LIBFT) $(MLX_DIR)$(MLX) -g -fsanitize=address -o $@
 	@echo "$(GREEN)Successfully compiled Saskia's and Alina's cub3D!$(BASIC)"
 
 clean:
