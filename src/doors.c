@@ -14,12 +14,12 @@ void	allocate_doors_sprites(t_cub *data)
 	i = 0;
 	data->doors = ft_calloc(sizeof(t_door *), data->nbr_doors);
 	if (!data->doors)
-		ft_error(NULL);
+		ft_error(NULL, data);
 	while (i < data->nbr_doors)
 	{	
 		data->doors[i] = ft_calloc(sizeof(t_door), 1);
 		if (!data->doors[i])
-			ft_error(NULL);
+			ft_error(NULL, data);
 		data->doors[i]->closed = 100;
 		data->doors[i]->opening = 0;
 		data->doors[i]->cur_width = 0;
@@ -28,12 +28,12 @@ void	allocate_doors_sprites(t_cub *data)
 	i = 0;
 	data->sprites = ft_calloc(sizeof(t_obj *), data->nbr_sprites);
 	if (!data->sprites)
-		ft_error(NULL);
+		ft_error(NULL, data);
 	while (i < data->nbr_sprites)
 	{	
 		data->sprites[i] = ft_calloc(sizeof(t_obj), 1);
 		if (!data->sprites[i])
-			ft_error(NULL);
+			ft_error(NULL, data);
 		data->sprites[i]->tex = NULL;
 		data->sprites[i++]->tex_pos_x = 0.0;
 	}

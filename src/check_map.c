@@ -23,7 +23,7 @@ void	check_map_array(t_cub *data)
 		row++;
 	}
 	if (pos != 1)
-		ft_error("Invalid input for map: no or ambiguous starting position.");
+		ft_error("Invalid input for map: unclear starting position.", data);
 }
 
 /**
@@ -40,13 +40,13 @@ void	check_tile(t_cub *data, int row, int col, int *pos)
 	if (data->map[row][col] == 0 || data->map[row][col] >= 2)
 	{
 		if (col > 0 && data->map[row][col - 1] < 0)
-			ft_error("Invalid input for map: open walls.");
+			ft_error("Invalid input for map: open walls.", data);
 		if (col < (data->width_map - 1) && data->map[row][col + 1] < 0)
-			ft_error("Invalid input for map: open walls.");
+			ft_error("Invalid input for map: open walls.", data);
 		if (row > 0 && data->map[row - 1][col] < 0)
-			ft_error("Invalid input for map: open walls.");
+			ft_error("Invalid input for map: open walls.", data);
 		if (row < (data->height_map - 1) && data->map[row + 1][col] < 0)
-			ft_error("Invalid input for map: open walls.");
+			ft_error("Invalid input for map: open walls.", data);
 		if (data->map[row][col] == 2)
 		{
 			data->player_pos_x = col;

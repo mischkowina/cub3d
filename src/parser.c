@@ -14,7 +14,7 @@ void	parser(char *file, t_cub *data)
 
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-		ft_error(NULL);
+		ft_error(NULL, data);
 	line = get_next_line(fd);
 	while (line)
 	{
@@ -31,7 +31,7 @@ void	parser(char *file, t_cub *data)
 	if (line && (!ft_strncmp(line, " ", 1) || !ft_strncmp(line, "1", 1)))
 		parse_map(data, line, fd);
 	else
-		ft_error("Invalid or missing input in .cub file.");
+		ft_error("Invalid or missing input in .cub file.", data);
 }
 
 /**
@@ -46,19 +46,19 @@ void	parser(char *file, t_cub *data)
 int	parse_info_type(t_cub *data, char *line)
 {
 	if (line && !ft_strncmp(line, "NO ", 3))
-		data->N_texture.filename = parse_texture(line);
+		data->N_texture.filename = parse_texture(line, data);
 	else if (line && !ft_strncmp(line, "EA ", 3))
-		data->E_texture.filename = parse_texture(line);
+		data->E_texture.filename = parse_texture(line, data);
 	else if (line && !ft_strncmp(line, "SO ", 3))
-		data->S_texture.filename = parse_texture(line);
+		data->S_texture.filename = parse_texture(line, data);
 	else if (line && !ft_strncmp(line, "WE ", 3))
-		data->W_texture.filename = parse_texture(line);
+		data->W_texture.filename = parse_texture(line, data);
 	else if (line && !ft_strncmp(line, "F ", 2))
-		data->col_floor = parse_color(line);
+		data->col_floor = parse_color(line, data);
 	else if (line && !ft_strncmp(line, "C ", 2))
-		data->col_ceiling = parse_color(line);
+		data->col_ceiling = parse_color(line, data);
 	else if (line && !ft_strncmp(line, "DO ", 2))
-		data->D_texture.filename = parse_texture(line);
+		data->D_texture.filename = parse_texture(line, data);
 	else
 		return (1);
 	return (0);
@@ -71,7 +71,7 @@ int	parse_info_type(t_cub *data, char *line)
  * @param line [char *] String containing texture info from the input file.
  * @return [char *] String containing the path of a texture file.
 */
-char	*parse_texture(char *line)
+char	*parse_texture(char *line, t_cub *data)
 {
 	int		i;
 	char	*str;
@@ -80,12 +80,12 @@ char	*parse_texture(char *line)
 	while (line[i] && line[i] == ' ')
 		i++;
 	if (!line[i] || line[i] == '\n')
-		ft_error("Texture input missing");
+		ft_error("Texture input missing", data);
 	str = ft_substr(line, i, (ft_strlen(line) - 1 - i));
 	if (!str)
-		ft_error("Texture: ft_substr failed.");
+		ft_error("Texture: ft_substr failed.", data);
 	if (ft_strncmp(&str[ft_strlen(str) - 4], ".xpm", 5))
-		ft_error("Textures have to be .xpm files.");
+		ft_error("Textures have to be .xpm files.", data);
 	return (str);
 }
 
@@ -97,7 +97,7 @@ char	*parse_texture(char *line)
  * @param [char *] String containing color information from the input file.
  * @return [int] Integer value representing the color.
 */
-int	parse_color(char *line)
+int	parse_color(char *line, t_cub *data)
 {
 	int		i;
 	char	**split;
@@ -107,18 +107,18 @@ int	parse_color(char *line)
 	while (line[i] && line[i] == ' ')
 		i++;
 	if (!line[i] || line[i] == '\n')
-		ft_error("Color input missing.");
+		ft_error("Color input missing.", data);
 	tmp = ft_substr(line, i, (ft_strlen(line) - 1 - i));
 	split = ft_split(tmp, ',');
 	free(tmp);
 	if (!split || !split[0])
-		ft_error("Invalid input for floor / ceiling color.");
+		ft_error("Invalid input for floor / ceiling color.", data);
 	i = 0;
 	while (split[i])
 		i++;
 	if (i != 3)
-		ft_error("Invalid input for floor / ceiling color.");
-	return (determine_color_value(split));
+		ft_error("Invalid input for floor / ceiling color.", data);
+	return (determine_color_value(split, data));
 }
 
 /**
@@ -127,7 +127,7 @@ int	parse_color(char *line)
  * @param split [char **] String array containing the three color values.
  * @return [int] Integer value representing the color.
 */
-int	determine_color_value(char **split)
+int	determine_color_value(char **split, t_cub *data)
 {
 	int	c[3];
 	int	i;
@@ -136,7 +136,7 @@ int	determine_color_value(char **split)
 	while (split[i])
 	{
 		if (!str_is_digit(split[i]))
-			ft_error("Invalid input for floor / ceiling color.");
+			ft_error("Invalid input for floor / ceiling color.", data);
 		c[i] = ft_atoi(split[i]);
 		i++;
 	}
@@ -144,7 +144,7 @@ int	determine_color_value(char **split)
 	while (i < 3)
 	{
 		if (c[i] < 0 || c[i] > 255)
-			ft_error("Invalid input for floor / ceiling color.");
+			ft_error("Invalid input for floor / ceiling color.", data);
 		i++;
 	}
 	return (0 << 24 | c[0] << 16 | c[1] << 8 | c[2]);

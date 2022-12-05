@@ -40,12 +40,15 @@ void	free_str_arr(char **str)
  * perror.
  * @param msg [char *] Customized error message to be displayed.
 */
-void	ft_error(char *msg)
+void	ft_error(char *msg, t_cub *data)
 {
 	if (msg)
 		printf("Error\n%s\n", msg);
 	else
 		perror("Error");
-	//OPEN: anything to be done before exit (mlx_destroy window, ...)?
+	if (data)
+		data = NULL;
+	// if (data)
+	// 	free_all_shit(data);
 	exit(0);//OPEN: any reason for another exit code?
 }

@@ -23,12 +23,12 @@ int	check_input(int argc, char **argv)
 	if (argc != 2)
 	{
 		if (argc < 2)
-			ft_error(".cub file as argument required.");
+			ft_error(".cub file as argument required.", NULL);
 		else
-			ft_error("Only one argument allowed.");
+			ft_error("Only one argument allowed.", NULL);
 	}
 	if (ft_strncmp((argv[1] + ft_strlen(argv[1]) - 4), ".cub", 5))
-		ft_error(".cub file as argument required.");
+		ft_error(".cub file as argument required.", NULL);
 	return (0);
 }
 
@@ -65,7 +65,7 @@ void	init_data(t_cub *data)
 	data->cur_mummy = 0;
 	data->cur_ray = ft_calloc(sizeof(t_ray), 1);
 	if (!data->cur_ray)
-		ft_error("Allocation of ray struct failed.");
+		ft_error("Allocation of ray struct failed.", data);
 	data->cur_ray->dist = 0.0;
 	data->cur_ray->x = 0;
 	data->cur_ray->nbr_objects = 0;
@@ -82,12 +82,12 @@ void	start_game(t_cub *data)
 {
 	data->mlx_ptr = mlx_init();
 	if (!data->mlx_ptr)
-		ft_error("MLX failed.");
+		ft_error("MLX failed.", data);
 	data->win_ptr = mlx_new_window(data->mlx_ptr, WIDTH, HEIGHT, "cub3D");
 	if (!data->win_ptr)
 	{
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-		ft_error("MLX failed.");
+		ft_error("MLX failed.", data);
 	}
 	open_all_textures(data);
 	background_music();
