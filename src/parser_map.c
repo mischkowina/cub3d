@@ -24,13 +24,13 @@ void	parse_map(t_cub *data, char *line, int fd)
 		free(line);
 		line = get_next_line(fd);
 	}
-	while (line && !ft_strncmp(line, "\n", ft_strlen(line)))//OPEN: Do we accept empty newlines at the end of the .cub file?
+	while (line && !ft_strncmp(line, "\n", ft_strlen(line)))
 	{
 		free(line);
 		line = get_next_line(fd);
 	}
 	if (line || !ft_strncmp(map_str, "", 1))
-		ft_error("Invalid input for map.");
+		ft_error("Invalid input for map.", data);
 	close(fd);
 	fill_map_array(data, map_str);
 	check_map_array(data);
@@ -45,9 +45,9 @@ void	check_prev_input(t_cub *data)
 {
 	if (!data->N_texture.filename || !data->E_texture.filename
 		|| !data->S_texture.filename || !data->W_texture.filename)
-		ft_error("Incomplete input for textures.");
+		ft_error("Incomplete input for textures.", data);
 	else if (data->col_ceiling == -1 || data->col_floor == -1)
-		ft_error("Incomplete input for colors.");
+		ft_error("Incomplete input for colors.", data);
 }
 
 /**
@@ -75,7 +75,7 @@ void	fill_map_array(t_cub *data, char *map_str)
 		while (map_rows[row][col])
 		{
 			if (copy_map_tile(map_rows[row][col], row, col, data))
-				ft_error("Invalid input for map.");
+				ft_error("Invalid input for map.", data);
 			col++;
 		}
 		while (col < data->width_map)
@@ -111,12 +111,12 @@ void	allocate_map_array(t_cub *data, char **map_rows)
 	data->width_map = (int) max_width;
 	data->map = ft_calloc(sizeof(int *), row);
 	if (!data->map || row == 0 || max_width == 0)
-		ft_error("Allocation of map failed.");
+		ft_error("Allocation of map failed.", data);
 	while (i < row)
 	{
 		data->map[i] = ft_calloc(sizeof(int), data->width_map);
 		if (!data->map[i++])
-			ft_error("Allocation of map failed.");
+			ft_error("Allocation of map failed.", data);
 	}
 }
 
@@ -154,7 +154,7 @@ int	copy_map_tile(char c, int row, int col, t_cub *data)
 	else if (c == 'D')
 	{
 		if (!data->D_texture.filename)
-			ft_error("No texture input for doors.");
+			ft_error("No texture input for doors.", data);
 		else
 		{
 			data->map[row][col] = 3;

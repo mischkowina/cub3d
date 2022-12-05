@@ -226,9 +226,9 @@ int		handle_keypress(int key, t_cub *data);//TEST FUNCTION, TO BE INTEGRATED
 //parser.c
 void	parser(char *file, t_cub *data);
 int		parse_info_type(t_cub *data, char *line);
-char	*parse_texture(char *line);
-int		parse_color(char *line);
-int		determine_color_value(char **split);
+char	*parse_texture(char *line, t_cub *data);
+int		parse_color(char *line, t_cub *data);
+int		determine_color_value(char **split, t_cub *data);
 
 //parser_map.c
 void	parse_map(t_cub *data, char *line, int fd);
@@ -276,7 +276,13 @@ void	door_sound(void);
 //utils.c
 int		str_is_digit(char *str);
 void	free_str_arr(char **str);
+void	ft_error(char *msg, t_cub *data);
+
+//free.c
 void	free_all_shit(t_cub *data);
-void	ft_error(char *msg);
+void	free_all_textures(t_cub *data);
+void	free_map(t_cub *data);
+void	free_t_data(t_data *data, void *mlx_ptr);
+void	free_doors_sprites(t_cub *data);
 
 #endif

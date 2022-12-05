@@ -12,7 +12,7 @@ void	open_texture(t_cub *data, t_data *texture)
 	texture->img = mlx_xpm_file_to_image(data->mlx_ptr, texture->filename,
 			&(texture->width), &(texture->height));
 	if (!texture->img)
-		ft_error("Failed reading .xpm file.");
+		ft_error("Failed reading .xpm file.", data);
 	texture->addr = mlx_get_data_addr(texture->img, &(texture->bpp),
 			&(texture->line_length), &(texture->endian));
 }

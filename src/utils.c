@@ -34,35 +34,21 @@ void	free_str_arr(char **str)
 	free(str);
 }
 
-void	free_all_shit(t_cub *data)
-{
-	free(data->N_texture.filename);
-	free(data->N_texture.addr);
-	mlx_destroy_image(data->mlx_ptr, data->N_texture.img);
-	free(data->E_texture.filename);
-	free(data->E_texture.addr);
-	mlx_destroy_image(data->mlx_ptr, data->E_texture.img);
-	free(data->S_texture.filename);
-	free(data->S_texture.addr);
-	mlx_destroy_image(data->mlx_ptr, data->S_texture.img);
-	free(data->W_texture.filename);
-	free(data->W_texture.addr);
-	mlx_destroy_image(data->mlx_ptr, data->W_texture.img);
-	//TBC
-}
-
 /**
  * Function to write "Error\n" to STDERR followed by a more detailed error
  * message. Message is either handed over as parameter or retrieved by calling
  * perror.
  * @param msg [char *] Customized error message to be displayed.
 */
-void	ft_error(char *msg)
+void	ft_error(char *msg, t_cub *data)
 {
 	if (msg)
 		printf("Error\n%s\n", msg);
 	else
 		perror("Error");
-	//OPEN: anything to be done before exit (mlx_destroy window, ...)?
+	if (data)
+		data = NULL;
+	// if (data)
+	// 	free_all_shit(data);
 	exit(0);//OPEN: any reason for another exit code?
 }
