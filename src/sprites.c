@@ -1,6 +1,6 @@
 #include "../cub3d.h"
 
-int	parse_sprites(char c, int row, int col, t_cub *data)
+int	parse_sprites(char c, int row, int col, t_data *data)
 {
 	if (c == 'M')
 		data->map[row][col] = 4;
@@ -14,7 +14,7 @@ int	parse_sprites(char c, int row, int col, t_cub *data)
 	return (0);
 }
 
-void	fill_sprite(t_cub *data, int row, int col)
+void	fill_sprite(t_data *data, int row, int col)
 {
 	data->sprites[data->sprite_counter]->col = col;
 	data->sprites[data->sprite_counter]->row = row;
@@ -26,7 +26,7 @@ void	fill_sprite(t_cub *data, int row, int col)
 		data->sprites[data->sprite_counter++]->tex = &(data->chest);
 }
 
-void	init_sprites(t_cub *data)
+void	init_sprites(t_data *data)
 {
 	int		i;
 

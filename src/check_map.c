@@ -6,7 +6,7 @@
  * starting position.
  * @param data [t_cub *] Pointer to struct storing all the input data.
 */
-void	check_map_array(t_cub *data)
+void	check_map_array(t_data *data)
 {
 	int	row;
 	int	col;
@@ -35,7 +35,7 @@ void	check_map_array(t_cub *data)
  * @param col [int] Column position of the respective map tile.
  * @param pos [int *] Pointer to the int storing the number of player positions.
 */
-void	check_tile(t_cub *data, int row, int col, int *pos)
+void	check_tile(t_data *data, int row, int col, int *pos)
 {
 	if (data->map[row][col] == 0 || data->map[row][col] >= 2)
 	{
@@ -49,8 +49,8 @@ void	check_tile(t_cub *data, int row, int col, int *pos)
 			ft_error("Invalid input for map: open walls.", data);
 		if (data->map[row][col] == 2)
 		{
-			data->player_pos_x = col;
-			data->player_pos_y = row;
+			data->pos.x = col;
+			data->pos.y = row;
 			(*pos)++;
 		}
 		if (data->map[row][col] == 3)

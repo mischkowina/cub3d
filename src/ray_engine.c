@@ -24,7 +24,7 @@ void	cast_rays(t_data *data, t_ray *ray, int i)
 	calculate_step(data, ray);
 }
 
-void	do_the_dda(t_ray *ray)
+void	do_the_dda(t_data *data, t_ray *ray)
 {
 	int	hit;
 
@@ -43,7 +43,7 @@ void	do_the_dda(t_ray *ray)
 			ray->map_y += ray->step_y;
 			ray->ori = 1;
 		}
-		if (map[ray->map_x][ray->map_y] > 0)
+		if (data->map[ray->map_x][ray->map_y] > 0)
 			hit = 1;
 	}
 }
@@ -98,7 +98,7 @@ void	raycasting(t_data *data)
 	while (i < WIDTH)
 	{
 		cast_rays(data, &ray, i);
-		do_the_dda(&ray);
+		do_the_dda(data, &ray);
 		if (ray.ori == 0)
 			ray.full_dist = ray.side_dist.x - ray.delta_dist.x;
 		else

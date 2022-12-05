@@ -7,13 +7,13 @@
  * @param texture [t_data *] Pointer to the struct containing all image data of
  * the texture.
 */
-void	open_texture(t_cub *data, t_data *texture)
+void	open_texture(t_data *data, t_img *texture)
 {
-	texture->img = mlx_xpm_file_to_image(data->mlx_ptr, texture->filename,
+	texture->img_ptr = mlx_xpm_file_to_image(data->mlx, texture->filename,
 			&(texture->width), &(texture->height));
-	if (!texture->img)
+	if (!texture->img_ptr)
 		ft_error("Failed reading .xpm file.", data);
-	texture->addr = mlx_get_data_addr(texture->img, &(texture->bpp),
+	texture->addr = mlx_get_data_addr(texture->img_ptr, &(texture->bpp),
 			&(texture->line_length), &(texture->endian));
 }
 
@@ -21,7 +21,7 @@ void	open_texture(t_cub *data, t_data *texture)
  * Function to open all textures and load all their relevant information.
  * @param data [t_cub *] Pointer to struct storing all the input data.
 */
-void	open_all_textures(t_cub *data)
+void	open_all_textures(t_data *data)
 {
 	open_texture(data, &(data->N_texture));
 	open_texture(data, &(data->E_texture));
@@ -41,7 +41,7 @@ void	open_all_textures(t_cub *data)
  * the texture.
  * @return [unsigned int] The color at the specified position of the texture.
 */
-int	get_texture_color(int x, int y, t_data *texture)
+int	get_texture_color(int x, int y, t_img *texture)
 {
 	char	*dst;
 	int		x_new;

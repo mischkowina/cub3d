@@ -1,18 +1,18 @@
 #include "../cub3d.h"
 
-int	map[MAP_HEIGHT][MAP_WIDTH] =
-{
-	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
-	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 1, 1, 1, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 1, 0, 0, 0, 0, 0, 1, 1, 1},
-	{1, 0, 0, 0, 1, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 1, 1, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 1, 0, 0, 0, 1},
-	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-};
+// int	map[MAP_HEIGHT][MAP_WIDTH] =
+// {
+// 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
+// 	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
+// 	{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
+// 	{1, 0, 0, 1, 1, 1, 0, 0, 0, 1},
+// 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+// 	{1, 1, 0, 0, 0, 0, 0, 1, 1, 1}, 
+// 	{1, 0, 0, 0, 1, 0, 0, 0, 0, 1},
+// 	{1, 0, 0, 0, 1, 1, 0, 0, 0, 1},
+// 	{1, 0, 0, 0, 0, 1, 0, 0, 0, 1},
+// 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+// };
 
 int	main(int argc, char **argv)
 {
@@ -48,9 +48,9 @@ void	draw_grid(t_data *data)
 		{
 			y = data->img.px_y / GRID_SIZE;
 			x = data->img.px_x / GRID_SIZE;
-			if (map[y][x] == 1)
+			if (data->map[y][x] == 1)
 				color = LIGHT_PINK;
-			else if (map[y][x] == 0)
+			else if (data->map[y][x] == 0)
 				color = BLACK;
 			if ((data->img.px_x % GRID_SIZE == 0 || data->img.px_y % GRID_SIZE == 0) \
 				&& data->img.px_x != 0 && data->img.px_y != 0)
@@ -76,11 +76,11 @@ void	draw_minimap(t_data *data)
 	y1 = data->pos.y + (data->dir.y * 20);
 	draw_grid(data);
 // draw player //
-	draw_point(data->map.pos.x, data->map.pos.y, data, YELLOW);
+	draw_point(data->minimap.pos.x, data->minimap.pos.y, data, YELLOW);
 // draw player direction //
-	draw_line(data->map.pos.x - 5, data->map.pos.y - 5, data->map.pos.x - 5 + (data->dir.x * 100), data->map.pos.y - 5 + (data->dir.y * 100), data, YELLOW);
+	draw_line(data->minimap.pos.x - 5, data->minimap.pos.y - 5, data->minimap.pos.x - 5 + (data->dir.x * 100), data->minimap.pos.y - 5 + (data->dir.y * 100), data, YELLOW);
 // draw camera plane vector //
-	draw_line(data->map.pos.x - 5 + (data->dir.x * 20), data->map.pos.y - 5 + (data->dir.y * 20), data->map.pos.x - 5 + (data->dir.x * 20) + (data->camera_plane.x * 20),  data->map.pos.y - 5 + (data->dir.y * 20) + (data->camera_plane.y * 20), data, GREEN);
-	draw_line(data->map.pos.x - 5 + (data->dir.x * 20), data->map.pos.y - 5 + (data->dir.y * 20), data->map.pos.x - 5 + (data->dir.x * 20) - (data->camera_plane.x * 20),  data->map.pos.y - 5 + (data->dir.y * 20) - (data->camera_plane.y * 20), data, GREEN);
+	draw_line(data->minimap.pos.x - 5 + (data->dir.x * 20), data->minimap.pos.y - 5 + (data->dir.y * 20), data->minimap.pos.x - 5 + (data->dir.x * 20) + (data->camera_plane.x * 20),  data->minimap.pos.y - 5 + (data->dir.y * 20) + (data->camera_plane.y * 20), data, GREEN);
+	draw_line(data->minimap.pos.x - 5 + (data->dir.x * 20), data->minimap.pos.y - 5 + (data->dir.y * 20), data->minimap.pos.x - 5 + (data->dir.x * 20) - (data->camera_plane.x * 20),  data->minimap.pos.y - 5 + (data->dir.y * 20) - (data->camera_plane.y * 20), data, GREEN);
 }
 

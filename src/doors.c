@@ -7,7 +7,7 @@
  * for the current image.
  * @param data [t_data *] Pointer to struct storing the input data.
 */
-void	allocate_doors_sprites(t_cub *data)
+void	allocate_doors_sprites(t_data *data)
 {
 	int	i;
 
@@ -45,7 +45,7 @@ void	allocate_doors_sprites(t_cub *data)
  * every image.
  * @param [t_cub *] Pointer to struct storing all the input data.
 */
-void	move_doors_sprites(t_cub *data)
+void	move_doors_sprites(t_data *data)
 {
 	int	i;
 
@@ -72,7 +72,7 @@ void	move_doors_sprites(t_cub *data)
 	}
 }
 
-void	reset_tex_pos(t_cub *data)
+void	reset_tex_pos(t_data *data)
 {
 	int	i;
 
@@ -90,7 +90,7 @@ void	reset_tex_pos(t_cub *data)
  * the door, depending on whether it was currently closing or opening.
  * @param [t_cub *] Pointer to struct storing all the input data.
 */
-void	open_door(t_cub *data)
+void	open_door(t_data *data)
 {
 	int	idx;
 

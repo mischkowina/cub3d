@@ -8,7 +8,7 @@
  * @param line [char *] First line of the map input.
  * @param fd [fd] File descriptor of the .cub file.
 */
-void	parse_map(t_cub *data, char *line, int fd)
+void	parse_map(t_data *data, char *line, int fd)
 {
 	char	*map_str;
 	char	*tmp;
@@ -41,7 +41,7 @@ void	parse_map(t_cub *data, char *line, int fd)
  * gets parsed.
  * @param data [t_cub *] Pointer to struct storing all the input data.
 */
-void	check_prev_input(t_cub *data)
+void	check_prev_input(t_data *data)
 {
 	if (!data->N_texture.filename || !data->E_texture.filename
 		|| !data->S_texture.filename || !data->W_texture.filename)
@@ -58,7 +58,7 @@ void	check_prev_input(t_cub *data)
  * @param data [t_cub *] Pointer to struct storing all the input data.
  * @param map_str [char *] String containing the total map data.
 */
-void	fill_map_array(t_cub *data, char *map_str)
+void	fill_map_array(t_data *data, char *map_str)
 {
 	char	**map_rows;
 	int		row;
@@ -92,7 +92,7 @@ void	fill_map_array(t_cub *data, char *map_str)
  * @param data [t_cub *] Pointer to struct storing all the input data.
  * @param map_rows [char **] String array containing the map data.
 */
-void	allocate_map_array(t_cub *data, char **map_rows)
+void	allocate_map_array(t_data *data, char **map_rows)
 {
 	int		row;
 	int		i;
@@ -138,7 +138,7 @@ void	allocate_map_array(t_cub *data, char **map_rows)
  * @param data [t_cub *] Pointer to struct storing all the input data.
  * @return [int] 0 if c is a valid input and has been processed, else 1.
 */
-int	copy_map_tile(char c, int row, int col, t_cub *data)
+int	copy_map_tile(char c, int row, int col, t_data *data)
 {
 	if (c == ' ')
 		data->map[row][col] = -1;

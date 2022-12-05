@@ -1,16 +1,16 @@
 
 #include "../cub3d.h"
 
-int	main(int argc, char **argv)
-{
-	t_cub	data;
+// int	main(int argc, char **argv)
+// {
+// 	t_data	data;
 
-	check_input(argc, argv);
-	init_data(&data);
-	parser(argv[1], &data);
-	start_game(&data);
-	return (0);
-}
+// 	check_input(argc, argv);
+// 	init_data(&data);
+// 	parser(argv[1], &data);
+// 	start_game(&data);
+// 	return (0);
+// }
 
 /**
  * Checks if there is only one argument and if it is a .cub file.
@@ -38,7 +38,7 @@ int	check_input(int argc, char **argv)
  * @param data [t_data *] Pointer to struct storing the input data.
  * @return [int] 0 on success, 1 on failure.
 */
-void	init_data(t_cub *data)
+void	init_data(t_data *data)
 {
 	data->counter = 0;
 	data->N_texture.filename = NULL;
@@ -52,10 +52,10 @@ void	init_data(t_cub *data)
 	data->width_map = 0;
 	data->height_map = 0;
 	data->player_dir = '0';
-	data->player_pos_x = -1;
-	data->player_pos_y = -1;
-	data->mlx_ptr = NULL;
-	data->win_ptr = NULL;
+	data->pos.x = -1;
+	data->pos.y = -1;
+	data->mlx = NULL;
+	data->win = NULL;
 	data->nbr_doors = 0;
 	data->door_counter = 0;
 	data->doors = NULL;
@@ -66,7 +66,7 @@ void	init_data(t_cub *data)
 	data->cur_ray = ft_calloc(sizeof(t_ray), 1);
 	if (!data->cur_ray)
 		ft_error("Allocation of ray struct failed.", data);
-	data->cur_ray->dist = 0.0;
+	data->cur_ray->full_dist = 0.0;
 	data->cur_ray->x = 0;
 	data->cur_ray->nbr_objects = 0;
 }
@@ -78,25 +78,25 @@ void	init_data(t_cub *data)
  * hook functions.
  * @param [t_data *] Pointer to struct storing the input data.
 */
-void	start_game(t_cub *data)
+void	start_game(t_data *data)
 {
-	data->mlx_ptr = mlx_init();
-	if (!data->mlx_ptr)
+	data->mlx = mlx_init();
+	if (!data->mlx)
 		ft_error("MLX failed.", data);
-	data->win_ptr = mlx_new_window(data->mlx_ptr, WIDTH, HEIGHT, "cub3D");
-	if (!data->win_ptr)
+	data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "cub3D");
+	if (!data->win)
 	{
-		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+		mlx_destroy_window(data->mlx, data->win);
 		ft_error("MLX failed.", data);
 	}
 	open_all_textures(data);
 	background_music();
-	data->img.img = mlx_new_image(data->mlx_ptr, WIDTH, HEIGHT);
-	data->img.addr = mlx_get_data_addr(data->img.img, &data->img.bpp,
+	data->img.img_ptr = mlx_new_image(data->mlx, WIDTH, HEIGHT);
+	data->img.addr = mlx_get_data_addr(data->img.img_ptr, &data->img.bpp,
 			&data->img.line_length, &data->img.endian);
-	mlx_hook(data->win_ptr, KeyPress, KeyPressMask, handle_keypress, data);
-	mlx_loop_hook(data->mlx_ptr, render, data);
-	mlx_loop(data->mlx_ptr);
+	mlx_hook(data->win, 2, (1L<<0), handle_keypress, data);
+	mlx_loop_hook(data->mlx, render, data);
+	mlx_loop(data->mlx);
 }
 
 /**
@@ -109,7 +109,7 @@ void	start_game(t_cub *data)
  * @param data [t_cub *] Pointer to struct storing the input data.
  * @return [int] 0 on success, 1 on failure.
 */
-int	render(t_cub *data)
+int	render(t_data *data)
 {
 	move_doors_sprites(data);
 	reset_tex_pos(data);
@@ -117,13 +117,13 @@ int	render(t_cub *data)
 	draw_walls(data);//instead of calling draw walls, draw sprites and draw_doors
 	draw_sprites(data);//we will need one loop to check each ray once and draw its
 	draw_doors(data);//content layer by layer, from furthest to closest
-	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
+	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 	return (0);
 }
 
 //test function to render a door opening animation after pressing space
 //to be integrated into Alina's function to handle keys
-int	handle_keypress(int key, t_cub *data)
+int	handle_keypress(int key, t_data *data)
 {
 	if (key == KEY_SPACE)
 		open_door(data);

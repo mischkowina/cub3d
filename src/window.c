@@ -8,7 +8,7 @@ void	pixel_put(t_data *data, int color)
 	char	*dst;
 
 	dst = data->img.addr + (data->img.px_y * data->img.line_length + \
-	data->img.px_x * (data->img.bits_per_pixel / 8));
+	data->img.px_x * (data->img.bpp / 8));
 	*(unsigned int*)dst = color;
 }
 

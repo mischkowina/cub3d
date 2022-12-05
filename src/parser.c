@@ -7,7 +7,7 @@
  * @param file [char *] String identifying the input file.
  * @param data [t_cub *] Pointer to struct storing the input data.
 */
-void	parser(char *file, t_cub *data)
+void	parser(char *file, t_data *data)
 {
 	int		fd;
 	char	*line;
@@ -43,7 +43,7 @@ void	parser(char *file, t_cub *data)
  * @param line [char *] String containing a line from the input file.
  * @return [int] 0 if line contained a valid identifier, else 1.
 */
-int	parse_info_type(t_cub *data, char *line)
+int	parse_info_type(t_data *data, char *line)
 {
 	if (line && !ft_strncmp(line, "NO ", 3))
 		data->N_texture.filename = parse_texture(line, data);
@@ -71,7 +71,7 @@ int	parse_info_type(t_cub *data, char *line)
  * @param line [char *] String containing texture info from the input file.
  * @return [char *] String containing the path of a texture file.
 */
-char	*parse_texture(char *line, t_cub *data)
+char	*parse_texture(char *line, t_data *data)
 {
 	int		i;
 	char	*str;
@@ -97,7 +97,7 @@ char	*parse_texture(char *line, t_cub *data)
  * @param [char *] String containing color information from the input file.
  * @return [int] Integer value representing the color.
 */
-int	parse_color(char *line, t_cub *data)
+int	parse_color(char *line, t_data *data)
 {
 	int		i;
 	char	**split;
@@ -127,7 +127,7 @@ int	parse_color(char *line, t_cub *data)
  * @param split [char **] String array containing the three color values.
  * @return [int] Integer value representing the color.
 */
-int	determine_color_value(char **split, t_cub *data)
+int	determine_color_value(char **split, t_data *data)
 {
 	int	c[3];
 	int	i;

@@ -49,8 +49,6 @@
 # define FOV			M_PI / 180 * FOV_D
 # define ROT_ANGLE		M_PI / 36.0
 
-int	map[MAP_WIDTH][MAP_HEIGHT];
-
 typedef struct s_trgb
 {
 	int	t;
@@ -63,7 +61,7 @@ typedef struct s_img
 {
 	void	*img_ptr;//Saskia: rename in my code
 	char	*addr;
-	int		bits_per_pixel;//Saskia: rename in my code
+	int		bpp;//Saskia: rename in my code
 	int		line_length;
 	int		endian;
 	int		color;
@@ -73,19 +71,19 @@ typedef struct s_img
 	int		width;
 	int		height;
 	double	offset;
-	double	size_factor
+	double	size_factor;
 }				t_img;//Saskia: rename in my code
 
 typedef struct s_vec
 {
-	double	x;
-	double	y;
+	double		x;
+	double		y;
 }				t_vec;
 
 typedef struct s_vec_int
 {
-	int		x;
-	int		y;
+	int			x;
+	int			y;
 }				t_vec_int;
 
 typedef struct s_minimap
@@ -94,41 +92,41 @@ typedef struct s_minimap
 }				t_minimap;
 
 typedef struct s_door {
-	int		col;
-	int		row;
-	int		opening;
-	int		closed;
-	int		cur_width;
-	double	tex_pos_x;
+	int			col;
+	int			row;
+	int			opening;
+	int			closed;
+	int			cur_width;
+	double		tex_pos_x;
 }				t_door;
 
 typedef struct s_obj
 {
-	int		col;
-	int		row;
-	double	tex_pos_x;
-	t_data	*tex;
+	int			col;
+	int			row;
+	double		tex_pos_x;
+	t_img		*tex;
 }				t_obj;
 
 typedef struct s_ray
 {
 	// this is for a solution from the guide //
-	t_vec	dir;
-	t_vec	delta_dist;
-	int		map_x;
-	int		map_y;
-	t_vec	side_dist;
-	int		step_x;
-	int		step_y;
-	int		ori;
-	double	full_dist;//Saskia: rename in my code
-	int		x;//Alina: x-value of the screen width, check if you want to use
-	int		nbr_objects;//Alina: count number of object the ray passes
+	t_vec		dir;
+	t_vec		delta_dist;
+	int			map_x;
+	int			map_y;
+	t_vec		side_dist;
+	int			step_x;
+	int			step_y;
+	int			ori;
+	double		full_dist;//Saskia: rename in my code
+	int			x;//Alina: x-value of the screen width, check if you want to use
+	int			nbr_objects;//Alina: count number of object the ray passes
 }				t_ray;
 
 typedef struct s_data
 {
-	t_minimap	map;
+	t_minimap	minimap;//Alina: renamed to minimap since there is a map variable
 	void		*mlx;//Saskia: rename in my code
 	void		*win;//Saskia: rename in my code
 	t_img		img;//Saskia: rename in my code
@@ -142,11 +140,11 @@ typedef struct s_data
 	float		pdy;
 	t_ray		*cur_ray;
 	int			counter;
-	t_data		N_texture;
-	t_data		E_texture;
-	t_data		S_texture;
-	t_data		W_texture;
-	t_data		D_texture;
+	t_img		N_texture;//Saskia: change type in my code
+	t_img		E_texture;//Saskia: change type in my code
+	t_img		S_texture;//Saskia: change type in my code
+	t_img		W_texture;//Saskia: change type in my code
+	t_img		D_texture;//Saskia: change type in my code
 	int			col_ceiling;
 	int			col_floor;
 	int			**map;
@@ -158,17 +156,17 @@ typedef struct s_data
 	int			nbr_sprites;
 	int			sprite_counter;
 	t_obj		**sprites;
-	t_data		**mummy;
+	t_img		**mummy;//Saskia: change type in my code
 	int			cur_mummy;
-	t_data		chest;
-	t_data		tut;
+	t_img		chest;//Saskia: change type in my code
+	t_img		tut;//Saskia: change type in my code
 }				t_data;//Saskia: change type in my code
 
 typedef struct s_delta
 {
-	int	dx;
-	int	dy;
-	double	small_ray;
+	int			dx;
+	int			dy;
+	double		small_ray;
 }				t_delta;
 
 	// main.c //
@@ -207,7 +205,7 @@ void	perpendicular_vector(t_vec *vec);
 	// ray.c //
 //--- solution from the guide ---//
 void	cast_rays(t_data *data, t_ray *ray, int i);
-void	do_the_dda(t_ray *ray);
+void	do_the_dda(t_data *data, t_ray *ray);
 void	calculate_step(t_data *data, t_ray *ray);
 void	paint_my_3d_world(t_ray *ray);
 void	raycasting(t_data *data);
@@ -218,56 +216,56 @@ void	calculate_small_ray(t_ray *ray, t_data *data);
 
 //main.c
 int		check_input(int argc, char **argv);
-void	init_data(t_cub *data);
-void	start_game(t_cub *data);
-int		render(t_cub *data);
-int		handle_keypress(int key, t_cub *data);//TEST FUNCTION, TO BE INTEGRATED
+void	init_data(t_data *data);
+void	start_game(t_data *data);
+int		render(t_data *data);
+int		handle_keypress(int key, t_data *data);//TEST FUNCTION, TO BE INTEGRATED
 
 //parser.c
-void	parser(char *file, t_cub *data);
-int		parse_info_type(t_cub *data, char *line);
-char	*parse_texture(char *line, t_cub *data);
-int		parse_color(char *line, t_cub *data);
-int		determine_color_value(char **split, t_cub *data);
+void	parser(char *file, t_data *data);
+int		parse_info_type(t_data *data, char *line);
+char	*parse_texture(char *line, t_data *data);
+int		parse_color(char *line, t_data *data);
+int		determine_color_value(char **split, t_data *data);
 
 //parser_map.c
-void	parse_map(t_cub *data, char *line, int fd);
-void	check_prev_input(t_cub *data);
-void	fill_map_array(t_cub *data, char *map_str);
-void	allocate_map_array(t_cub *data, char **map_rows);
-int		copy_map_tile(char c, int row, int col, t_cub *data);
+void	parse_map(t_data *data, char *line, int fd);
+void	check_prev_input(t_data *data);
+void	fill_map_array(t_data *data, char *map_str);
+void	allocate_map_array(t_data *data, char **map_rows);
+int		copy_map_tile(char c, int row, int col, t_data *data);
 
 //check_map.c
-void	check_map_array(t_cub *data);
-void	check_tile(t_cub *data, int row, int col, int *pos);
+void	check_map_array(t_data *data);
+void	check_tile(t_data *data, int row, int col, int *pos);
 
 //images.c
-void	ft_mlx_pixel_put(t_data *img, int x, int y, int color);
-void	prep_image(t_cub *data);
+void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
+void	prep_image(t_data *data);
 
 //ray.c
-void	ray_wall(t_cub *data, t_data *texture);
-void	draw_walls(t_cub *data);
-void	ray_door(t_cub *data, t_door *door);
-void	draw_doors(t_cub *data);
-void	ray_sprite(t_cub *data, double dist, t_obj *sprite);
-void	draw_sprites(t_cub *data);
+void	ray_wall(t_data *data, t_img *texture);
+void	draw_walls(t_data *data);
+void	ray_door(t_data *data, t_door *door);
+void	draw_doors(t_data *data);
+void	ray_sprite(t_data *data, double dist, t_obj *sprite);
+void	draw_sprites(t_data *data);
 
 //textures.c
-void	open_texture(t_cub *data, t_data *texture);
-void	open_all_textures(t_cub *data);
-int		get_texture_color(int x, int y, t_data *texture);
+void	open_texture(t_data *data, t_img *texture);
+void	open_all_textures(t_data *data);
+int		get_texture_color(int x, int y, t_img *texture);
 
 //doors.c
-void	allocate_doors_sprites(t_cub *data);
-void	move_doors_sprites(t_cub *data);
-void	reset_tex_pos(t_cub *data);
-void	open_door(t_cub *data);
+void	allocate_doors_sprites(t_data *data);
+void	move_doors_sprites(t_data *data);
+void	reset_tex_pos(t_data *data);
+void	open_door(t_data *data);
 
 //sprites.c
-int		parse_sprites(char c, int row, int col, t_cub *data);
-void	init_sprites(t_cub *data);
-void	fill_sprite(t_cub *data, int row, int col);
+int		parse_sprites(char c, int row, int col, t_data *data);
+void	init_sprites(t_data *data);
+void	fill_sprite(t_data *data, int row, int col);
 
 //sounds.c
 void	background_music(void);
@@ -276,13 +274,13 @@ void	door_sound(void);
 //utils.c
 int		str_is_digit(char *str);
 void	free_str_arr(char **str);
-void	ft_error(char *msg, t_cub *data);
+void	ft_error(char *msg, t_data *data);
 
 //free.c
-void	free_all_shit(t_cub *data);
-void	free_all_textures(t_cub *data);
-void	free_map(t_cub *data);
-void	free_t_data(t_data *data, void *mlx_ptr);
-void	free_doors_sprites(t_cub *data);
+void	free_all_shit(t_data *data);
+void	free_all_textures(t_data *data);
+void	free_map(t_data *data);
+void	free_t_img(t_img *img, void *mlx_ptr);
+void	free_doors_sprites(t_data *data);
 
 #endif

@@ -17,22 +17,21 @@ void	init(t_data *data)
 	// data->p_angle = PI / 2;
 	// data->pdx = cos(data->p_angle) * 5;
 	// data->pdy = sin(data->p_angle) * 5;
-
+	
 	data->mlx = mlx_init();
 	if (data->mlx == NULL)
 		return ;
 	data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "cub3D");
 	data->img.img_ptr = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 	data->img.addr = mlx_get_data_addr(data->img.img_ptr, \
-	&data->img.bits_per_pixel, &data->img.line_length, &data->img.endian);
+	&data->img.bpp, &data->img.line_length, &data->img.endian);
 	draw_grid(data);
 }
 
 void	init_minimap(t_data *data)
 {
-	data->map.pos.x = data->pos.x * GRID_SIZE;
-	data->map.pos.y = data->pos.y * GRID_SIZE;
-	printf("minimap x, minimap y: %f, %f\n", data->map.pos.x, data->map.pos.y);
+	data->minimap.pos.x = data->pos.x * GRID_SIZE;
+	data->minimap.pos.y = data->pos.y * GRID_SIZE;
 }
 
 void	init_orientation(t_data *data)

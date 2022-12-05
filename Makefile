@@ -8,6 +8,7 @@ LIBFT_DIR = libft/
 LIBFT = libft.a
 CFLAGS = -Wall -Wextra -Werror
 SRC =	$(SRC_DIR)main.c \
+		$(SRC_DIR)main_engine.c \
 		$(SRC_DIR)parser.c \
 		$(SRC_DIR)parser_map.c \
 		$(SRC_DIR)check_map.c \
@@ -18,8 +19,7 @@ SRC =	$(SRC_DIR)main.c \
 		$(SRC_DIR)doors.c \
 		$(SRC_DIR)sprites.c \
 		$(SRC_DIR)sounds.c \
-		$(SRC_DIR)free.c
-		$(SRC_DIR)sounds.c
+		$(SRC_DIR)free.c \
 		$(SRC_DIR)window.c \
 		$(SRC_DIR)drawing.c \
 		$(SRC_DIR)keys.c \
