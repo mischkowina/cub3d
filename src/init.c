@@ -65,7 +65,7 @@ void	init_orientation(t_data *data)
 	{
 		data->dir.x = 0;
 		data->dir.y = 1;
-		data->camera_plane.x = 0;
-		data->camera_plane.y = 0.66;
+		data->camera_plane.x = 0.66;
+		data->camera_plane.y = 0;
 	}
 }
