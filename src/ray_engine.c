@@ -8,7 +8,7 @@ void	cast_rays(t_data *data, t_ray *ray, int i)
 	double	view;
 
 	view = 2 * i / (double) WIDTH - 1;
-	ray->dir.x = ray->dir.x + data->camera_plane.x * view;
+	ray->dir.x = data->dir.x + data->camera_plane.x * view;
 	ray->dir.y = data->dir.y + data->camera_plane.y * view;
 	ray->map_x = (int) data->pos.x;
 	ray->map_y = (int) data->pos.y;
@@ -72,21 +72,26 @@ void	calculate_step(t_data *data, t_ray *ray)
 	}
 }
 
-void	paint_my_3d_world(t_ray *ray)
+void	paint_my_3d_world(t_data *data, t_ray *ray, int x)
 {
 	int	line_height;
 	int	draw_start;
 	int	draw_end;
 
 	line_height = (int) (HEIGHT / ray->full_dist);
-	// printf("---\nray full dist: %f\nline_height: %d\n", ray->full_dist, line_height);
 	draw_start = - line_height / 2 + HEIGHT / 2;
 	if (draw_start < 0)
 		draw_start = 0;
 	draw_end = line_height / 2 + HEIGHT / 2;
 	if (draw_end >= HEIGHT)
 		draw_end = HEIGHT - 1;
-	// printf("draw_start: %d, draw_end: %d\n", draw_start, draw_end);
+	data->img.px_x = x;
+	data->img.px_y = draw_start;
+	while (data->img.px_y < draw_end)
+	{
+		pixel_put(data, PINK);
+		data->img.px_y++;
+	}
 }
 
 void	raycasting(t_data *data)
@@ -104,9 +109,10 @@ void	raycasting(t_data *data)
 		else
 			ray.full_dist = ray.side_dist.y - ray.delta_dist.y;
 		// draw line //
-		paint_my_3d_world(&ray);
+		paint_my_3d_world(data, &ray, i);
 		i++;
 	}
+	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 }
 
 // this is for my solution //

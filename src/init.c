@@ -36,9 +36,6 @@ void	init_minimap(t_data *data)
 
 void	init_orientation(t_data *data)
 {
-	// double	temp;
-
-	// temp = tan(FOV / 2);
 	if (data->player_dir == 'S')
 	{
 		data->dir.x = 1;

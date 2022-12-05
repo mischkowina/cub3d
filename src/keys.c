@@ -86,7 +86,7 @@ void	d_key_pressed(t_data *data) // this also - camera plane vector
 	raycasting(data);
 }
 
-void	right_key_pressed(t_data *data) //clockwise
+void	rotate(t_data *data, double angle) //clockwise
 {
 	double	temp_dir_x;
 	double	temp_dir_y;
@@ -97,30 +97,10 @@ void	right_key_pressed(t_data *data) //clockwise
 	temp_dir_y = data->dir.y;
 	temp_plane_x = data->camera_plane.x;
 	temp_plane_y = data->camera_plane.y;
-	data->dir.x = cos(ROT_ANGLE) * temp_dir_x - sin(ROT_ANGLE) * temp_dir_y;
-	data->dir.y = sin(ROT_ANGLE) * temp_dir_x + cos(ROT_ANGLE) * temp_dir_y;
-	data->camera_plane.x = cos(ROT_ANGLE) * temp_plane_x - sin(ROT_ANGLE) * temp_plane_y;
-	data->camera_plane.y = sin(ROT_ANGLE) * temp_plane_x + cos(ROT_ANGLE) * temp_plane_y;
-	draw_minimap(data);
-	draw_floor_and_ceiling(data);
-	raycasting(data);
-}
-
-void	left_key_pressed(t_data *data) // counterclockwise
-{
-	double	temp_dir_x;
-	double	temp_dir_y;
-	double	temp_plane_x;
-	double	temp_plane_y;
-
-	temp_dir_x = data->dir.x;
-	temp_dir_y = data->dir.y;
-	temp_plane_x = data->camera_plane.x;
-	temp_plane_y = data->camera_plane.y;
-	data->dir.x = cos(ROT_ANGLE) * temp_dir_x + sin(ROT_ANGLE) * temp_dir_y;
-	data->dir.y = - sin(ROT_ANGLE) * temp_dir_x + cos(ROT_ANGLE) * temp_dir_y;
-	data->camera_plane.x = cos(ROT_ANGLE) * temp_plane_x + sin(ROT_ANGLE) * temp_plane_y;
-	data->camera_plane.y = - sin(ROT_ANGLE) * temp_plane_x + cos(ROT_ANGLE) * temp_plane_y;
+	data->dir.x = cos(angle) * temp_dir_x - sin(angle) * temp_dir_y;
+	data->dir.y = sin(angle) * temp_dir_x + cos(angle) * temp_dir_y;
+	data->camera_plane.x = cos(angle) * temp_plane_x - sin(angle) * temp_plane_y;
+	data->camera_plane.y = sin(angle) * temp_plane_x + cos(angle) * temp_plane_y;
 	draw_minimap(data);
 	draw_floor_and_ceiling(data);
 	raycasting(data);

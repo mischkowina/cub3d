@@ -26,9 +26,9 @@ int	key_hooks(int keycode, t_data *data)
 	if (keycode == KEY_D)
 		d_key_pressed(data);
 	if (keycode == KEY_LEFT)
-		left_key_pressed(data);
+		rotate(data, ROT_ANGLE);
 	if (keycode == KEY_RIGHT)
-		right_key_pressed(data);
+		rotate(data, -ROT_ANGLE);
 	return (0);
 }
 

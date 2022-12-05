@@ -188,14 +188,12 @@ void	pixel_put(t_data *data, int color);
 int		key_hooks(int keycode, t_data *data);
 int		close_x(t_data *data);
 
-
 	// keys.c //
 void	w_key_pressed(t_data *data);
 void	s_key_pressed(t_data *data);
 void	a_key_pressed(t_data *data);
 void	d_key_pressed(t_data *data);
-void	right_key_pressed(t_data *data);
-void	left_key_pressed(t_data *data);
+void	rotate(t_data *data, double angle);
 
 	// math.c //
 void	find_vector_values(t_vec *vec, double angle);
@@ -207,7 +205,7 @@ void	perpendicular_vector(t_vec *vec);
 void	cast_rays(t_data *data, t_ray *ray, int i);
 void	do_the_dda(t_data *data, t_ray *ray);
 void	calculate_step(t_data *data, t_ray *ray);
-void	paint_my_3d_world(t_ray *ray);
+void	paint_my_3d_world(t_data *data, t_ray *ray, int x);
 void	raycasting(t_data *data);
 //--- my solution ---//
 void	cast_the_rays(t_data *data);
