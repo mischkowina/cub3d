@@ -43,7 +43,7 @@ void	do_the_dda(t_data *data, t_ray *ray)
 			ray->map_y += ray->step_y;
 			ray->ori = 1;
 		}
-		if (data->map[ray->map_x][ray->map_y] > 0)
+		if (data->map[ray->map_y][ray->map_x] > 0)
 			hit = 1;
 	}
 }
@@ -96,17 +96,22 @@ void	paint_my_3d_world(t_data *data, t_ray *ray, int x)
 
 void	raycasting(t_data *data)
 {
-	data->cur_ray->x = WIDTH / 2;
+	data->cur_ray->x = 0;
 	while (data->cur_ray->x < WIDTH) 
 	{
+		printf("side_dist.x: %f delta_dist.x: %f\n", data->cur_ray->side_dist.x, data->cur_ray->delta_dist.x);
+		printf("side_dist.y: %f delta_dist.y: %f\n", data->cur_ray->side_dist.y, data->cur_ray->delta_dist.y);
 		cast_rays(data, data->cur_ray, data->cur_ray->x);
 		do_the_dda(data, data->cur_ray);
+		printf("side_dist.x: %f delta_dist.x: %f\n", data->cur_ray->side_dist.x, data->cur_ray->delta_dist.x);
+		printf("side_dist.y: %f delta_dist.y: %f\n", data->cur_ray->side_dist.y, data->cur_ray->delta_dist.y);
 		if (data->cur_ray->ori == 0)
 			data->cur_ray->full_dist = \
 			data->cur_ray->side_dist.x - data->cur_ray->delta_dist.x;
 		else
 			data->cur_ray->full_dist = \
 			data->cur_ray->side_dist.y - data->cur_ray->delta_dist.y;
+		printf("x: %d dist: %f\n", data->cur_ray->x, data->cur_ray->full_dist);
 		// draw line //
 		//ALINA: we need to identify the direction of the wall!
 		ray_wall(data, &(data->D_texture));

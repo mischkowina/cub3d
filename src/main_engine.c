@@ -65,15 +65,15 @@ void	draw_grid(t_data *data)
 
 void	draw_minimap(t_data *data)
 {
-	double	x0;
-	double	y0;
-	double	x1;
-	double	y1;
+	// double	x0;
+	// double	y0;
+	// double	x1;
+	// double	y1;
 
-	x0 = data->pos.x;
-	y0 = data->pos.y;
-	x1 = data->pos.x + (data->dir.x * 20);
-	y1 = data->pos.y + (data->dir.y * 20);
+	// x0 = data->pos.x;
+	// y0 = data->pos.y;
+	// x1 = data->pos.x + (data->dir.x * 20);
+	// y1 = data->pos.y + (data->dir.y * 20);
 	draw_grid(data);
 // draw player //
 	draw_point(data->minimap.pos.x, data->minimap.pos.y, data, YELLOW);

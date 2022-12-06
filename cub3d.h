@@ -217,7 +217,6 @@ int		check_input(int argc, char **argv);
 void	init_data(t_data *data);
 void	start_game(t_data *data);
 int		render(t_data *data);
-int		handle_keypress(int key, t_data *data);//TEST FUNCTION, TO BE INTEGRATED
 
 //parser.c
 void	parser(char *file, t_data *data);

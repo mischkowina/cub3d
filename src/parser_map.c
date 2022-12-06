@@ -149,6 +149,8 @@ int	copy_map_tile(char c, int row, int col, t_data *data)
 	else if (c == 'N' || c == 'E' || c == 'S' || c == 'W')
 	{
 		data->map[row][col] = 2;
+		data->pos.x = col;
+		data->pos.y = row;
 		data->player_dir = c;
 	}
 	else if (c == 'D')

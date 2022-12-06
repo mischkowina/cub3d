@@ -29,6 +29,8 @@ int	key_hooks(int keycode, t_data *data)
 		rotate(data, ROT_ANGLE);
 	if (keycode == KEY_RIGHT)
 		rotate(data, -ROT_ANGLE);
+	if (keycode == KEY_SPACE)
+		open_door(data);
 	return (0);
 }
 
