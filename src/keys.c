@@ -24,9 +24,9 @@ void	w_key_pressed(t_data *data)
 	}
 	data->minimap.pos.x = data->pos.x * GRID_SIZE;
 	data->minimap.pos.y = data->pos.y * GRID_SIZE;
-	draw_minimap(data);
-	draw_floor_and_ceiling(data);
-	raycasting(data);
+	// draw_minimap(data);
+	// draw_floor_and_ceiling(data);
+	// raycasting(data);
 }
 
 void	s_key_pressed(t_data *data)
@@ -43,9 +43,9 @@ void	s_key_pressed(t_data *data)
 	}
 	data->minimap.pos.x = data->pos.x * GRID_SIZE;
 	data->minimap.pos.y = data->pos.y * GRID_SIZE;
-	draw_minimap(data);
-	draw_floor_and_ceiling(data);
-	raycasting(data);
+	// draw_minimap(data);
+	// draw_floor_and_ceiling(data);
+	// raycasting(data);
 }
 
 void	a_key_pressed(t_data *data) //this will need camera plane vector
@@ -62,9 +62,9 @@ void	a_key_pressed(t_data *data) //this will need camera plane vector
 	}
 	data->minimap.pos.x = data->pos.x * GRID_SIZE;
 	data->minimap.pos.y = data->pos.y * GRID_SIZE;
-	draw_minimap(data);
-	draw_floor_and_ceiling(data);
-	raycasting(data);
+	// draw_minimap(data);
+	// draw_floor_and_ceiling(data);
+	// raycasting(data);
 }
 
 void	d_key_pressed(t_data *data) // this also - camera plane vector
@@ -81,9 +81,9 @@ void	d_key_pressed(t_data *data) // this also - camera plane vector
 	}
 	data->minimap.pos.x = data->pos.x * GRID_SIZE;
 	data->minimap.pos.y = data->pos.y * GRID_SIZE;
-	draw_minimap(data);
-	draw_floor_and_ceiling(data);
-	raycasting(data);
+	// draw_minimap(data);
+	// draw_floor_and_ceiling(data);
+	// raycasting(data);
 }
 
 void	rotate(t_data *data, double angle) //clockwise
@@ -101,9 +101,9 @@ void	rotate(t_data *data, double angle) //clockwise
 	data->dir.y = sin(angle) * temp_dir_x + cos(angle) * temp_dir_y;
 	data->camera_plane.x = cos(angle) * temp_plane_x - sin(angle) * temp_plane_y;
 	data->camera_plane.y = sin(angle) * temp_plane_x + cos(angle) * temp_plane_y;
-	draw_minimap(data);
-	draw_floor_and_ceiling(data);
-	raycasting(data);
+	// draw_minimap(data);
+	// draw_floor_and_ceiling(data);
+	// raycasting(data);
 }
 
 // OLD ROTATION // WITHOUT ROTATION MATRICES //

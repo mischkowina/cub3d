@@ -7,8 +7,8 @@ int	main(int argc, char **argv)
 
 	check_input(argc, argv);
 	init_data(&data);
-	init(&data);
 	parser(argv[1], &data);
+	init(&data);
 	start_game(&data);
 	return (0);
 }
@@ -91,12 +91,12 @@ void	start_game(t_data *data)
 		ft_error("MLX failed.", data);
 	}
 	open_all_textures(data);
-	// background_music();//take out for testing at home
+	background_music();//take out for testing at home
 	data->img.img_ptr = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 	data->img.addr = mlx_get_data_addr(data->img.img_ptr, &data->img.bpp,
 			&data->img.line_length, &data->img.endian);
 	mlx_hook(data->win, 17, 0, &close_x, data);
-	mlx_key_hook(data->win, &key_hooks, data);
+	mlx_hook(data->win, 2, (1L << 0), &key_hooks, data);
 	mlx_loop_hook(data->mlx, render, data);
 	mlx_loop(data->mlx);
 }

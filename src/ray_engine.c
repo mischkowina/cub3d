@@ -99,12 +99,8 @@ void	raycasting(t_data *data)
 	data->cur_ray->x = 0;
 	while (data->cur_ray->x < WIDTH) 
 	{
-		printf("side_dist.x: %f delta_dist.x: %f\n", data->cur_ray->side_dist.x, data->cur_ray->delta_dist.x);
-		printf("side_dist.y: %f delta_dist.y: %f\n", data->cur_ray->side_dist.y, data->cur_ray->delta_dist.y);
 		cast_rays(data, data->cur_ray, data->cur_ray->x);
 		do_the_dda(data, data->cur_ray);
-		printf("side_dist.x: %f delta_dist.x: %f\n", data->cur_ray->side_dist.x, data->cur_ray->delta_dist.x);
-		printf("side_dist.y: %f delta_dist.y: %f\n", data->cur_ray->side_dist.y, data->cur_ray->delta_dist.y);
 		if (data->cur_ray->ori == 0)
 			data->cur_ray->full_dist = \
 			data->cur_ray->side_dist.x - data->cur_ray->delta_dist.x;
