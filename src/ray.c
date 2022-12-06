@@ -36,23 +36,6 @@ void	ray_wall(t_data *data, t_img *texture)
 	}
 }
 
-//will be replaced by one single big loop to iterate through all the rays,
-//adding layer by layer (first walls, then all objects furthest to closest)
-void	draw_walls(t_data *data)
-{
-	t_img	*texture;
-
-	data->cur_ray->full_dist = 2;//instead has to be determined by raycaster
-	data->cur_ray->x = 0;
-	texture = &(data->E_texture);//instead, determine which texture has to be chosen based on the direction of the wall
-	while (data->cur_ray->x < WIDTH)//ALINA: first iteration: always give distance to the next wall, but count how many objects are crossed before and if they are doors, how many rays hit them
-	{
-		//function to calculate the distance to the wall and save it in ray struct, also return how wide a door is if it hits it and save it in door struct (cur_width)
-		ray_wall(data, texture);
-		data->cur_ray->x++;
-	}
-}
-
 /**
  * Function to draw a ray containing a door instead of a wall. Identifies
  * the height of the wall using the distance of the ray, just as the

@@ -113,8 +113,8 @@ typedef struct s_ray
 	// this is for a solution from the guide //
 	t_vec		dir;
 	t_vec		delta_dist;
-	int			map_x;
-	int			map_y;
+	int			map_x;//ALINA: I need the exact position as a double
+	int			map_y;//ALINA: I need the exact position as a double
 	t_vec		side_dist;
 	int			step_x;
 	int			step_y;
@@ -242,7 +242,6 @@ void	prep_image(t_data *data);
 
 //ray.c
 void	ray_wall(t_data *data, t_img *texture);
-void	draw_walls(t_data *data);
 void	ray_door(t_data *data, t_door *door);
 void	draw_doors(t_data *data);
 void	ray_sprite(t_data *data, double dist, t_obj *sprite);

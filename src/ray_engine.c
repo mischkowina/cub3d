@@ -34,16 +34,16 @@ void	do_the_dda(t_data *data, t_ray *ray)
 		if (ray->side_dist.x < ray->side_dist.y)
 		{
 			ray->side_dist.x += ray->delta_dist.x;
-			ray->map_x += ray->step_x;
+			ray->map_x += ray->step_x * 1.0;
 			ray->ori = 0;
 		}
 		else
 		{
 			ray->side_dist.y += ray->delta_dist.y;
-			ray->map_y += ray->step_y;
+			ray->map_y += ray->step_y * 1.0;
 			ray->ori = 1;
 		}
-		if (data->map[ray->map_y][ray->map_x] > 0)
+		if (data->map[ray->map_y][ray->map_x] == 1)
 			hit = 1;
 	}
 }
@@ -113,7 +113,6 @@ void	raycasting(t_data *data)
 		texture = identify_texture(data);
 		// draw line //
 		ray_wall(data, texture);
-		// paint_my_3d_world(data, data->cur_ray, i);//ALINA
 		data->cur_ray->x++;
 	}
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);

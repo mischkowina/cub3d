@@ -17,7 +17,7 @@ void	w_key_pressed(t_data *data)
 
 	x = data->pos.x + data->dir.x * MOVESPEED;
 	y = data->pos.y + data->dir.y * MOVESPEED;
-	if (data->map[y][x] == 0)
+	if (data->map[y][x] == 0 || data->map[y][x] == 2)
 	{
 		data->pos.x += data->dir.x * MOVESPEED;
 		data->pos.y += data->dir.y * MOVESPEED;
@@ -36,7 +36,7 @@ void	s_key_pressed(t_data *data)
 
 	x = data->pos.x - data->dir.x * MOVESPEED;
 	y = data->pos.y - data->dir.y * MOVESPEED;
-	if (data->map[y][x] == 0)
+	if (data->map[y][x] == 0 || data->map[y][x] == 2)
 	{
 		data->pos.x -= data->dir.x * MOVESPEED;
 		data->pos.y -= data->dir.y * MOVESPEED;
@@ -48,14 +48,14 @@ void	s_key_pressed(t_data *data)
 	// raycasting(data);
 }
 
-void	a_key_pressed(t_data *data) //this will need camera plane vector
+void	d_key_pressed(t_data *data) //this will need camera plane vector
 {
 	int	x;
 	int	y;
 
 	x = data->pos.x + data->camera_plane.x * MOVESPEED;
 	y = data->pos.y + data->camera_plane.y * MOVESPEED;
-	if (data->map[y][x] == 0)
+	if (data->map[y][x] == 0 || data->map[y][x] == 2)
 	{
 		data->pos.x += data->camera_plane.x * MOVESPEED;
 		data->pos.y += data->camera_plane.y * MOVESPEED;
@@ -67,14 +67,14 @@ void	a_key_pressed(t_data *data) //this will need camera plane vector
 	// raycasting(data);
 }
 
-void	d_key_pressed(t_data *data) // this also - camera plane vector
+void	a_key_pressed(t_data *data) // this also - camera plane vector
 {
 	int	x;
 	int	y;
 
 	x = data->pos.x - data->camera_plane.x * MOVESPEED;
 	y = data->pos.y - data->camera_plane.y * MOVESPEED;
-	if (data->map[y][x] == 0)
+	if (data->map[y][x] == 0 || data->map[y][x] == 2)
 	{
 		data->pos.x -= data->camera_plane.x * MOVESPEED;
 		data->pos.y -= data->camera_plane.y * MOVESPEED;
