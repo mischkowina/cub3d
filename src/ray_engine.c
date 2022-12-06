@@ -96,6 +96,8 @@ void	paint_my_3d_world(t_data *data, t_ray *ray, int x)
 
 void	raycasting(t_data *data)
 {
+	t_img	*texture;
+	
 	data->cur_ray->x = 0;
 	while (data->cur_ray->x < WIDTH) 
 	{
@@ -107,10 +109,10 @@ void	raycasting(t_data *data)
 		else
 			data->cur_ray->full_dist = \
 			data->cur_ray->side_dist.y - data->cur_ray->delta_dist.y;
-		printf("x: %d dist: %f\n", data->cur_ray->x, data->cur_ray->full_dist);
+		//get texture for the ray
+		texture = identify_texture(data);
 		// draw line //
-		//ALINA: we need to identify the direction of the wall!
-		ray_wall(data, &(data->D_texture));
+		ray_wall(data, texture);
 		// paint_my_3d_world(data, data->cur_ray, i);//ALINA
 		data->cur_ray->x++;
 	}

@@ -53,3 +53,19 @@ int	get_texture_color(int x, int y, t_img *texture)
 			* (texture->bpp / 8));
 	return (*(int *)dst);
 }
+
+t_img	*identify_texture(t_data *data)
+{
+	t_img	*texture;
+	
+	texture = NULL;//can it happen that none of these apply?
+	if (data->cur_ray->dir.y < 0 && data->cur_ray->ori == 1) // N
+		texture = &(data->N_texture);
+	else if (data->cur_ray->dir.y > 0 && data->cur_ray->ori == 1) // S
+		texture = &(data->S_texture);
+	else if (data->cur_ray->dir.x > 0 && data->cur_ray->ori == 0) // E
+		texture = &(data->E_texture);
+	else if (data->cur_ray->dir.x < 0 && data->cur_ray->ori == 0) // W
+		texture = &(data->W_texture);
+	return (texture);
+}

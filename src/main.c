@@ -117,9 +117,6 @@ int	render(t_data *data)
 	reset_tex_pos(data);
 	prep_image(data);
 	raycasting(data);
-	// draw_walls(data);//instead of calling draw walls, draw sprites and draw_doors
-	// draw_sprites(data);//we will need one loop to check each ray once and draw its
-	// draw_doors(data);//content layer by layer, from furthest to closest
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 	return (0);
 }

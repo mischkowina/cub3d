@@ -59,9 +59,9 @@ typedef struct s_trgb
 
 typedef struct s_img
 {
-	void	*img_ptr;//Saskia: rename in my code
+	void	*img_ptr;
 	char	*addr;
-	int		bpp;//Saskia: rename in my code
+	int		bpp;//Alina: rename in your code
 	int		line_length;
 	int		endian;
 	int		color;
@@ -72,7 +72,7 @@ typedef struct s_img
 	int		height;
 	double	offset;
 	double	size_factor;
-}				t_img;//Saskia: rename in my code
+}				t_img;
 
 typedef struct s_vec
 {
@@ -119,7 +119,7 @@ typedef struct s_ray
 	int			step_x;
 	int			step_y;
 	int			ori;
-	double		full_dist;//Saskia: rename in my code
+	double		full_dist;
 	int			x;//Alina: x-value of the screen width, check if you want to use
 	int			nbr_objects;//Alina: count number of object the ray passes
 }				t_ray;
@@ -127,11 +127,11 @@ typedef struct s_ray
 typedef struct s_data
 {
 	t_minimap	minimap;//Alina: renamed to minimap since there is a map variable
-	void		*mlx;//Saskia: rename in my code
-	void		*win;//Saskia: rename in my code
-	t_img		img;//Saskia: rename in my code
+	void		*mlx;
+	void		*win;
+	t_img		img;
 	t_trgb		trgb;
-	t_vec		pos;//Saskia: set initial player position
+	t_vec		pos;
 	t_vec		dir;
 	t_vec		camera_plane;
 	char		player_dir;
@@ -140,11 +140,11 @@ typedef struct s_data
 	float		pdy;
 	t_ray		*cur_ray;
 	int			counter;
-	t_img		N_texture;//Saskia: change type in my code
-	t_img		E_texture;//Saskia: change type in my code
-	t_img		S_texture;//Saskia: change type in my code
-	t_img		W_texture;//Saskia: change type in my code
-	t_img		D_texture;//Saskia: change type in my code
+	t_img		N_texture;
+	t_img		E_texture;
+	t_img		S_texture;
+	t_img		W_texture;
+	t_img		D_texture;
 	int			col_ceiling;
 	int			col_floor;
 	int			**map;
@@ -156,11 +156,11 @@ typedef struct s_data
 	int			nbr_sprites;
 	int			sprite_counter;
 	t_obj		**sprites;
-	t_img		**mummy;//Saskia: change type in my code
+	t_img		**mummy;
 	int			cur_mummy;
-	t_img		chest;//Saskia: change type in my code
-	t_img		tut;//Saskia: change type in my code
-}				t_data;//Saskia: change type in my code
+	t_img		chest;
+	t_img		tut;
+}				t_data;
 
 typedef struct s_delta
 {
@@ -169,7 +169,7 @@ typedef struct s_delta
 	double		small_ray;
 }				t_delta;
 
-	// main.c //
+	// main_engine.c //
 void	draw_grid(t_data *data);
 void	draw_minimap(t_data *data);
 
@@ -200,7 +200,7 @@ void	find_vector_values(t_vec *vec, double angle);
 void	normalize_vector(t_vec *vec);
 void	perpendicular_vector(t_vec *vec);
 
-	// ray.c //
+	// ray_engine.c //
 //--- solution from the guide ---//
 void	cast_rays(t_data *data, t_ray *ray, int i);
 void	do_the_dda(t_data *data, t_ray *ray);
@@ -252,6 +252,7 @@ void	draw_sprites(t_data *data);
 void	open_texture(t_data *data, t_img *texture);
 void	open_all_textures(t_data *data);
 int		get_texture_color(int x, int y, t_img *texture);
+t_img	*identify_texture(t_data *data);
 
 //doors.c
 void	allocate_doors_sprites(t_data *data);
