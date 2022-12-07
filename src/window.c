@@ -8,7 +8,7 @@ void	pixel_put(t_data *data, int color)
 	char	*dst;
 
 	dst = data->img.addr + (data->img.px_y * data->img.line_length + \
-	data->img.px_x * (data->img.bits_per_pixel / 8));
+	data->img.px_x * (data->img.bpp / 8));
 	*(unsigned int*)dst = color;
 }
 
@@ -26,9 +26,11 @@ int	key_hooks(int keycode, t_data *data)
 	if (keycode == KEY_D)
 		d_key_pressed(data);
 	if (keycode == KEY_LEFT)
-		left_key_pressed(data);
+		rotate(data, ROT_ANGLE);
 	if (keycode == KEY_RIGHT)
-		right_key_pressed(data);
+		rotate(data, -ROT_ANGLE);
+	if (keycode == KEY_SPACE)
+		open_door(data);
 	return (0);
 }
 

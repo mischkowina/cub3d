@@ -40,7 +40,7 @@ void	free_str_arr(char **str)
  * perror.
  * @param msg [char *] Customized error message to be displayed.
 */
-void	ft_error(char *msg, t_cub *data)
+void	ft_error(char *msg, t_data *data)
 {
 	if (msg)
 		printf("Error\n%s\n", msg);

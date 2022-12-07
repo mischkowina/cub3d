@@ -6,7 +6,7 @@
  * starting position.
  * @param data [t_cub *] Pointer to struct storing all the input data.
 */
-void	check_map_array(t_cub *data)
+void	check_map_array(t_data *data)
 {
 	int	row;
 	int	col;
@@ -35,7 +35,7 @@ void	check_map_array(t_cub *data)
  * @param col [int] Column position of the respective map tile.
  * @param pos [int *] Pointer to the int storing the number of player positions.
 */
-void	check_tile(t_cub *data, int row, int col, int *pos)
+void	check_tile(t_data *data, int row, int col, int *pos)
 {
 	if (data->map[row][col] == 0 || data->map[row][col] >= 2)
 	{
@@ -49,8 +49,8 @@ void	check_tile(t_cub *data, int row, int col, int *pos)
 			ft_error("Invalid input for map: open walls.", data);
 		if (data->map[row][col] == 2)
 		{
-			data->player_pos_x = col;
-			data->player_pos_y = row;
+			data->pos.x = col;
+			data->pos.y = row;
 			(*pos)++;
 		}
 		if (data->map[row][col] == 3)
@@ -61,4 +61,46 @@ void	check_tile(t_cub *data, int row, int col, int *pos)
 		if (data->map[row][col] > 3 && data->map[row][col] < 7)
 			fill_sprite(data, row, col);
 	}
+}
+
+int	check_if_accessible(t_data *data, int x, int y)
+{
+	t_door	*door;
+
+	if (data->map[y][x] == 0 || data->map[y][x] == 2)
+		return (1);
+	else if (data->map[y][x] == 3)
+	{
+		door = (t_door *)check_if_door(data, x, y);
+		if (!door)
+			return (0);
+		if (door->opening == 1 && door->closed == 0)
+			return (1);
+	}
+	return (0);
+}
+
+void	*check_door_ahead(t_data *data)
+{
+	t_door	*door;
+	t_ray	view;
+	
+	view.x = WIDTH / 2;
+	door = NULL;
+	cast_rays(data, &view, view.x);
+	if (view.side_dist.x < view.side_dist.y)
+	{
+		view.side_dist.x += view.delta_dist.x;
+		view.map_x += view.step_x * 1.0;
+		view.ori = 0;
+	}
+	else
+	{
+		view.side_dist.y += view.delta_dist.y;
+		view.map_y += view.step_y * 1.0;
+		view.ori = 1;
+	}
+	if (data->map[view.map_y][view.map_x] == 3)
+		door = check_if_door(data, view.map_x, view.map_y);
+	return (door);
 }

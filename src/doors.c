@@ -7,7 +7,7 @@
  * for the current image.
  * @param data [t_data *] Pointer to struct storing the input data.
 */
-void	allocate_doors_sprites(t_cub *data)
+void	allocate_doors_sprites(t_data *data)
 {
 	int	i;
 
@@ -45,7 +45,7 @@ void	allocate_doors_sprites(t_cub *data)
  * every image.
  * @param [t_cub *] Pointer to struct storing all the input data.
 */
-void	move_doors_sprites(t_cub *data)
+void	move_doors_sprites(t_data *data)
 {
 	int	i;
 
@@ -72,7 +72,7 @@ void	move_doors_sprites(t_cub *data)
 	}
 }
 
-void	reset_tex_pos(t_cub *data)
+void	reset_tex_pos(t_data *data)
 {
 	int	i;
 
@@ -90,16 +90,31 @@ void	reset_tex_pos(t_cub *data)
  * the door, depending on whether it was currently closing or opening.
  * @param [t_cub *] Pointer to struct storing all the input data.
 */
-void	open_door(t_cub *data)
+void	open_door(t_data *data)
 {
-	int	idx;
+	t_door	*door;
 
-	//check if conditions are met: adjacent to the door and door within FOV?
-	//identify which door!
-	idx = 0;//to be replaced
-	if (data->doors[idx]->opening == 0)
-		data->doors[idx]->opening = 1;
+	door = check_door_ahead(data);
+	if (!door)
+		return ;
+	if (door->opening == 0)
+		door->opening = 1;
 	else
-		data->doors[idx]->opening = 0;
-	door_sound();
+		door->opening = 0;
+	door_sound();//for testing @ home
+}
+
+void	*check_if_door(t_data *data, int x, int y)
+{
+	int	i;
+
+	i = 0;
+	data->cur_ray->cur_obj = NULL;
+	while (i < data->nbr_doors)
+	{
+		if (data->doors[i]->col == x && data->doors[i]->row == y)
+			data->cur_ray->cur_obj = (void *)data->doors[i];
+		i++;
+	}
+	return (data->cur_ray->cur_obj);
 }

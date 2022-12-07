@@ -1,7 +1,7 @@
 
 #include "../cub3d.h"
 
-void	free_all_shit(t_cub *data)
+void	free_all_shit(t_data *data)
 {
 	printf("TEST\n");
 	free_all_textures(data);
@@ -16,44 +16,44 @@ void	free_all_shit(t_cub *data)
 	if (data->img.addr)
 		free(data->img.addr);
 	printf("TEST5\n");
-	if (data->img.img)
-		mlx_destroy_image(data->mlx_ptr, data->img.img);
+	if (data->img.img_ptr)
+		mlx_destroy_image(data->mlx, data->img.img_ptr);
 	printf("TEST6\n");
-	if (data->win_ptr)
+	if (data->win)
 	{
-		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-		free(data->win_ptr);//necessary?
+		mlx_destroy_window(data->mlx, data->win);
+		free(data->win);//necessary?
 	}
 	printf("TEST6\n");
-	if (data->mlx_ptr)
-		free(data->mlx_ptr);
+	if (data->mlx)
+		free(data->mlx);
 }
 
-void	free_all_textures(t_cub *data)
+void	free_all_textures(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	free_t_data(&(data->N_texture), data->mlx_ptr);
-	free_t_data(&(data->E_texture), data->mlx_ptr);
-	free_t_data(&(data->S_texture), data->mlx_ptr);
-	free_t_data(&(data->W_texture), data->mlx_ptr);
-	free_t_data(&(data->D_texture), data->mlx_ptr);
+	free_t_img(&(data->N_texture), data->mlx);
+	free_t_img(&(data->E_texture), data->mlx);
+	free_t_img(&(data->S_texture), data->mlx);
+	free_t_img(&(data->W_texture), data->mlx);
+	free_t_img(&(data->D_texture), data->mlx);
 	if (data->mummy)
 	{
 		while (i < 4)
 		{
 			if (data->mummy[i])
-				free_t_data(data->mummy[i], data->mlx_ptr);
+				free_t_img(data->mummy[i], data->mlx);
 			i++;
 		}
 		free(data->mummy);
 	}
-	free_t_data(&(data->chest), data->mlx_ptr);
-	free_t_data(&(data->tut), data->mlx_ptr);
+	free_t_img(&(data->chest), data->mlx);
+	free_t_img(&(data->tut), data->mlx);
 }
 
-void	free_map(t_cub *data)
+void	free_map(t_data *data)
 {
 	int	i;
 
@@ -63,22 +63,22 @@ void	free_map(t_cub *data)
 	free(data->map);
 }
 
-void	free_t_data(t_data *data, void *mlx_ptr)
+void	free_t_img(t_img *img, void *mlx_ptr)
 {
 	printf("TEST FREEING1\n");
-	if (data->filename)
-		free(data->filename);
+	if (img->filename)
+		free(img->filename);
 	printf("TEST FREEING2\n");
-	if (data->addr)
-		free(data->addr);
+	if (img->addr)
+		free(img->addr);
 	printf("TEST FREEING3\n");
-	if (data->img)
-		mlx_destroy_image(mlx_ptr, data->img);
+	if (img->img_ptr)
+		mlx_destroy_image(mlx_ptr, img->img_ptr);
 	printf("TEST FREEING4\n");
-	free(data->img);//necessary?
+	free(img->img_ptr);//necessary?
 }
 
-void	free_doors_sprites(t_cub *data)
+void	free_doors_sprites(t_data *data)
 {
 	int	i;
 

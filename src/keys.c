@@ -17,22 +17,16 @@ void	w_key_pressed(t_data *data)
 
 	x = data->pos.x + data->dir.x * MOVESPEED;
 	y = data->pos.y + data->dir.y * MOVESPEED;
-	printf("%s\n", KCYN);
-	printf("w_key: indexes: %d %d, map: %d\n", y, x, map[y][x]);
-	printf("%s\n", KWHT);
-	printf("w key: pos x, pos y: %f, %f\n", data->pos.x, data->pos.y);
-	if (map[y][x] == 0)
+	if (check_if_accessible(data, x, y) == 1)
 	{
 		data->pos.x += data->dir.x * MOVESPEED;
 		data->pos.y += data->dir.y * MOVESPEED;
 	}
-	printf("w key: after: pos x, pos y: %f, %f\n", data->pos.x, data->pos.y);
-	data->map.pos.x = data->pos.x * GRID_SIZE;
-	data->map.pos.y = data->pos.y * GRID_SIZE;
-	printf("w key: minimap x, minimap y: %f, %f\n", data->map.pos.x, data->map.pos.y);
-	draw_minimap(data);
-	draw_floor_and_ceiling(data);
-	raycasting(data);
+	data->minimap.pos.x = data->pos.x * GRID_SIZE;
+	data->minimap.pos.y = data->pos.y * GRID_SIZE;
+	// draw_minimap(data);
+	// draw_floor_and_ceiling(data);
+	// raycasting(data);
 }
 
 void	s_key_pressed(t_data *data)
@@ -42,63 +36,57 @@ void	s_key_pressed(t_data *data)
 
 	x = data->pos.x - data->dir.x * MOVESPEED;
 	y = data->pos.y - data->dir.y * MOVESPEED;
-	if (map[y][x] == 0)
+	if (check_if_accessible(data, x, y) == 1)
 	{
 		data->pos.x -= data->dir.x * MOVESPEED;
 		data->pos.y -= data->dir.y * MOVESPEED;
 	}
-	data->map.pos.x = data->pos.x * GRID_SIZE;
-	data->map.pos.y = data->pos.y * GRID_SIZE;
-	draw_minimap(data);
-	draw_floor_and_ceiling(data);
-	raycasting(data);
+	data->minimap.pos.x = data->pos.x * GRID_SIZE;
+	data->minimap.pos.y = data->pos.y * GRID_SIZE;
+	// draw_minimap(data);
+	// draw_floor_and_ceiling(data);
+	// raycasting(data);
 }
 
-void	a_key_pressed(t_data *data) //this will need camera plane vector
+void	d_key_pressed(t_data *data) //this will need camera plane vector
 {
 	int	x;
 	int	y;
 
 	x = data->pos.x + data->camera_plane.x * MOVESPEED;
 	y = data->pos.y + data->camera_plane.y * MOVESPEED;
-	printf("%s", KMAG);
-	printf("a key: indexes: %d %d\n", y, x);
-	printf("%s", KWHT);
-	printf("a key: pos x, pos y: %f, %f\n", data->pos.x, data->pos.y);
-	if (map[y][x] == 0)
+	if (check_if_accessible(data, x, y) == 1)
 	{
 		data->pos.x += data->camera_plane.x * MOVESPEED;
 		data->pos.y += data->camera_plane.y * MOVESPEED;
 	}
-	printf("a key: after: pos x, pos y: %f, %f\n", data->pos.x, data->pos.y);
-	data->map.pos.x = data->pos.x * GRID_SIZE;
-	data->map.pos.y = data->pos.y * GRID_SIZE;
-	printf("a key: minimap x, minimap y: %f, %f\n", data->map.pos.x, data->map.pos.y);
-	draw_minimap(data);
-	draw_floor_and_ceiling(data);
-	raycasting(data);
+	data->minimap.pos.x = data->pos.x * GRID_SIZE;
+	data->minimap.pos.y = data->pos.y * GRID_SIZE;
+	// draw_minimap(data);
+	// draw_floor_and_ceiling(data);
+	// raycasting(data);
 }
 
-void	d_key_pressed(t_data *data) // this also - camera plane vector
+void	a_key_pressed(t_data *data) // this also - camera plane vector
 {
 	int	x;
 	int	y;
 
 	x = data->pos.x - data->camera_plane.x * MOVESPEED;
 	y = data->pos.y - data->camera_plane.y * MOVESPEED;
-	if (map[y][x] == 0)
+	if (check_if_accessible(data, x, y) == 1)
 	{
 		data->pos.x -= data->camera_plane.x * MOVESPEED;
 		data->pos.y -= data->camera_plane.y * MOVESPEED;
 	}
-	data->map.pos.x = data->pos.x * GRID_SIZE;
-	data->map.pos.y = data->pos.y * GRID_SIZE;
-	draw_minimap(data);
-	draw_floor_and_ceiling(data);
-	raycasting(data);
+	data->minimap.pos.x = data->pos.x * GRID_SIZE;
+	data->minimap.pos.y = data->pos.y * GRID_SIZE;
+	// draw_minimap(data);
+	// draw_floor_and_ceiling(data);
+	// raycasting(data);
 }
 
-void	right_key_pressed(t_data *data) //clockwise
+void	rotate(t_data *data, double angle) //clockwise
 {
 	double	temp_dir_x;
 	double	temp_dir_y;
@@ -109,35 +97,13 @@ void	right_key_pressed(t_data *data) //clockwise
 	temp_dir_y = data->dir.y;
 	temp_plane_x = data->camera_plane.x;
 	temp_plane_y = data->camera_plane.y;
-	data->dir.x = cos(ROT_ANGLE) * temp_dir_x - sin(ROT_ANGLE) * temp_dir_y;
-	data->dir.y = sin(ROT_ANGLE) * temp_dir_x + cos(ROT_ANGLE) * temp_dir_y;
-	data->camera_plane.x = cos(ROT_ANGLE) * temp_plane_x - sin(ROT_ANGLE) * temp_plane_y;
-	data->camera_plane.y = sin(ROT_ANGLE) * temp_plane_x + cos(ROT_ANGLE) * temp_plane_y;
-	printf("dir x:%f, dir y:%f, camera plane x:%f, camera plane y:%f\n", data->dir.x, data->dir.y, data->camera_plane.x, data->camera_plane.y);
-	draw_minimap(data);
-	draw_floor_and_ceiling(data);
-	raycasting(data);
-}
-
-void	left_key_pressed(t_data *data) // counterclockwise
-{
-	double	temp_dir_x;
-	double	temp_dir_y;
-	double	temp_plane_x;
-	double	temp_plane_y;
-
-	temp_dir_x = data->dir.x;
-	temp_dir_y = data->dir.y;
-	temp_plane_x = data->camera_plane.x;
-	temp_plane_y = data->camera_plane.y;
-	data->dir.x = cos(ROT_ANGLE) * temp_dir_x + sin(ROT_ANGLE) * temp_dir_y;
-	data->dir.y = - sin(ROT_ANGLE) * temp_dir_x + cos(ROT_ANGLE) * temp_dir_y;
-	data->camera_plane.x = cos(ROT_ANGLE) * temp_plane_x + sin(ROT_ANGLE) * temp_plane_y;
-	data->camera_plane.y = - sin(ROT_ANGLE) * temp_plane_x + cos(ROT_ANGLE) * temp_plane_y;
-	printf("dir x:%f, dir y:%f, camera plane x:%f, camera plane y:%f\n", data->dir.x, data->dir.y, data->camera_plane.x, data->camera_plane.y);
-	draw_minimap(data);
-	draw_floor_and_ceiling(data);
-	raycasting(data);
+	data->dir.x = cos(angle) * temp_dir_x - sin(angle) * temp_dir_y;
+	data->dir.y = sin(angle) * temp_dir_x + cos(angle) * temp_dir_y;
+	data->camera_plane.x = cos(angle) * temp_plane_x - sin(angle) * temp_plane_y;
+	data->camera_plane.y = sin(angle) * temp_plane_x + cos(angle) * temp_plane_y;
+	// draw_minimap(data);
+	// draw_floor_and_ceiling(data);
+	// raycasting(data);
 }
 
 // OLD ROTATION // WITHOUT ROTATION MATRICES //

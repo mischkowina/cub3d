@@ -8,7 +8,7 @@ void	cast_rays(t_data *data, t_ray *ray, int i)
 	double	view;
 
 	view = 2 * i / (double) WIDTH - 1;
-	ray->dir.x = ray->dir.x + data->camera_plane.x * view;
+	ray->dir.x = data->dir.x + data->camera_plane.x * view;
 	ray->dir.y = data->dir.y + data->camera_plane.y * view;
 	ray->map_x = (int) data->pos.x;
 	ray->map_y = (int) data->pos.y;
@@ -24,27 +24,30 @@ void	cast_rays(t_data *data, t_ray *ray, int i)
 	calculate_step(data, ray);
 }
 
-void	do_the_dda(t_ray *ray)
+void	do_the_dda(t_data *data, t_ray *ray)
 {
 	int	hit;
 
 	hit = 0;
+	ray->nbr_objects = 0;
 	while (hit == 0)
 	{
 		if (ray->side_dist.x < ray->side_dist.y)
 		{
 			ray->side_dist.x += ray->delta_dist.x;
-			ray->map_x += ray->step_x;
+			ray->map_x += ray->step_x * 1.0;
 			ray->ori = 0;
 		}
 		else
 		{
 			ray->side_dist.y += ray->delta_dist.y;
-			ray->map_y += ray->step_y;
+			ray->map_y += ray->step_y * 1.0;
 			ray->ori = 1;
 		}
-		if (map[ray->map_x][ray->map_y] > 0)
+		if (data->map[ray->map_y][ray->map_x] == 1)
 			hit = 1;
+		if (data->map[ray->map_y][ray->map_x] > 2)
+			ray->nbr_objects++;
 	}
 }
 
@@ -72,41 +75,101 @@ void	calculate_step(t_data *data, t_ray *ray)
 	}
 }
 
-void	paint_my_3d_world(t_ray *ray)
+void	paint_my_3d_world(t_data *data, t_ray *ray, int x)
 {
 	int	line_height;
 	int	draw_start;
 	int	draw_end;
 
 	line_height = (int) (HEIGHT / ray->full_dist);
-	// printf("---\nray full dist: %f\nline_height: %d\n", ray->full_dist, line_height);
 	draw_start = - line_height / 2 + HEIGHT / 2;
 	if (draw_start < 0)
 		draw_start = 0;
 	draw_end = line_height / 2 + HEIGHT / 2;
 	if (draw_end >= HEIGHT)
 		draw_end = HEIGHT - 1;
-	// printf("draw_start: %d, draw_end: %d\n", draw_start, draw_end);
+	data->img.px_x = x;
+	data->img.px_y = draw_start;
+	while (data->img.px_y < draw_end)
+	{
+		pixel_put(data, PINK);
+		data->img.px_y++;
+	}
+}
+
+int	identify_object(t_data *data, t_ray *ray)//segfaulting
+{
+	int		i;
+
+	i = 0;
+	ray->cur_obj = NULL;
+	while (i < ray->nbr_objects)
+	{
+		if (ray->side_dist.x < ray->side_dist.y)
+		{
+			ray->side_dist.x += ray->delta_dist.x;
+			ray->map_x += ray->step_x * 1.0;
+			ray->ori = 0;
+		}
+		else
+		{
+			ray->side_dist.y += ray->delta_dist.y;
+			ray->map_y += ray->step_y * 1.0;
+			ray->ori = 1;
+		}
+		if (data->map[ray->map_y][ray->map_x] > 2)
+			i++;
+		else if (data->map[ray->map_y][ray->map_x] == 1)
+			return (1);
+	}
+	if (check_if_door(data, ray->map_x, ray->map_y))
+		return (3);
+	if (check_if_sprite(data, ray->map_x, ray->map_y))
+		return (4);
+	return (1);
 }
 
 void	raycasting(t_data *data)
 {
-	int	i;
-	t_ray	ray;
-
-	i = WIDTH / 2;
-	while (i < WIDTH)
+	t_img	*texture;
+	int		i;
+	
+	data->cur_ray->x = 0;
+	while (data->cur_ray->x < WIDTH) 
 	{
-		cast_rays(data, &ray, i);
-		do_the_dda(&ray);
-		if (ray.ori == 0)
-			ray.full_dist = ray.side_dist.x - ray.delta_dist.x;
+		cast_rays(data, data->cur_ray, data->cur_ray->x);
+		do_the_dda(data, data->cur_ray);
+		if (data->cur_ray->ori == 0)
+			data->cur_ray->full_dist = \
+			data->cur_ray->side_dist.x - data->cur_ray->delta_dist.x;
 		else
-			ray.full_dist = ray.side_dist.y - ray.delta_dist.y;
+			data->cur_ray->full_dist = \
+			data->cur_ray->side_dist.y - data->cur_ray->delta_dist.y;
+		//get texture for the ray
+		texture = identify_texture(data);
 		// draw line //
-		paint_my_3d_world(&ray);
-		i++;
+		ray_wall(data, texture);
+		while (data->cur_ray->nbr_objects > 0)
+		{
+			cast_rays(data, data->cur_ray, data->cur_ray->x);
+			i = identify_object(data, data->cur_ray);
+			if (data->cur_ray->ori == 0)
+				data->cur_ray->full_dist = \
+				data->cur_ray->side_dist.x - data->cur_ray->delta_dist.x;
+			else
+				data->cur_ray->full_dist = \
+				data->cur_ray->side_dist.y - data->cur_ray->delta_dist.y;
+			if (i == 3)
+				ray_door(data, (t_door *)data->cur_ray->cur_obj);
+			else if (i == 4)
+				ray_sprite(data, data->cur_ray->full_dist, (t_obj *)data->cur_ray->cur_obj);
+			else
+				ft_error("Problem to identify object.", data);
+			data->cur_ray->nbr_objects--;
+		}
+		data->cur_ray->x++;
 	}
+	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 }
 
 // this is for my solution //

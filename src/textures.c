@@ -7,13 +7,13 @@
  * @param texture [t_data *] Pointer to the struct containing all image data of
  * the texture.
 */
-void	open_texture(t_cub *data, t_data *texture)
+void	open_texture(t_data *data, t_img *texture)
 {
-	texture->img = mlx_xpm_file_to_image(data->mlx_ptr, texture->filename,
+	texture->img_ptr = mlx_xpm_file_to_image(data->mlx, texture->filename,
 			&(texture->width), &(texture->height));
-	if (!texture->img)
+	if (!texture->img_ptr)
 		ft_error("Failed reading .xpm file.", data);
-	texture->addr = mlx_get_data_addr(texture->img, &(texture->bpp),
+	texture->addr = mlx_get_data_addr(texture->img_ptr, &(texture->bpp),
 			&(texture->line_length), &(texture->endian));
 }
 
@@ -21,7 +21,7 @@ void	open_texture(t_cub *data, t_data *texture)
  * Function to open all textures and load all their relevant information.
  * @param data [t_cub *] Pointer to struct storing all the input data.
 */
-void	open_all_textures(t_cub *data)
+void	open_all_textures(t_data *data)
 {
 	open_texture(data, &(data->N_texture));
 	open_texture(data, &(data->E_texture));
@@ -41,15 +41,38 @@ void	open_all_textures(t_cub *data)
  * the texture.
  * @return [unsigned int] The color at the specified position of the texture.
 */
-int	get_texture_color(int x, int y, t_data *texture)
+int	get_texture_color(t_data *data, t_img *texture, int y)
 {
 	char	*dst;
-	int		x_new;
-	int		y_new;
+	double	wall_x;
+	int		tex_x;
 
-	x_new = x % texture->width;
-	y_new = y % texture->height;
-	dst = texture->addr + (y_new * texture->line_length + x_new
-			* (texture->bpp / 8));
+	if (data->cur_ray->ori == 0)
+		wall_x = data->pos.y + data->cur_ray->full_dist * data->cur_ray->dir.y;
+	else
+		wall_x = data->pos.x + data->cur_ray->full_dist * data->cur_ray->dir.x;
+	wall_x -= floor(wall_x);
+	tex_x = (int)(wall_x * (double)texture->width);
+	if (data->cur_ray->ori == 0 && data->cur_ray->dir.x > 0)
+		tex_x = texture->width - tex_x - 1;
+	if (data->cur_ray->ori == 1 && data->cur_ray->dir.y < 0)
+		tex_x = texture->width - tex_x - 1;
+	dst = texture->addr + (y * texture->line_length + tex_x * (texture->bpp / 8));
 	return (*(int *)dst);
+}
+
+t_img	*identify_texture(t_data *data)
+{
+	t_img	*texture;
+	
+	texture = NULL;//can it happen that none of these apply?
+	if (data->cur_ray->dir.y < 0 && data->cur_ray->ori == 1) // N
+		texture = &(data->N_texture);
+	else if (data->cur_ray->dir.y > 0 && data->cur_ray->ori == 1) // S
+		texture = &(data->S_texture);
+	else if (data->cur_ray->dir.x > 0 && data->cur_ray->ori == 0) // E
+		texture = &(data->E_texture);
+	else if (data->cur_ray->dir.x < 0 && data->cur_ray->ori == 0) // W
+		texture = &(data->W_texture);
+	return (texture);
 }

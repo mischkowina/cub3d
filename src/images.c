@@ -8,7 +8,7 @@
  * @param y [int] Y-coordinate of the pixel to be colored.
  * @param color [int] Integer representation of the color.
 */
-void	ft_mlx_pixel_put(t_data *img, int x, int y, int color)
+void	ft_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
 	char	*dst;
 
@@ -22,7 +22,7 @@ void	ft_mlx_pixel_put(t_data *img, int x, int y, int color)
  * at a later point.
  * @param data [t_cub *] Pointer to struct storing all the input data.
 */
-void	prep_image(t_cub *data)
+void	prep_image(t_data *data)
 {
 	int	x;
 	int	y;
