@@ -12,8 +12,8 @@
 # include "mlx/mlx.h"
 # include <stdbool.h>
 
-# define WIDTH 			1240
-# define HEIGHT			720
+# define WIDTH 			1440
+# define HEIGHT			1024
 # define GRID_SIZE		72
 
 # define KEY_ESC		53
@@ -254,7 +254,7 @@ void	draw_sprites(t_data *data);
 //textures.c
 void	open_texture(t_data *data, t_img *texture);
 void	open_all_textures(t_data *data);
-int		get_texture_color(int x, int y, t_img *texture);
+int		get_texture_color(t_data *data, t_img *texture, int y);
 t_img	*identify_texture(t_data *data);
 
 //doors.c

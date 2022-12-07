@@ -41,16 +41,23 @@ void	open_all_textures(t_data *data)
  * the texture.
  * @return [unsigned int] The color at the specified position of the texture.
 */
-int	get_texture_color(int x, int y, t_img *texture)
+int	get_texture_color(t_data *data, t_img *texture, int y)
 {
 	char	*dst;
-	int		x_new;
-	int		y_new;
+	double	wall_x;
+	int		tex_x;
 
-	x_new = x % texture->width;
-	y_new = y % texture->height;
-	dst = texture->addr + (y_new * texture->line_length + x_new
-			* (texture->bpp / 8));
+	if (data->cur_ray->ori == 0)
+		wall_x = data->pos.y + data->cur_ray->full_dist * data->cur_ray->dir.y;
+	else
+		wall_x = data->pos.x + data->cur_ray->full_dist * data->cur_ray->dir.x;
+	wall_x -= floor(wall_x);
+	tex_x = (int)(wall_x * (double)texture->width);
+	if (data->cur_ray->ori == 0 && data->cur_ray->dir.x > 0)
+		tex_x = texture->width - tex_x - 1;
+	if (data->cur_ray->ori == 1 && data->cur_ray->dir.y < 0)
+		tex_x = texture->width - tex_x - 1;
+	dst = texture->addr + (y * texture->line_length + tex_x * (texture->bpp / 8));
 	return (*(int *)dst);
 }
 
