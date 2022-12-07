@@ -29,7 +29,7 @@ void	ray_wall(t_data *data, t_img *texture)
 			+ (HEIGHT / data->cur_ray->full_dist) / 2.0) * step;
 	while (start < end)
 	{
-		col = get_texture_color(data, texture, tex_pos_y);
+		col = get_texture_color(data, texture, (int)tex_pos_y);
 		ft_mlx_pixel_put(&(data->img), data->cur_ray->x, start, col);
 		tex_pos_y += step;
 		start++;
@@ -65,7 +65,7 @@ void	ray_door(t_data *data, t_door *door)
 	step = 1.0 * data->D_texture.height / (HEIGHT / data->cur_ray->full_dist);
 	while (start < end)
 	{
-		col = get_texture_color(data, &(data->D_texture), tex_pos_y);
+		col = get_texture_color(data, &(data->D_texture), (int)tex_pos_y);
 		ft_mlx_pixel_put(&(data->img), data->cur_ray->x, start, col);
 		tex_pos_y += step;
 		start++;
@@ -140,7 +140,7 @@ void	ray_sprite(t_data *data, double dist, t_obj *sprite)
 	tex_pos_y = 0;
 	while (start < end && tex_pos_y < texture->height)
 	{
-		col = get_texture_color(data, texture, tex_pos_y);
+		col = get_texture_color(data, texture, (int)tex_pos_y);
 		if (col != 16777215)
 			ft_mlx_pixel_put(&(data->img), data->cur_ray->x, start, col);
 		tex_pos_y += texture->size_factor * texture->height / (HEIGHT / dist);

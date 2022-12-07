@@ -128,6 +128,7 @@ typedef struct s_ray
 typedef struct s_data
 {
 	t_minimap	minimap;//Alina: renamed to minimap since there is a map variable
+	t_vec_int	mouse;
 	void		*mlx;
 	void		*win;
 	t_img		img;
@@ -187,6 +188,7 @@ void	init_orientation(t_data *data);
 	// window.c //
 void	pixel_put(t_data *data, int color);
 int		key_hooks(int keycode, t_data *data);
+int		mouse_rotation(int x, int y, t_data *data);
 int		close_x(t_data *data);
 
 	// keys.c //
