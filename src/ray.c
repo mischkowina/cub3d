@@ -50,20 +50,22 @@ void	ray_door(t_data *data, t_door *door)
 {
 	int		start;
 	int		end;
+	int		height;
 	double	tex_pos_y;
 	double	step;
 	int		col;
 
 	start = - (HEIGHT / data->cur_ray->full_dist) / 2 + HEIGHT / 2.0;
 	end = (HEIGHT / data->cur_ray->full_dist) / 2 + HEIGHT / 2.0;
-	step = 1.0 * data->D_texture.height / (HEIGHT / data->cur_ray->full_dist);
-	tex_pos_y = (start - HEIGHT / 2.0
-			+ (HEIGHT / data->cur_ray->full_dist) / 2.0) * step;
-	start += (end - start) * (100 - door->closed) / 100;
+	height = end - start;
+	start += height * (100 - door->closed) / 100;
 	if (start < 0)
 		start = 0;
 	if (end >= HEIGHT)
 		end = HEIGHT - 1;
+	step = 1.0 * data->D_texture.height / (HEIGHT / data->cur_ray->full_dist);
+	tex_pos_y = (start + (height * (100 - door->closed) / 100) - HEIGHT / 2.0 
+		+ (HEIGHT / data->cur_ray->full_dist) / 2.0) * step;//HERE!!
 	while (start < end)
 	{
 		col = get_texture_color(data, &(data->D_texture), (int)tex_pos_y);

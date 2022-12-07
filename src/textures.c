@@ -46,7 +46,9 @@ int	get_texture_color(t_data *data, t_img *texture, int y)
 	char	*dst;
 	double	wall_x;
 	int		tex_x;
+	int		tex_y;
 
+	tex_y = y % texture->height;
 	if (data->cur_ray->ori == 0)
 		wall_x = data->pos.y + data->cur_ray->full_dist * data->cur_ray->dir.y;
 	else
