@@ -26,9 +26,9 @@ int	key_hooks(int keycode, t_data *data)
 	if (keycode == KEY_D)
 		d_key_pressed(data);
 	if (keycode == KEY_LEFT)
-		rotate(data, ROT_ANGLE);
-	if (keycode == KEY_RIGHT)
 		rotate(data, -ROT_ANGLE);
+	if (keycode == KEY_RIGHT)
+		rotate(data, ROT_ANGLE);
 	if (keycode == KEY_SPACE)
 		open_door(data);
 	return (0);
@@ -42,9 +42,9 @@ int	mouse_rotation(int x, int y, t_data *data)
 	rotation_speed = ROT_ANGLE / 5;
 	mlx_mouse_move(data->win, data->mouse.x, data->mouse.y);
 	if (x < data->mouse.x) // rotate to the left
-		rotate(data, rotation_speed);
-	else if (x > data->mouse.x) // rotate to the right
 		rotate(data, -rotation_speed);
+	else if (x > data->mouse.x) // rotate to the right
+		rotate(data, rotation_speed);
 	return (0);
 }
 

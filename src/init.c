@@ -36,32 +36,33 @@ void	init_minimap(t_data *data)
 
 void	init_orientation(t_data *data)
 {
-if (data->player_dir == 'E')
+	if (data->player_dir == 'E')
 	{
 		data->dir.x = 1;
 		data->dir.y = 0;
 		data->camera_plane.x = 0;
-		data->camera_plane.y = -0.66;
+		data->camera_plane.y = 0.66;
 	}
 	else if (data->player_dir == 'W')
 	{
+
 		data->dir.x = -1;
 		data->dir.y = 0;
 		data->camera_plane.x = 0;
-		data->camera_plane.y = 0.66;
+		data->camera_plane.y = -0.66;
 	}
 	else if (data->player_dir == 'N')
 	{
 		data->dir.x = 0;
 		data->dir.y = -1;
-		data->camera_plane.x = -0.66;
+		data->camera_plane.x = 0.66;
 		data->camera_plane.y = 0;
 	}
 	else if (data->player_dir == 'S')
 	{
 		data->dir.x = 0;
 		data->dir.y = 1;
-		data->camera_plane.x = 0.66;
+		data->camera_plane.x = -0.66;
 		data->camera_plane.y = 0;
 	}
 }
