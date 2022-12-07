@@ -7,6 +7,7 @@ int	main(int argc, char **argv)
 
 	check_input(argc, argv);
 	init_data(&data);
+		printf("init mouse: x y %f, %f\n", data.mouse.x, data.mouse.y);
 	parser(argv[1], &data);
 	init(&data);
 	start_game(&data);
@@ -72,6 +73,7 @@ void	init_data(t_data *data)
 	data->cur_ray->nbr_objects = 0;
 	data->mouse.x = WIDTH / 2;
 	data->mouse.y = HEIGHT / 2;
+	// printf("init mouse: x y %f, %f\n", data->mouse.x, data->mouse.y);
 }
 
 /**
@@ -99,7 +101,7 @@ void	start_game(t_data *data)
 			&data->img.line_length, &data->img.endian);
 	mlx_hook(data->win, 17, 0, &close_x, data);
 	mlx_hook(data->win, 2, (1L << 0), &key_hooks, data);
-	mlx_hook(data->win, 6, (1L << 0), &mouse_rotation, &data);
+	mlx_hook(data->win, 6, (1L << 0), &mouse_rotation, data);
 	mlx_mouse_hide();
 	mlx_loop_hook(data->mlx, render, data);
 	mlx_loop(data->mlx);

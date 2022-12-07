@@ -38,13 +38,13 @@ int	mouse_rotation(int x, int y, t_data *data)
 {
 	double	rotation_speed;
 
-	rotation_speed = ROT_ANGLE / 4;
-	if (x < data->mouse.x) // rotate to the left
-		rotate(data, -rotation_speed);
-	else if (x > data->mouse.x)
-		rotate(data, rotation_speed);
-	mlx_mouse_move(data->win, data->mouse.x, data->mouse.y);
 	(void)y;
+	rotation_speed = ROT_ANGLE / 5;
+	mlx_mouse_move(data->win, data->mouse.x, data->mouse.y);
+	if (x < data->mouse.x) // rotate to the left
+		rotate(data, rotation_speed);
+	else if (x > data->mouse.x) // rotate to the right
+		rotate(data, -rotation_speed);
 	return (0);
 }
 
