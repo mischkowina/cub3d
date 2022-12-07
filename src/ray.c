@@ -29,7 +29,7 @@ void	ray_wall(t_data *data, t_img *texture)
 			+ (HEIGHT / data->cur_ray->full_dist) / 2.0) * step;
 	while (start < end)
 	{
-		col = get_texture_color(data, texture, tex_pos_y);
+		col = get_texture_color(data, texture, (int)tex_pos_y);
 		ft_mlx_pixel_put(&(data->img), data->cur_ray->x, start, col);
 		tex_pos_y += step;
 		start++;
@@ -56,48 +56,20 @@ void	ray_door(t_data *data, t_door *door)
 
 	start = - (HEIGHT / data->cur_ray->full_dist) / 2 + HEIGHT / 2.0;
 	end = (HEIGHT / data->cur_ray->full_dist) / 2 + HEIGHT / 2.0;
+	step = 1.0 * data->D_texture.height / (HEIGHT / data->cur_ray->full_dist);
+	tex_pos_y = (start - HEIGHT / 2.0
+			+ (HEIGHT / data->cur_ray->full_dist) / 2.0) * step;
 	start += (end - start) * (100 - door->closed) / 100;
 	if (start < 0)
 		start = 0;
 	if (end >= HEIGHT)
 		end = HEIGHT - 1;
-	tex_pos_y = 0;
-	step = 1.0 * data->D_texture.height / (HEIGHT / data->cur_ray->full_dist);
 	while (start < end)
 	{
-		col = get_texture_color(data, &(data->D_texture), tex_pos_y);
+		col = get_texture_color(data, &(data->D_texture), (int)tex_pos_y);
 		ft_mlx_pixel_put(&(data->img), data->cur_ray->x, start, col);
 		tex_pos_y += step;
 		start++;
-	}
-	door->tex_pos_x += 1.0 * data->D_texture.width / data->doors[0]->cur_width;
-}
-
-//will be replaced by one single big loop to iterate through all the rays,
-//adding layer by layer (first walls, then all objects furthest to closest)
-void	draw_doors(t_data *data)
-{
-	int		i;//to be deleted
-	t_door	*door;
-	
-	i = WIDTH / 8;//to be deleted
-	data->cur_ray->x = 0;
-	data->cur_ray->full_dist = 2;//instead has to be determined by raycaster
-	door = data->doors[0];
-	door->cur_width = 400;//for testing, has to be identified in first iteration
-	while (data->cur_ray->x < WIDTH)//ALINA: second iteration: give distance to doors, ignore rays that hit walls
-	{
-		//function to recalculate ray
-		if (data->cur_ray->x == (WIDTH / 2 - i))//instead: identify whether hits a door, and if yes, at which distance and which door -> maybe struct for the ray?
-		{
-			while (door->tex_pos_x < data->D_texture.width && data->cur_ray->x < WIDTH)
-			{
-				ray_door(data, door);
-				data->cur_ray->x++;
-				//function to recalculate ray
-			}
-		}
-		data->cur_ray->x++;
 	}
 }
 
@@ -140,7 +112,7 @@ void	ray_sprite(t_data *data, double dist, t_obj *sprite)
 	tex_pos_y = 0;
 	while (start < end && tex_pos_y < texture->height)
 	{
-		col = get_texture_color(data, texture, tex_pos_y);
+		col = get_texture_color(data, texture, (int)tex_pos_y);
 		if (col != 16777215)
 			ft_mlx_pixel_put(&(data->img), data->cur_ray->x, start, col);
 		tex_pos_y += texture->size_factor * texture->height / (HEIGHT / dist);
@@ -149,34 +121,4 @@ void	ray_sprite(t_data *data, double dist, t_obj *sprite)
 	sprite->tex_pos_x += (1.0 * texture->width / (WIDTH / dist) * texture->size_factor);
 }
 
-//will be replaced by one single big loop to iterate through all the rays,
-//adding layer by layer (first walls, then all objects furthest to closest)
-void	draw_sprites(t_data *data)
-{
-	double	dist;
-	t_obj	*cur_sprite;
-	int		width;
-
-	data->cur_ray->x = 0;
-	data->cur_ray->full_dist = 2;//instead has to be determined by raycaster
-	while (data->cur_ray->x < WIDTH)//ALINA: second iteration, paints sprites
-	{
-		//function to recalculate ray
-		if (data->cur_ray->x == WIDTH / 2)//instead: identify whether it hits a sprite before any wall
-		{
-			dist = data->cur_ray->full_dist;
-			cur_sprite = data->sprites[0];//has to be identified too
-			if (cur_sprite->tex)
-				width = cur_sprite->tex->width;
-			else
-				width = data->mummy[data->cur_mummy]->width;
-			while (cur_sprite->tex_pos_x < width && data->cur_ray->x < WIDTH)//does not recalculate distance, so the whole sprite works with the full distance
-			{
-				ray_sprite(data, dist, cur_sprite);//check how to handover a constant distant, maybe struct?
-				data->cur_ray->x++;
-			}
-		}
-		data->cur_ray->x++;
-	}
-}
 

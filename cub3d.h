@@ -247,9 +247,7 @@ void	prep_image(t_data *data);
 //ray.c
 void	ray_wall(t_data *data, t_img *texture);
 void	ray_door(t_data *data, t_door *door);
-void	draw_doors(t_data *data);
 void	ray_sprite(t_data *data, double dist, t_obj *sprite);
-void	draw_sprites(t_data *data);
 
 //textures.c
 void	open_texture(t_data *data, t_img *texture);
