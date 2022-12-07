@@ -67,7 +67,7 @@ int	check_if_accessible(t_data *data, int x, int y)
 {
 	t_door	*door;
 
-	if (data->map[y][x] == 0 || data->map[y][x] == 2)
+	if (data->map[y][x] == 0 || data->map[y][x] == 2 || data->map[y][x] > 3)
 		return (1);
 	else if (data->map[y][x] == 3)
 	{

@@ -161,6 +161,7 @@ typedef struct s_data
 	int			cur_mummy;
 	t_img		chest;
 	t_img		tut;
+	pid_t		pid_music;
 }				t_data;
 
 typedef struct s_delta
@@ -271,6 +272,7 @@ void	*check_if_sprite(t_data *data, int x, int y);
 //sounds.c
 void	background_music(void);
 void	door_sound(void);
+void	kill_music(void);
 
 //utils.c
 int		str_is_digit(char *str);

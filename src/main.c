@@ -91,7 +91,7 @@ void	start_game(t_data *data)
 		ft_error("MLX failed.", data);
 	}
 	open_all_textures(data);
-	background_music();//take out for testing at home
+	background_music(data);//take out for testing at home
 	data->img.img_ptr = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 	data->img.addr = mlx_get_data_addr(data->img.img_ptr, &data->img.bpp,
 			&data->img.line_length, &data->img.endian);
@@ -114,7 +114,6 @@ void	start_game(t_data *data)
 int	render(t_data *data)
 {
 	move_doors_sprites(data);
-	reset_tex_pos(data);
 	prep_image(data);
 	raycasting(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);

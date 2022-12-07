@@ -39,5 +39,6 @@ int	close_x(t_data *data)
 {
 	mlx_destroy_window(data->mlx, data->win);
 	data->win = NULL;
+	kill_music();
 	exit(0);
 }
