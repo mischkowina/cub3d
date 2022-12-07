@@ -120,8 +120,9 @@ typedef struct s_ray
 	int			step_y;
 	int			ori;
 	double		full_dist;
-	int			x;//Alina: x-value of the screen width, check if you want to use
-	int			nbr_objects;//Alina: count number of object the ray passes
+	int			x;
+	int			nbr_objects;
+	void		*cur_obj;
 }				t_ray;
 
 typedef struct s_data
@@ -206,6 +207,7 @@ void	cast_rays(t_data *data, t_ray *ray, int i);
 void	do_the_dda(t_data *data, t_ray *ray);
 void	calculate_step(t_data *data, t_ray *ray);
 void	paint_my_3d_world(t_data *data, t_ray *ray, int x);
+int		identify_object(t_data *data, t_ray *ray);
 void	raycasting(t_data *data);
 //--- my solution ---//
 void	cast_the_rays(t_data *data);

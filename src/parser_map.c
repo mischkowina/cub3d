@@ -151,8 +151,6 @@ int	copy_map_tile(char c, int row, int col, t_data *data)
 		data->map[row][col] = 2;
 		data->pos.x = col;
 		data->pos.y = row;
-		printf("pos.x: %f\n", data->pos.x);
-		printf("pos.y: %f\n", data->pos.y);
 		data->player_dir = c;
 	}
 	else if (c == 'D')

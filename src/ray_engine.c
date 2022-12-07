@@ -29,6 +29,7 @@ void	do_the_dda(t_data *data, t_ray *ray)
 	int	hit;
 
 	hit = 0;
+	ray->nbr_objects = 0;
 	while (hit == 0)
 	{
 		if (ray->side_dist.x < ray->side_dist.y)
@@ -45,6 +46,8 @@ void	do_the_dda(t_data *data, t_ray *ray)
 		}
 		if (data->map[ray->map_y][ray->map_x] == 1)
 			hit = 1;
+		if (data->map[ray->map_y][ray->map_x] > 2)
+			ray->nbr_objects++;
 	}
 }
 
@@ -94,9 +97,57 @@ void	paint_my_3d_world(t_data *data, t_ray *ray, int x)
 	}
 }
 
+int	identify_object(t_data *data, t_ray *ray)//segfaulting
+{
+	int		i;
+
+	i = 0;
+	ray->cur_obj = NULL;
+	while (i < ray->nbr_objects)
+	{
+		if (ray->side_dist.x < ray->side_dist.y)
+		{
+			ray->side_dist.x += ray->delta_dist.x;
+			ray->map_x += ray->step_x * 1.0;
+			ray->ori = 0;
+		}
+		else
+		{
+			ray->side_dist.y += ray->delta_dist.y;
+			ray->map_y += ray->step_y * 1.0;
+			ray->ori = 1;
+		}
+		if (data->map[ray->map_y][ray->map_x] > 2)
+			i++;
+		printf("i :%d\n", i);//why does it never reach 1?
+	}
+	i = 0;
+	while (i < data->nbr_doors)
+	{
+		if (data->doors[i]->col == ray->map_x && data->doors[i]->row == ray->map_y)
+		{
+			ray->cur_obj = (void *)data->doors[i];
+			return (3);
+		}
+		i++;
+	}
+	i = 0;
+	while (i < data->nbr_sprites)
+	{
+		if (data->sprites[i]->col == ray->map_x && data->sprites[i]->row == ray->map_y)
+		{
+			ray->cur_obj = (void *)data->sprites[i];
+			return (4);
+		}
+		i++;
+	}
+	return (1);
+}
+
 void	raycasting(t_data *data)
 {
 	t_img	*texture;
+	int		i;
 	
 	data->cur_ray->x = 0;
 	while (data->cur_ray->x < WIDTH) 
@@ -113,6 +164,18 @@ void	raycasting(t_data *data)
 		texture = identify_texture(data);
 		// draw line //
 		ray_wall(data, texture);
+		while (data->cur_ray->nbr_objects > 0)
+		{
+			printf("nbr_obj: %d\n", data->cur_ray->nbr_objects);
+			i = identify_object(data, data->cur_ray);
+			if (i == 3)
+				ray_door(data, (t_door *)data->cur_ray->cur_obj);
+			else if (i == 4)
+				ray_sprite(data, data->cur_ray->full_dist, (t_obj *)data->cur_ray->cur_obj);
+			else
+				ft_error("Problem to identify object.", data);
+			data->cur_ray->nbr_objects--;
+		}
 		data->cur_ray->x++;
 	}
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
