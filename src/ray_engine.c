@@ -119,28 +119,13 @@ int	identify_object(t_data *data, t_ray *ray)//segfaulting
 		}
 		if (data->map[ray->map_y][ray->map_x] > 2)
 			i++;
-		printf("i :%d\n", i);//why does it never reach 1?
+		else if (data->map[ray->map_y][ray->map_x] == 1)
+			return (1);
 	}
-	i = 0;
-	while (i < data->nbr_doors)
-	{
-		if (data->doors[i]->col == ray->map_x && data->doors[i]->row == ray->map_y)
-		{
-			ray->cur_obj = (void *)data->doors[i];
-			return (3);
-		}
-		i++;
-	}
-	i = 0;
-	while (i < data->nbr_sprites)
-	{
-		if (data->sprites[i]->col == ray->map_x && data->sprites[i]->row == ray->map_y)
-		{
-			ray->cur_obj = (void *)data->sprites[i];
-			return (4);
-		}
-		i++;
-	}
+	if (check_if_door(data, ray->map_x, ray->map_y))
+		return (3);
+	if (check_if_sprite(data, ray->map_x, ray->map_y))
+		return (4);
 	return (1);
 }
 
@@ -166,8 +151,14 @@ void	raycasting(t_data *data)
 		ray_wall(data, texture);
 		while (data->cur_ray->nbr_objects > 0)
 		{
-			printf("nbr_obj: %d\n", data->cur_ray->nbr_objects);
+			cast_rays(data, data->cur_ray, data->cur_ray->x);
 			i = identify_object(data, data->cur_ray);
+			if (data->cur_ray->ori == 0)
+				data->cur_ray->full_dist = \
+				data->cur_ray->side_dist.x - data->cur_ray->delta_dist.x;
+			else
+				data->cur_ray->full_dist = \
+				data->cur_ray->side_dist.y - data->cur_ray->delta_dist.y;
 			if (i == 3)
 				ray_door(data, (t_door *)data->cur_ray->cur_obj);
 			else if (i == 4)

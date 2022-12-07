@@ -62,3 +62,20 @@ void	check_tile(t_data *data, int row, int col, int *pos)
 			fill_sprite(data, row, col);
 	}
 }
+
+int	check_if_accessible(t_data *data, int x, int y)
+{
+	t_door	*door;
+
+	if (data->map[y][x] == 0 || data->map[y][x] == 2)
+		return (1);
+	else if (data->map[y][x] == 3)
+	{
+		door = (t_door *)check_if_door(data, x, y);
+		if (!door)
+			return (0);
+		if (door->opening == 1 && door->closed == 0)
+			return (1);
+	}
+	return (0);
+}

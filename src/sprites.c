@@ -61,3 +61,18 @@ void	init_sprites(t_data *data)
 	data->tut.offset = 20;
 	data->tut.size_factor = 1.0;
 }
+
+void	*check_if_sprite(t_data *data, int x, int y)
+{
+	int	i;
+
+	i = 0;
+	data->cur_ray->cur_obj = NULL;
+	while (i < data->nbr_sprites)
+	{
+		if (data->sprites[i]->col == x && data->sprites[i]->row == y)
+			data->cur_ray->cur_obj = (void *)data->sprites[i];
+		i++;
+	}
+	return (data->cur_ray->cur_obj);
+}

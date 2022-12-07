@@ -101,5 +101,20 @@ void	open_door(t_data *data)
 		data->doors[idx]->opening = 1;
 	else
 		data->doors[idx]->opening = 0;
-	door_sound();
+	// door_sound();//for testing @ home
+}
+
+void	*check_if_door(t_data *data, int x, int y)
+{
+	int	i;
+
+	i = 0;
+	data->cur_ray->cur_obj = NULL;
+	while (i < data->nbr_doors)
+	{
+		if (data->doors[i]->col == x && data->doors[i]->row == y)
+			data->cur_ray->cur_obj = (void *)data->doors[i];
+		i++;
+	}
+	return (data->cur_ray->cur_obj);
 }

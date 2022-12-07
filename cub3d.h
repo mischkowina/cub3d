@@ -237,6 +237,7 @@ int		copy_map_tile(char c, int row, int col, t_data *data);
 //check_map.c
 void	check_map_array(t_data *data);
 void	check_tile(t_data *data, int row, int col, int *pos);
+int		check_if_accessible(t_data *data, int x, int y);
 
 //images.c
 void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
@@ -260,11 +261,13 @@ void	allocate_doors_sprites(t_data *data);
 void	move_doors_sprites(t_data *data);
 void	reset_tex_pos(t_data *data);
 void	open_door(t_data *data);
+void	*check_if_door(t_data *data, int x, int y);
 
 //sprites.c
 int		parse_sprites(char c, int row, int col, t_data *data);
 void	init_sprites(t_data *data);
 void	fill_sprite(t_data *data, int row, int col);
+void	*check_if_sprite(t_data *data, int x, int y);
 
 //sounds.c
 void	background_music(void);
