@@ -7,7 +7,6 @@ int	main(int argc, char **argv)
 
 	check_input(argc, argv);
 	init_data(&data);
-		printf("init mouse: x y %f, %f\n", data.mouse.x, data.mouse.y);
 	parser(argv[1], &data);
 	init(&data);
 	start_game(&data);
@@ -73,7 +72,6 @@ void	init_data(t_data *data)
 	data->cur_ray->nbr_objects = 0;
 	data->mouse.x = WIDTH / 2;
 	data->mouse.y = HEIGHT / 2;
-	// printf("init mouse: x y %f, %f\n", data->mouse.x, data->mouse.y);
 }
 
 /**
