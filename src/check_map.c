@@ -79,3 +79,28 @@ int	check_if_accessible(t_data *data, int x, int y)
 	}
 	return (0);
 }
+
+void	*check_door_ahead(t_data *data)
+{
+	t_door	*door;
+	t_ray	view;
+	
+	view.x = WIDTH / 2;
+	door = NULL;
+	cast_rays(data, &view, view.x);
+	if (view.side_dist.x < view.side_dist.y)
+	{
+		view.side_dist.x += view.delta_dist.x;
+		view.map_x += view.step_x * 1.0;
+		view.ori = 0;
+	}
+	else
+	{
+		view.side_dist.y += view.delta_dist.y;
+		view.map_y += view.step_y * 1.0;
+		view.ori = 1;
+	}
+	if (data->map[view.map_y][view.map_x] == 3)
+		door = check_if_door(data, view.map_x, view.map_y);
+	return (door);
+}

@@ -92,15 +92,15 @@ void	reset_tex_pos(t_data *data)
 */
 void	open_door(t_data *data)
 {
-	int	idx;
+	t_door	*door;
 
-	//check if conditions are met: adjacent to the door and door within FOV?
-	//identify which door!
-	idx = 0;//to be replaced
-	if (data->doors[idx]->opening == 0)
-		data->doors[idx]->opening = 1;
+	door = check_door_ahead(data);
+	if (!door)
+		return ;
+	if (door->opening == 0)
+		door->opening = 1;
 	else
-		data->doors[idx]->opening = 0;
+		door->opening = 0;
 	// door_sound();//for testing @ home
 }
 

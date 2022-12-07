@@ -12,7 +12,7 @@
 # include "mlx/mlx.h"
 # include <stdbool.h>
 
-# define WIDTH 			1440
+# define WIDTH 			1240
 # define HEIGHT			720
 # define GRID_SIZE		72
 
@@ -238,6 +238,7 @@ int		copy_map_tile(char c, int row, int col, t_data *data);
 void	check_map_array(t_data *data);
 void	check_tile(t_data *data, int row, int col, int *pos);
 int		check_if_accessible(t_data *data, int x, int y);
+void	*check_door_ahead(t_data *data);
 
 //images.c
 void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
