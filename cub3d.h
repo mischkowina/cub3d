@@ -12,8 +12,8 @@
 # include "mlx/mlx.h"
 # include <stdbool.h>
 
-# define WIDTH 			1440
-# define HEIGHT			1024
+# define WIDTH 			1240
+# define HEIGHT			720
 # define GRID_SIZE		72
 
 # define KEY_ESC		53
@@ -96,15 +96,12 @@ typedef struct s_door {
 	int			row;
 	int			opening;
 	int			closed;
-	int			cur_width;
-	double		tex_pos_x;
 }				t_door;
 
 typedef struct s_obj
 {
 	int			col;
 	int			row;
-	double		tex_pos_x;
 	t_img		*tex;
 }				t_obj;
 
@@ -259,7 +256,6 @@ t_img	*identify_texture(t_data *data);
 //doors.c
 void	allocate_doors_sprites(t_data *data);
 void	move_doors_sprites(t_data *data);
-void	reset_tex_pos(t_data *data);
 void	open_door(t_data *data);
 void	*check_if_door(t_data *data, int x, int y);
 
