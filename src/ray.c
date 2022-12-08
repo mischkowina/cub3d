@@ -95,6 +95,8 @@ void	ray_sprite(t_data *data, double dist, t_obj *sprite)
 	int		col;
 	t_img	*texture;//maybe move to the outside loop?
 
+	if (sprite->done == 1)
+		return ;
 	start = - (HEIGHT / dist) / 2 + HEIGHT / 2.0;
 	end = (HEIGHT / dist) / 2 + HEIGHT / 2.0;
 	height = end - start;
@@ -114,12 +116,15 @@ void	ray_sprite(t_data *data, double dist, t_obj *sprite)
 	tex_pos_y = 0;
 	while (start < end && tex_pos_y < texture->height)
 	{
-		col = get_texture_color(data, texture, (int)tex_pos_y);
+		col = get_texture_color_sprite(texture, (int)sprite->tex_pos_x, (int)tex_pos_y);
 		if (col != 16777215)
 			ft_mlx_pixel_put(&(data->img), data->cur_ray->x, start, col);
 		tex_pos_y += texture->size_factor * texture->height / (HEIGHT / dist);
 		start++;
 	}
+	sprite->tex_pos_x += texture->size_factor * texture->width / (WIDTH / dist);
+	if (sprite->tex_pos_x >= (double)texture->width)
+		sprite->done = 1;
 }
 
 

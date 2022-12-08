@@ -103,6 +103,8 @@ typedef struct s_obj
 	int			col;
 	int			row;
 	t_img		*tex;
+	double		tex_pos_x;
+	int			done;
 }				t_obj;
 
 typedef struct s_ray
@@ -252,6 +254,7 @@ void	open_texture(t_data *data, t_img *texture);
 void	open_all_textures(t_data *data);
 int		get_texture_color(t_data *data, t_img *texture, int y);
 t_img	*identify_texture(t_data *data);
+int		get_texture_color_sprite(t_img *texture, int x, int y);
 
 //doors.c
 void	allocate_doors_sprites(t_data *data);

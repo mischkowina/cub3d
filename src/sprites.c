@@ -18,6 +18,8 @@ void	fill_sprite(t_data *data, int row, int col)
 {
 	data->sprites[data->sprite_counter]->col = col;
 	data->sprites[data->sprite_counter]->row = row;
+	data->sprites[data->sprite_counter]->tex_pos_x = 0.0;
+	data->sprites[data->sprite_counter]->done = 0;
 	if (data->map[row][col] == 4)
 		data->sprites[data->sprite_counter++]->tex = NULL;
 	else if (data->map[row][col] == 5)

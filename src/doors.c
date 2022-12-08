@@ -66,6 +66,12 @@ void	move_doors_sprites(t_data *data)
 			data->doors[i]->closed += 2;
 		i++;
 	}
+	i = 0;
+	while (i < data->nbr_sprites)
+	{
+		data->sprites[i]->tex_pos_x = 0;
+		data->sprites[i++]->done = 0;
+	}
 }
 
 /**

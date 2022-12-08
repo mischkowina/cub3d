@@ -63,6 +63,14 @@ int	get_texture_color(t_data *data, t_img *texture, int y)
 	return (*(int *)dst);
 }
 
+int	get_texture_color_sprite(t_img *texture, int x, int y)
+{
+	char	*dst;
+
+	dst = texture->addr + (y * texture->line_length + x * (texture->bpp / 8));
+	return (*(int *)dst);
+}
+
 t_img	*identify_texture(t_data *data)
 {
 	t_img	*texture;
