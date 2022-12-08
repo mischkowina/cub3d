@@ -11,6 +11,7 @@
 # include "libft/libft.h"
 # include "mlx/mlx.h"
 # include <stdbool.h>
+# include <sys/time.h>
 
 # define WIDTH 			1440
 # define HEIGHT			1024
@@ -24,7 +25,6 @@
 # define KEY_S			1
 # define KEY_D			2
 # define KEY_SPACE		49
-# define MOVESPEED		0.1
 
 # define PLAYER_SIZE	10
 
@@ -129,6 +129,10 @@ typedef struct s_data
 {
 	t_minimap	minimap;//Alina: renamed to minimap since there is a map variable
 	t_vec		mouse;
+	double		move_speed;
+	double		rotation_speed;
+	double		old_time;
+	double		new_time;
 	void		*mlx;
 	void		*win;
 	t_img		img;
@@ -196,7 +200,6 @@ void	w_key_pressed(t_data *data);
 void	s_key_pressed(t_data *data);
 void	a_key_pressed(t_data *data);
 void	d_key_pressed(t_data *data);
-void	rotate(t_data *data, double angle);
 
 	// math.c //
 void	find_vector_values(t_vec *vec, double angle);
@@ -204,17 +207,18 @@ void	normalize_vector(t_vec *vec);
 void	perpendicular_vector(t_vec *vec);
 
 	// ray_engine.c //
-//--- solution from the guide ---//
 void	cast_rays(t_data *data, t_ray *ray, int i);
 void	do_the_dda(t_data *data, t_ray *ray);
 void	calculate_step(t_data *data, t_ray *ray);
 void	paint_my_3d_world(t_data *data, t_ray *ray, int x);
 int		identify_object(t_data *data, t_ray *ray);
 void	raycasting(t_data *data);
-//--- my solution ---//
-void	cast_the_rays(t_data *data);
-void	find_nearest_grid(t_ray *ray, t_data *data);
-void	calculate_small_ray(t_ray *ray, t_data *data);
+
+	// rotation.c //
+void	rotate(t_data *data, double angle);
+void	update_move_rot_speeds(t_data *data);
+long long	time_now(void);
+int		mouse_rotation(int x, int y, t_data *data);
 
 //main.c
 int		check_input(int argc, char **argv);

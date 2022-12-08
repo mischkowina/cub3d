@@ -72,6 +72,8 @@ void	init_data(t_data *data)
 	data->cur_ray->nbr_objects = 0;
 	data->mouse.x = WIDTH / 2;
 	data->mouse.y = HEIGHT / 2;
+	data->move_speed = 0.1;
+	data->rotation_speed = 0.5;
 }
 
 /**
