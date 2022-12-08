@@ -45,7 +45,9 @@ void	update_move_rot_speeds(t_data *data)
 
 	data->old_time = data->new_time;
 	data->new_time = time_now();
-	frame_time = (data->new_time - data->old_time) / 1000;
-	data->move_speed = frame_time * 6.0;
+	printf("old time: %f, new_time: %f\n", data->old_time, data->new_time);
+	frame_time = (data->new_time - data->old_time);
+	printf("frame_time: %f\n", frame_time);
+	data->move_speed = frame_time * 5.0;
 	data->rotation_speed = frame_time * 3.0;
 }
