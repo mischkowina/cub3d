@@ -131,8 +131,8 @@ typedef struct s_data
 	t_vec		mouse;
 	double		move_speed;
 	double		rotation_speed;
-	double		old_time;
-	double		new_time;
+	long long	old_time;
+	long long	new_time;
 	void		*mlx;
 	void		*win;
 	t_img		img;

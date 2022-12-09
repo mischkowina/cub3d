@@ -149,7 +149,7 @@ void	raycasting(t_data *data)
 		texture = identify_texture(data);
 		// draw line //
 		ray_wall(data, texture);
-		update_move_rot_speeds(data);
+		// update_move_rot_speeds(data);
 		while (data->cur_ray->nbr_objects > 0)
 		{
 			cast_rays(data, data->cur_ray, data->cur_ray->x);

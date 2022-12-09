@@ -73,7 +73,7 @@ void	init_data(t_data *data)
 	data->mouse.x = WIDTH / 2;
 	data->mouse.y = HEIGHT / 2;
 	data->move_speed = 0.1;
-	data->rotation_speed = 0.5;
+	data->rotation_speed = 0.05;
 	data->new_time = 0;
 }
 
