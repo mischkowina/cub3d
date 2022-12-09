@@ -33,14 +33,14 @@ void	init_sprites(t_data *data)
 	int		i;
 
 	i = 0;
-	data->mummy = ft_calloc(sizeof(t_data *), 4);
+	data->mummy = ft_calloc(sizeof(t_img *), 4);
 	if (!data->mummy)
-		ft_error("Allocation of mummy struct failed.", data);
+		ft_error(NULL, data);
 	while (i < 4)
 	{
-		data->mummy[i] = ft_calloc(sizeof(t_data), 1);
+		data->mummy[i] = ft_calloc(sizeof(t_img), 1);
 		if (!data->mummy[i])
-			ft_error("Allocation of mummy struct failed.", data);
+			ft_error(NULL, data);
 		i++;
 	}
 	data->mummy[0]->filename = ft_strdup("textures/mummy_1.xpm");

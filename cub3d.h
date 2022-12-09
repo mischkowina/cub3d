@@ -161,6 +161,9 @@ typedef struct s_data
 	t_img		chest;
 	t_img		tut;
 	pid_t		pid_music;
+	int			guns_out;
+	t_img		**weapons;
+	t_img		*cur_weapon;
 }				t_data;
 
 typedef struct s_delta

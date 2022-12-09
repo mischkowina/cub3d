@@ -91,7 +91,7 @@ void	open_door(t_data *data)
 		door->opening = 1;
 	else
 		door->opening = 0;
-	// door_sound();//for testing @ home
+	door_sound();//for testing @ home
 }
 
 void	*check_if_door(t_data *data, int x, int y)
