@@ -72,6 +72,10 @@ void	move_doors_sprites(t_data *data)
 		data->sprites[i]->tex_pos_x = 0;
 		data->sprites[i++]->done = 0;
 	}
+	if (data->counter % 2 == 0)
+	{
+		move_weapons(data);
+	}
 }
 
 /**

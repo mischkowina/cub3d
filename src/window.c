@@ -30,13 +30,13 @@ int	key_hooks(int keycode, t_data *data)
 	else if (keycode == KEY_RIGHT)
 		rotate(data, -ROT_ANGLE);
 	else if (keycode == KEY_SPACE)
-		open_door(data);
+		open_door(data);//add if clause for gun usage
 	else if (keycode == KEY_SHIFT_L || keycode == KEY_SHIFT_R)
 	{
 		if (data->guns_out == 0)
 			data->guns_out = 1;
 		else
-			data->guns_out = 0;
+			data->guns_down = 1;
 		//sound?
 	}
 	return (0);

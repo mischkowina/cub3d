@@ -164,9 +164,9 @@ typedef struct s_data
 	t_img		tut;
 	pid_t		pid_music;
 	int			guns_out;
+	int			guns_down;
 	t_img		**weapons;
 	int			cur_weapon;
-	int			weapon_counter;
 }				t_data;
 
 typedef struct s_delta
@@ -294,5 +294,6 @@ void	free_doors_sprites(t_data *data);
 //weapons.c
 void	init_weapons(t_data *data);
 void	ray_weapons(t_data *data, int x);
+void	move_weapons(t_data *data);
 
 #endif
