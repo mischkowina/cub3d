@@ -68,6 +68,7 @@ void	init_data(t_data *data)
 	data->cur_weapon = 0;
 	data->guns_out = 0;
 	data->guns_down = 0;
+	data->guns_shot = 0;
 	data->cur_ray = ft_calloc(sizeof(t_ray), 1);
 	if (!data->cur_ray)
 		ft_error("Allocation of ray struct failed.", data);

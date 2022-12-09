@@ -49,13 +49,22 @@ void	ray_weapons(t_data *data, int x)
 
 void	move_weapons(t_data *data)
 {
-	data = NULL;
-	// if (data->guns_out == 1 && data->guns_down == 0 && data->cur_weapon < 2)
-	// 	data->cur_weapon++;
-	// else if (data->guns_out == 1 && data->cur_weapon == 3)
-	// 	data->cur_weapon = 2;
-	// else if (data->guns_down == 0 && data->cur_weapon > 0)
-	// 	data->cur_weapon--;
-	// else if (data->guns_down == 0 && data->cur_weapon == 0)
-	// 	data->guns_out = 0;
+	if (data->guns_out == 1 && data->cur_weapon < 2 && data->guns_down == 0)
+		data->cur_weapon++;
+	else if (data->guns_down == 1 && data->cur_weapon > 0)
+		data->cur_weapon--;
+	else if (data->guns_down == 1 && data->cur_weapon == 0)
+	{
+		data->guns_out = 0;
+		data->guns_down = 0;
+	}
+	else if (data->guns_shot == 1 && data->cur_weapon == 2)
+		data->cur_weapon = 3;
+	else if (data->guns_shot == 1 && data->cur_weapon == 3)
+	{
+		data->cur_weapon = 1;
+		data->guns_shot = 0;
+	}
+	else
+		data->cur_weapon = 2;
 }

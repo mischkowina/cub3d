@@ -165,6 +165,7 @@ typedef struct s_data
 	pid_t		pid_music;
 	int			guns_out;
 	int			guns_down;
+	int			guns_shot;
 	t_img		**weapons;
 	int			cur_weapon;
 }				t_data;
