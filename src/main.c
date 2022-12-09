@@ -65,7 +65,7 @@ void	init_data(t_data *data)
 	data->sprites = NULL;
 	data->cur_mummy = 0;
 	data->weapons = NULL;
-	data->cur_weapon = NULL;
+	data->cur_weapon = 0;
 	data->guns_out = 0;
 	data->cur_ray = ft_calloc(sizeof(t_ray), 1);
 	if (!data->cur_ray)

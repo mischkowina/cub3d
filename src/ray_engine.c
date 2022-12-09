@@ -167,6 +167,8 @@ void	raycasting(t_data *data)
 				ft_error("Problem to identify object.", data);
 			data->cur_ray->nbr_objects--;
 		}
+		if (data->guns_out == 1)
+			ray_weapons(data, data->cur_ray->x);
 		data->cur_ray->x++;
 	}
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);

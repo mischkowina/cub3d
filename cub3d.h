@@ -24,6 +24,8 @@
 # define KEY_S			1
 # define KEY_D			2
 # define KEY_SPACE		49
+# define KEY_SHIFT_R	258
+# define KEY_SHIFT_L	257
 # define MOVESPEED		0.1
 
 # define PLAYER_SIZE	10
@@ -163,7 +165,8 @@ typedef struct s_data
 	pid_t		pid_music;
 	int			guns_out;
 	t_img		**weapons;
-	t_img		*cur_weapon;
+	int			cur_weapon;
+	int			weapon_counter;
 }				t_data;
 
 typedef struct s_delta
@@ -287,5 +290,9 @@ void	free_all_textures(t_data *data);
 void	free_map(t_data *data);
 void	free_t_img(t_img *img, void *mlx_ptr);
 void	free_doors_sprites(t_data *data);
+
+//weapons.c
+void	init_weapons(t_data *data);
+void	ray_weapons(t_data *data, int x);
 
 #endif
