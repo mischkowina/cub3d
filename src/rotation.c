@@ -35,7 +35,7 @@ long long	time_now(void)
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
-	ms = (tv.tv_sec * 1000LL) + (tv.tv_usec / 1000);
+	ms = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
 	return (ms);
 }
 
@@ -44,10 +44,10 @@ void	update_move_rot_speeds(t_data *data)
 	double	frame_time;
 
 	data->old_time = data->new_time;
-	printf("old time: %llu, new_time: %llu\n", data->old_time, data->new_time);
 	data->new_time = time_now();
-	frame_time = (data->new_time - data->old_time);
-	printf("frame_time: %f\n", frame_time);
+	frame_time = 1000 / (data->new_time - data->old_time);
 	data->move_speed = frame_time / 1000 * 5.0;
 	data->rotation_speed = frame_time / 1000 * 3.0;
+	data->fps = 1.0 / frame_time;
+	ft_printf("fps: %f\n", data->fps);
 }

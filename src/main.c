@@ -75,6 +75,7 @@ void	init_data(t_data *data)
 	data->move_speed = 0.1;
 	data->rotation_speed = 0.05;
 	data->new_time = 0;
+	data->old_time = 0;
 }
 
 /**
