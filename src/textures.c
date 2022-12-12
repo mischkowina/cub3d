@@ -30,6 +30,7 @@ void	open_all_textures(t_data *data)
 	if (data->D_texture.filename)
 		open_texture(data, &(data->D_texture));
 	init_sprites(data);
+	init_weapons(data);
 }
 
 /**
@@ -57,7 +58,24 @@ int	get_texture_color(t_data *data, t_img *texture, int y)
 		tex_x = texture->width - tex_x - 1;
 	if (data->cur_ray->ori == 1 && data->cur_ray->dir.y < 0)
 		tex_x = texture->width - tex_x - 1;
+	if (tex_x > texture->width)
+		tex_x = tex_x % texture->width;
+	if (y > texture->height)
+		y = y % texture->height;
 	dst = texture->addr + (y * texture->line_length + tex_x * (texture->bpp / 8));
+	return (*(int *)dst);
+}
+
+int	get_texture_color_sprite(t_img *texture, int x, int y)
+{
+	char	*dst;
+	int		tex_pos_x;
+	int		tex_pos_y;
+
+	tex_pos_x = x % texture->width;
+	tex_pos_y = y % texture->height;
+	dst = texture->addr + (tex_pos_y * texture->line_length + \
+	tex_pos_x * (texture->bpp / 8));
 	return (*(int *)dst);
 }
 
