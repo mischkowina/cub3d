@@ -162,7 +162,7 @@ void	raycasting(t_data *data)
 			if (i == 3)
 				ray_door(data, (t_door *)data->cur_ray->cur_obj);
 			else if (i == 4)
-				ray_sprite(data, data->cur_ray->full_dist, (t_obj *)data->cur_ray->cur_obj);
+				ray_sprite(data, (t_obj *)data->cur_ray->cur_obj);
 			else
 				ft_error("Problem to identify object.", data);
 			data->cur_ray->nbr_objects--;

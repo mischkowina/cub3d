@@ -47,9 +47,7 @@ int	get_texture_color(t_data *data, t_img *texture, int y)
 	char	*dst;
 	double	wall_x;
 	int		tex_x;
-	// int		tex_y;
 
-	// tex_y = y % texture->height;
 	if (data->cur_ray->ori == 0)
 		wall_x = data->pos.y + data->cur_ray->full_dist * data->cur_ray->dir.y;
 	else
@@ -60,6 +58,10 @@ int	get_texture_color(t_data *data, t_img *texture, int y)
 		tex_x = texture->width - tex_x - 1;
 	if (data->cur_ray->ori == 1 && data->cur_ray->dir.y < 0)
 		tex_x = texture->width - tex_x - 1;
+	if (tex_x > texture->width)
+		tex_x = tex_x % texture->width;
+	if (y > texture->height)
+		y = y % texture->height;
 	dst = texture->addr + (y * texture->line_length + tex_x * (texture->bpp / 8));
 	return (*(int *)dst);
 }
