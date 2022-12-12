@@ -125,6 +125,7 @@ int	render(t_data *data)
 	reset_tex_pos(data);
 	prep_image(data);
 	raycasting(data);
+	render_minimap(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 	return (0);
 }

@@ -26,7 +26,8 @@ SRC =	$(SRC_DIR)main.c \
 		$(SRC_DIR)math.c \
 		$(SRC_DIR)init.c \
 		$(SRC_DIR)ray_engine.c \
-		$(SRC_DIR)rotation.c
+		$(SRC_DIR)rotation.c \
+		$(SRC_DIR)minimap.c
 
 # colors
 GREEN = \033[0;32m

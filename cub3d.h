@@ -221,6 +221,10 @@ void	update_move_rot_speeds(t_data *data);
 long long	time_now(void);
 int		mouse_rotation(int x, int y, t_data *data);
 
+	// minimap.c //
+void	draw_player(int x, int y, t_data *data, int color);
+void	render_minimap(t_data *data);
+
 //main.c
 int		check_input(int argc, char **argv);
 void	init_data(t_data *data);
