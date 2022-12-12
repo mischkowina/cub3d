@@ -44,10 +44,13 @@ void	open_all_textures(t_data *data)
 */
 int	get_texture_color(t_data *data, t_img *texture, int y)
 {
-	char	*dst;
+	int		col;
 	double	wall_x;
 	int		tex_x;
 
+	if (!data || !texture)
+		printf("WTF?!\n");
+	printf("TEST\n");
 	if (data->cur_ray->ori == 0)
 		wall_x = data->pos.y + data->cur_ray->full_dist * data->cur_ray->dir.y;
 	else
@@ -62,8 +65,10 @@ int	get_texture_color(t_data *data, t_img *texture, int y)
 		tex_x = tex_x % texture->width;
 	if (y > texture->height)
 		y = y % texture->height;
-	dst = texture->addr + (y * texture->line_length + tex_x * (texture->bpp / 8));
-	return (*(int *)dst);
+	printf("TEST2\n");
+	col = *(int *)(texture->addr + (y * texture->line_length + tex_x * (texture->bpp / 8)));
+	printf("TEST3\n");
+	return (col);
 }
 
 int	get_texture_color_sprite(t_img *texture, int x, int y)
