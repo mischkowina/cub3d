@@ -75,6 +75,12 @@ void	init_data(t_data *data)
 	data->cur_ray->full_dist = 0.0;
 	data->cur_ray->x = 0;
 	data->cur_ray->nbr_objects = 0;
+	data->mouse.x = WIDTH / 2;
+	data->mouse.y = HEIGHT / 2;
+	data->move_speed = 0.1;
+	data->rotation_speed = 0.05;
+	data->new_time = 0;
+	data->old_time = 0;
 }
 
 /**
@@ -102,6 +108,8 @@ void	start_game(t_data *data)
 			&data->img.line_length, &data->img.endian);
 	mlx_hook(data->win, 17, 0, &close_x, data);
 	mlx_hook(data->win, 2, (1L << 0), &key_hooks, data);
+	mlx_hook(data->win, 6, (1L << 0), &mouse_rotation, data);
+	mlx_mouse_hide();
 	mlx_loop_hook(data->mlx, render, data);
 	mlx_loop(data->mlx);
 }
