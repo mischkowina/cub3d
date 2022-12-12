@@ -157,11 +157,10 @@ void	raycasting(t_data *data)
 	{
 		cast_rays(data, data->cur_ray, data->cur_ray->x);
 		do_the_dda(data, data->cur_ray);
-		printf("nbr objects: %d\n", data->cur_ray->nbr_objects);
 		while (data->cur_ray->nbr_objects > 0)
 		{
+			cast_rays(data, data->cur_ray, data->cur_ray->x);
 			i = identify_object(data, data->cur_ray);
-			printf("i: %d\n", i);
 			if (data->cur_ray->ori == 0)
 				data->cur_ray->full_dist = \
 				data->cur_ray->side_dist.x - data->cur_ray->delta_dist.x;
