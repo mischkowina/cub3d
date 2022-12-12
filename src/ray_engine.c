@@ -135,6 +135,7 @@ void	raycasting(t_data *data)
 	int		i;
 	
 	data->cur_ray->x = 0;
+	data->new_time = time_now();
 	while (data->cur_ray->x < WIDTH) 
 	{
 		cast_rays(data, data->cur_ray, data->cur_ray->x);
@@ -171,6 +172,7 @@ void	raycasting(t_data *data)
 			ray_weapons(data, data->cur_ray->x);
 		data->cur_ray->x++;
 	}
+	update_move_rot_speeds(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 }
 
