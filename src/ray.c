@@ -86,7 +86,7 @@ void	ray_door(t_data *data, t_door *door)
  * whole sprite.
  * @param sprite [t_obj *] Pointer to the struct of the sprite object to be drawn.
  */
-void	ray_sprite(t_data *data, double dist, t_obj *sprite)
+void	ray_sprite(t_data *data, t_obj *sprite)
 {
 	int		start;
 	int		end;
@@ -97,13 +97,15 @@ void	ray_sprite(t_data *data, double dist, t_obj *sprite)
 
 	if (sprite->done == 1)
 		return ;
-	start = - (HEIGHT / dist) / 2 + HEIGHT / 2.0;
-	end = (HEIGHT / dist) / 2 + HEIGHT / 2.0;
+	if (sprite->dist == 0.0)
+		sprite->dist = get_sprite_distance(data, sprite);
+	start = - (HEIGHT / sprite->dist) / 2 + HEIGHT / 2.0;
+	end = (HEIGHT / sprite->dist) / 2 + HEIGHT / 2.0;
 	height = end - start;
-	if (sprite->tex == NULL)//see above
-		texture = data->mummy[data->cur_mummy];//see above
-	else//see above
-		texture = sprite->tex;//see above
+	if (sprite->tex == NULL)
+		texture = data->mummy[data->cur_mummy];
+	else
+		texture = sprite->tex;
 	if (texture->offset > 0)
 	{
 		start += 1.0 * height / texture->offset;
@@ -119,10 +121,10 @@ void	ray_sprite(t_data *data, double dist, t_obj *sprite)
 		col = get_texture_color_sprite(texture, (int)sprite->tex_pos_x, (int)tex_pos_y);
 		if (col != 16777215)
 			ft_mlx_pixel_put(&(data->img), data->cur_ray->x, start, col);
-		tex_pos_y += texture->size_factor * texture->height / (HEIGHT / dist);
+		tex_pos_y += texture->size_factor * texture->height / (HEIGHT / sprite->dist);
 		start++;
 	}
-	sprite->tex_pos_x += texture->size_factor * texture->width / (WIDTH / dist);
+	sprite->tex_pos_x += texture->size_factor * texture->width / (WIDTH / sprite->dist);
 	if (sprite->tex_pos_x >= (double)texture->width)
 		sprite->done = 1;
 }

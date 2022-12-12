@@ -97,7 +97,7 @@ void	paint_my_3d_world(t_data *data, t_ray *ray, int x)
 	}
 }
 
-int	identify_object(t_data *data, t_ray *ray)//segfaulting
+int	identify_object(t_data *data, t_ray *ray)
 {
 	int		i;
 

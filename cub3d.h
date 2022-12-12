@@ -107,6 +107,7 @@ typedef struct s_obj
 	t_img		*tex;
 	double		tex_pos_x;
 	int			done;
+	double		dist;
 }				t_obj;
 
 typedef struct s_ray
@@ -254,7 +255,7 @@ void	prep_image(t_data *data);
 //ray.c
 void	ray_wall(t_data *data, t_img *texture);
 void	ray_door(t_data *data, t_door *door);
-void	ray_sprite(t_data *data, double dist, t_obj *sprite);
+void	ray_sprite(t_data *data, t_obj *sprite);
 
 //textures.c
 void	open_texture(t_data *data, t_img *texture);
@@ -274,10 +275,10 @@ int		parse_sprites(char c, int row, int col, t_data *data);
 void	init_sprites(t_data *data);
 void	fill_sprite(t_data *data, int row, int col);
 void	*check_if_sprite(t_data *data, int x, int y);
+double	get_sprite_distance(t_data *data, t_obj	*sprite);
 
 //sounds.c
-void	background_music(void);
-void	door_sound(void);
+void	play_sound(char *sound);
 void	kill_music(void);
 
 //utils.c

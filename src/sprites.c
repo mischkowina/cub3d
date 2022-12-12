@@ -78,3 +78,25 @@ void	*check_if_sprite(t_data *data, int x, int y)
 	}
 	return (data->cur_ray->cur_obj);
 }
+
+double	get_sprite_distance(t_data *data, t_obj	*sprite)
+{
+	double	x;
+	double	y;
+	double	delta_x;
+	double	delta_y;
+	double	dist;
+
+	x = 1.0 * sprite->col + 0.5;
+	y = 1.0 * sprite->row + 0.5;
+	if (x > data->pos.x)
+		delta_x = x - data->pos.x;
+	else
+		delta_x = data->pos.x - x;
+	if (y > data->pos.y)
+		delta_y = y - data->pos.y;
+	else
+		delta_y = data->pos.y - y;
+	dist = sqrt((delta_x * delta_x) + (delta_y * delta_y));
+	return (dist);
+}

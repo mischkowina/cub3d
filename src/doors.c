@@ -70,6 +70,7 @@ void	move_doors_sprites(t_data *data)
 	while (i < data->nbr_sprites)
 	{
 		data->sprites[i]->tex_pos_x = 0;
+		data->sprites[i]->dist = 0.0;
 		data->sprites[i++]->done = 0;
 	}
 	if (data->counter % 2 == 0)
@@ -95,7 +96,7 @@ void	open_door(t_data *data)
 		door->opening = 1;
 	else
 		door->opening = 0;
-	door_sound();//for testing @ home
+	play_sound("sounds/door.wav");//for testing @ home
 }
 
 void	*check_if_door(t_data *data, int x, int y)
