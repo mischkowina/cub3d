@@ -64,6 +64,11 @@ void	init_data(t_data *data)
 	data->sprite_counter = 0;
 	data->sprites = NULL;
 	data->cur_mummy = 0;
+	data->weapons = NULL;
+	data->cur_weapon = 0;
+	data->guns_out = 0;
+	data->guns_down = 0;
+	data->guns_shot = 0;
 	data->cur_ray = ft_calloc(sizeof(t_ray), 1);
 	if (!data->cur_ray)
 		ft_error("Allocation of ray struct failed.", data);
@@ -97,7 +102,7 @@ void	start_game(t_data *data)
 		ft_error("MLX failed.", data);
 	}
 	open_all_textures(data);
-	background_music();//take out for testing at home
+	play_sound("sounds/shimmering_sands.mp3");//take out for testing at home
 	data->img.img_ptr = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 	data->img.addr = mlx_get_data_addr(data->img.img_ptr, &data->img.bpp,
 			&data->img.line_length, &data->img.endian);
@@ -122,7 +127,6 @@ void	start_game(t_data *data)
 int	render(t_data *data)
 {
 	move_doors_sprites(data);
-	reset_tex_pos(data);
 	prep_image(data);
 	raycasting(data);
 	render_minimap(data);

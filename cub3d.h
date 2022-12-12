@@ -13,8 +13,8 @@
 # include <stdbool.h>
 # include <sys/time.h>
 
-# define WIDTH 			1440
-# define HEIGHT			1024
+# define WIDTH 			1240
+# define HEIGHT			720
 # define GRID_SIZE		72
 
 # define KEY_ESC		53
@@ -25,6 +25,9 @@
 # define KEY_S			1
 # define KEY_D			2
 # define KEY_SPACE		49
+# define KEY_SHIFT_R	258
+# define KEY_SHIFT_L	257
+# define MOVESPEED		0.1
 
 # define PLAYER_SIZE	10
 
@@ -96,16 +99,16 @@ typedef struct s_door {
 	int			row;
 	int			opening;
 	int			closed;
-	int			cur_width;
-	double		tex_pos_x;
 }				t_door;
 
 typedef struct s_obj
 {
 	int			col;
 	int			row;
-	double		tex_pos_x;
 	t_img		*tex;
+	double		tex_pos_x;
+	int			done;
+	double		dist;
 }				t_obj;
 
 typedef struct s_ray
@@ -167,6 +170,12 @@ typedef struct s_data
 	int			cur_mummy;
 	t_img		chest;
 	t_img		tut;
+	pid_t		pid_music;
+	int			guns_out;
+	int			guns_down;
+	int			guns_shot;
+	t_img		**weapons;
+	int			cur_weapon;
 }				t_data;
 
 typedef struct s_delta
@@ -258,20 +267,18 @@ void	prep_image(t_data *data);
 //ray.c
 void	ray_wall(t_data *data, t_img *texture);
 void	ray_door(t_data *data, t_door *door);
-void	draw_doors(t_data *data);
-void	ray_sprite(t_data *data, double dist, t_obj *sprite);
-void	draw_sprites(t_data *data);
+void	ray_sprite(t_data *data, t_obj *sprite);
 
 //textures.c
 void	open_texture(t_data *data, t_img *texture);
 void	open_all_textures(t_data *data);
 int		get_texture_color(t_data *data, t_img *texture, int y);
 t_img	*identify_texture(t_data *data);
+int		get_texture_color_sprite(t_img *texture, int x, int y);
 
 //doors.c
 void	allocate_doors_sprites(t_data *data);
 void	move_doors_sprites(t_data *data);
-void	reset_tex_pos(t_data *data);
 void	open_door(t_data *data);
 void	*check_if_door(t_data *data, int x, int y);
 
@@ -280,10 +287,11 @@ int		parse_sprites(char c, int row, int col, t_data *data);
 void	init_sprites(t_data *data);
 void	fill_sprite(t_data *data, int row, int col);
 void	*check_if_sprite(t_data *data, int x, int y);
+double	get_sprite_distance(t_data *data, t_obj	*sprite);
 
 //sounds.c
-void	background_music(void);
-void	door_sound(void);
+void	play_sound(char *sound);
+void	kill_music(void);
 
 //utils.c
 int		str_is_digit(char *str);
@@ -296,5 +304,10 @@ void	free_all_textures(t_data *data);
 void	free_map(t_data *data);
 void	free_t_img(t_img *img, void *mlx_ptr);
 void	free_doors_sprites(t_data *data);
+
+//weapons.c
+void	init_weapons(t_data *data);
+void	ray_weapons(t_data *data, int x);
+void	move_weapons(t_data *data);
 
 #endif

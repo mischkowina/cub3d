@@ -1,29 +1,27 @@
 #include "../cub3d.h"
 
-void	background_music(void)
+void	play_sound(char *sound)
 {
 	pid_t pid;
+	
+	char	*args[5];
 
-	char	*args[] = {"/usr/bin/afplay", "--volume", "1", \
-			"sounds/shimmering_sands.mp3", NULL};
-
+	args[0] = "/usr/bin/afplay";
+	args[1] = "--volume";
+	args[2] = "1";
+	args[3] = sound;
+	args[4] = NULL;
 	pid = fork();
 	if (!pid)
-	{
 		execvp(args[0], args);
-	}
 }
 
-void	door_sound(void)
+void	kill_music(void)
 {
 	pid_t pid;
-
-	char	*args[] = {"/usr/bin/afplay", "--volume", "1", \
-			"sounds/door.wav", NULL};
-
+	
+	char	*args[] = {"/usr/bin/killall", "afplay", NULL};
 	pid = fork();
 	if (!pid)
-	{
 		execvp(args[0], args);
-	}
 }

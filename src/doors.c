@@ -21,9 +21,7 @@ void	allocate_doors_sprites(t_data *data)
 		if (!data->doors[i])
 			ft_error(NULL, data);
 		data->doors[i]->closed = 100;
-		data->doors[i]->opening = 0;
-		data->doors[i]->cur_width = 0;
-		data->doors[i++]->tex_pos_x = 0.0;
+		data->doors[i++]->opening = 0;
 	}
 	i = 0;
 	data->sprites = ft_calloc(sizeof(t_obj *), data->nbr_sprites);
@@ -34,8 +32,7 @@ void	allocate_doors_sprites(t_data *data)
 		data->sprites[i] = ft_calloc(sizeof(t_obj), 1);
 		if (!data->sprites[i])
 			ft_error(NULL, data);
-		data->sprites[i]->tex = NULL;
-		data->sprites[i++]->tex_pos_x = 0.0;
+		data->sprites[i++]->tex = NULL;
 	}
 }
 
@@ -67,21 +64,19 @@ void	move_doors_sprites(t_data *data)
 			data->doors[i]->closed -= 2;
 		if (data->doors[i]->opening == 0 && data->doors[i]->closed < 100)
 			data->doors[i]->closed += 2;
-		data->doors[i]->cur_width = 0;
 		i++;
 	}
-}
-
-void	reset_tex_pos(t_data *data)
-{
-	int	i;
-
 	i = 0;
 	while (i < data->nbr_sprites)
-		data->sprites[i++]->tex_pos_x = 0.0;
-	i = 0;
-	while (i < data->nbr_doors)
-		data->doors[i++]->tex_pos_x = 0.0;
+	{
+		data->sprites[i]->tex_pos_x = 0;
+		data->sprites[i]->dist = 0.0;
+		data->sprites[i++]->done = 0;
+	}
+	if (data->counter % 2 == 0)
+	{
+		move_weapons(data);
+	}
 }
 
 /**
@@ -101,7 +96,7 @@ void	open_door(t_data *data)
 		door->opening = 1;
 	else
 		door->opening = 0;
-	door_sound();//for testing @ home
+	play_sound("sounds/door.wav");//for testing @ home
 }
 
 void	*check_if_door(t_data *data, int x, int y)

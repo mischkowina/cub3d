@@ -18,6 +18,8 @@ void	fill_sprite(t_data *data, int row, int col)
 {
 	data->sprites[data->sprite_counter]->col = col;
 	data->sprites[data->sprite_counter]->row = row;
+	data->sprites[data->sprite_counter]->tex_pos_x = 0.0;
+	data->sprites[data->sprite_counter]->done = 0;
 	if (data->map[row][col] == 4)
 		data->sprites[data->sprite_counter++]->tex = NULL;
 	else if (data->map[row][col] == 5)
@@ -31,14 +33,14 @@ void	init_sprites(t_data *data)
 	int		i;
 
 	i = 0;
-	data->mummy = ft_calloc(sizeof(t_data *), 4);
+	data->mummy = ft_calloc(sizeof(t_img *), 4);
 	if (!data->mummy)
-		ft_error("Allocation of mummy struct failed.", data);
+		ft_error(NULL, data);
 	while (i < 4)
 	{
-		data->mummy[i] = ft_calloc(sizeof(t_data), 1);
+		data->mummy[i] = ft_calloc(sizeof(t_img), 1);
 		if (!data->mummy[i])
-			ft_error("Allocation of mummy struct failed.", data);
+			ft_error(NULL, data);
 		i++;
 	}
 	data->mummy[0]->filename = ft_strdup("textures/mummy_1.xpm");
@@ -75,4 +77,26 @@ void	*check_if_sprite(t_data *data, int x, int y)
 		i++;
 	}
 	return (data->cur_ray->cur_obj);
+}
+
+double	get_sprite_distance(t_data *data, t_obj	*sprite)
+{
+	double	x;
+	double	y;
+	double	delta_x;
+	double	delta_y;
+	double	dist;
+
+	x = 1.0 * sprite->col + 0.5;
+	y = 1.0 * sprite->row + 0.5;
+	if (x > data->pos.x)
+		delta_x = x - data->pos.x;
+	else
+		delta_x = data->pos.x - x;
+	if (y > data->pos.y)
+		delta_y = y - data->pos.y;
+	else
+		delta_y = data->pos.y - y;
+	dist = sqrt((delta_x * delta_x) + (delta_y * delta_y));
+	return (dist);
 }
