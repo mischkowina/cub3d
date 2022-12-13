@@ -129,7 +129,6 @@ int	render(t_data *data)
 	move_doors_sprites(data);
 	prep_image(data);
 	raycasting(data);
-	render_minimap(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 	return (0);
 }

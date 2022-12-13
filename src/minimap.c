@@ -48,32 +48,52 @@ void	draw_player(int x, int y, t_data *data, int color)
 // 	// mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 // }
 
+// void	render_minimap(t_data *data)
+// {
+// 	int	x;
+// 	int	y;
+// 	int	color;
+
+// 	x = 0;
+// 	y = 0;
+// 	// data->img.px_y = 10; //a coordinate where I want to start the minimap
+// 	while (y < data->height_map)
+// 	{
+// 		// data->img.px_x = 10; //a coordinate where I want to start the minimap
+// 		x = 0;
+// 		while (x < data->width_map) // where I want to stop the minimap
+// 		{
+// 			if (data->map[y][x] == 1)
+// 				color = LIGHT_PINK;
+// 			else if (data->map[y][x] == 0)
+// 				color = BLACK;
+// 			else if (data->map[y][x] == 3)
+// 				color = RED;
+// 			// draw_point(x * 16 + 10, y * 16 + 10, data, color);
+// 			draw_point(x * 9, y * 9, data, color);
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// }
+
 void	render_minimap(t_data *data)
 {
 	int	x;
 	int	y;
-	int	color;
+	t_ray	*ray;
+	t_img	minimap;
+	int	color = 0;
 
-	x = 0;
-	y = 0;
-	// data->img.px_y = 10; //a coordinate where I want to start the minimap
-	while (y < data->height_map)
-	{
-		// data->img.px_x = 10; //a coordinate where I want to start the minimap
-		x = 0;
-		while (x < data->width_map) // where I want to stop the minimap
-		{
+	ray = data->cur_ray;
+	x = ray->map_x;
+	y = ray->map_y;
 			if (data->map[y][x] == 1)
 				color = LIGHT_PINK;
 			else if (data->map[y][x] == 0)
 				color = BLACK;
 			else if (data->map[y][x] == 3)
 				color = RED;
-			draw_point(x * 16 + 10, y * 16 + 10, data, color);
-			x++;
-		}
-		y++;
-	}
-	draw_player(data->pos.x * 16 + 10, data->pos.y * 16 + 10, data, YELLOW);
-	// mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
+			// draw_point(x * 16 + 10, y * 16 + 10, data, color);
+			draw_point(x * 9, y * 9, data, color);
 }

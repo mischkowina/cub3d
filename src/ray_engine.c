@@ -172,6 +172,7 @@ void	raycasting(t_data *data)
 			ray_weapons(data, data->cur_ray->x);
 		data->cur_ray->x++;
 	}
+	render_minimap(data);
 	update_move_rot_speeds(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 }
