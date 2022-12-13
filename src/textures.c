@@ -44,7 +44,7 @@ void	open_all_textures(t_data *data)
 */
 int	get_texture_color(t_data *data, t_img *texture, int y)
 {
-	int		col;
+	char	*dst;
 	double	wall_x;
 	int		tex_x;
 
