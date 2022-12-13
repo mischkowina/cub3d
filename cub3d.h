@@ -288,6 +288,7 @@ void	init_sprites(t_data *data);
 void	fill_sprite(t_data *data, int row, int col);
 void	*check_if_sprite(t_data *data, int x, int y);
 double	get_sprite_distance(t_data *data, t_obj	*sprite);
+void	move_reset_sprites(t_data *data);
 
 //sounds.c
 void	play_sound(char *sound);
