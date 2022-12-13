@@ -61,7 +61,7 @@ void	init_sprites(t_data *data)
 	data->tut.filename = ft_strdup("textures/tut.xpm");
 	open_texture(data, &(data->tut));
 	data->tut.offset = 20;
-	data->tut.size_factor = 1.0;
+	data->tut.size_factor = 1.2;
 }
 
 void	*check_if_sprite(t_data *data, int x, int y)
