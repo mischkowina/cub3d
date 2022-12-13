@@ -117,6 +117,7 @@ void	ray_sprite(t_data *data, t_obj *sprite)
 		return ;
 	if (sprite->dist == 0.0)
 		sprite->dist = get_sprite_distance(data, sprite);
+	printf("nbr_rays: %d\n", sprite->nbr_rays);
 	start = - (HEIGHT / sprite->dist) / 2 + HEIGHT / 2.0;
 	end = (HEIGHT / sprite->dist) / 2 + HEIGHT / 2.0;
 	height = end - start;

@@ -27,27 +27,61 @@ void	cast_rays(t_data *data, t_ray *ray, int i)
 void	do_the_dda(t_data *data, t_ray *ray)
 {
 	int	hit;
+	int	i;
+
+	hit = 0;
+	i = 0;
+	while (hit == 0)
+	{
+		dda_math(ray);
+		if (data->map[ray->map_y][ray->map_x] == 1)
+			hit = 1;
+		if (data->map[ray->map_y][ray->map_x] > 3)
+		{
+			while (i < data->nbr_sprites)
+			{
+				if (data->sprites[i]->col == ray->map_x &&
+						data->sprites[i]->row == ray->map_y)
+				{
+					if (data->sprites[i]->nbr_rays == 0)//tbd
+						data->sprites[i]->first_ray = data->cur_ray->x;//tbd
+					data->sprites[i]->nbr_rays++;
+				}
+				i++;
+			}
+		}
+	}
+}
+
+void	do_the_dda_sprites(t_data *data, t_ray *ray)
+{
+	int	hit;
 
 	hit = 0;
 	ray->nbr_objects = 0;
 	while (hit == 0)
 	{
-		if (ray->side_dist.x < ray->side_dist.y)
-		{
-			ray->side_dist.x += ray->delta_dist.x;
-			ray->map_x += ray->step_x * 1.0;
-			ray->ori = 0;
-		}
-		else
-		{
-			ray->side_dist.y += ray->delta_dist.y;
-			ray->map_y += ray->step_y * 1.0;
-			ray->ori = 1;
-		}
+		dda_math(ray);
 		if (data->map[ray->map_y][ray->map_x] == 1)
 			hit = 1;
 		if (data->map[ray->map_y][ray->map_x] > 2)
 			ray->nbr_objects++;
+	}
+}
+
+void	dda_math(t_ray *ray)
+{
+	if (ray->side_dist.x < ray->side_dist.y)
+	{
+		ray->side_dist.x += ray->delta_dist.x;
+		ray->map_x += ray->step_x * 1.0;
+		ray->ori = 0;
+	}
+	else
+	{
+		ray->side_dist.y += ray->delta_dist.y;
+		ray->map_y += ray->step_y * 1.0;
+		ray->ori = 1;
 	}
 }
 
@@ -105,18 +139,7 @@ int	identify_object(t_data *data, t_ray *ray)
 	ray->cur_obj = NULL;
 	while (i < ray->nbr_objects)
 	{
-		if (ray->side_dist.x < ray->side_dist.y)
-		{
-			ray->side_dist.x += ray->delta_dist.x;
-			ray->map_x += ray->step_x * 1.0;
-			ray->ori = 0;
-		}
-		else
-		{
-			ray->side_dist.y += ray->delta_dist.y;
-			ray->map_y += ray->step_y * 1.0;
-			ray->ori = 1;
-		}
+		dda_math(ray);
 		if (data->map[ray->map_y][ray->map_x] > 2)
 			i++;
 		else if (data->map[ray->map_y][ray->map_x] == 1)
@@ -148,7 +171,7 @@ void	raycasting(t_data *data)
 	while (data->cur_ray->x < WIDTH)
 	{
 		cast_rays(data, data->cur_ray, data->cur_ray->x);
-		do_the_dda(data, data->cur_ray);
+		do_the_dda_sprites(data, data->cur_ray);
 		while (data->cur_ray->nbr_objects > 0)
 		{
 			cast_rays(data, data->cur_ray, data->cur_ray->x);
