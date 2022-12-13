@@ -71,6 +71,8 @@ void	move_doors_sprites(t_data *data)
 	{
 		data->sprites[i]->tex_pos_x = 0;
 		data->sprites[i]->dist = 0.0;
+		data->sprites[i]->width = 0;
+		data->sprites[i]->nbr_rays = 0;
 		data->sprites[i++]->done = 0;
 	}
 	if (data->counter % 2 == 0)

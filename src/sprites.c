@@ -73,7 +73,12 @@ void	*check_if_sprite(t_data *data, int x, int y)
 	while (i < data->nbr_sprites)
 	{
 		if (data->sprites[i]->col == x && data->sprites[i]->row == y)
+		{
+			if (data->sprites[i]->nbr_rays == 0)
+				data->sprites[i]->first_ray = data->cur_ray->x;
+			data->sprites[i]->nbr_rays++;
 			data->cur_ray->cur_obj = (void *)data->sprites[i];
+		}
 		i++;
 	}
 	return (data->cur_ray->cur_obj);

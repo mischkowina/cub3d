@@ -75,27 +75,27 @@ void	calculate_step(t_data *data, t_ray *ray)
 	}
 }
 
-void	paint_my_3d_world(t_data *data, t_ray *ray, int x)
-{
-	int	line_height;
-	int	draw_start;
-	int	draw_end;
+// void	paint_my_3d_world(t_data *data, t_ray *ray, int x)
+// {
+// 	int	line_height;
+// 	int	draw_start;
+// 	int	draw_end;
 
-	line_height = (int) (HEIGHT / ray->full_dist);
-	draw_start = - line_height / 2 + HEIGHT / 2;
-	if (draw_start < 0)
-		draw_start = 0;
-	draw_end = line_height / 2 + HEIGHT / 2;
-	if (draw_end >= HEIGHT)
-		draw_end = HEIGHT - 1;
-	data->img.px_x = x;
-	data->img.px_y = draw_start;
-	while (data->img.px_y < draw_end)
-	{
-		pixel_put(data, PINK);
-		data->img.px_y++;
-	}
-}
+// 	line_height = (int) (HEIGHT / ray->full_dist);
+// 	draw_start = - line_height / 2 + HEIGHT / 2;
+// 	if (draw_start < 0)
+// 		draw_start = 0;
+// 	draw_end = line_height / 2 + HEIGHT / 2;
+// 	if (draw_end >= HEIGHT)
+// 		draw_end = HEIGHT - 1;
+// 	data->img.px_x = x;
+// 	data->img.px_y = draw_start;
+// 	while (data->img.px_y < draw_end)
+// 	{
+// 		pixel_put(data, PINK);
+// 		data->img.px_y++;
+// 	}
+// }
 
 int	identify_object(t_data *data, t_ray *ray)
 {
@@ -129,29 +129,21 @@ int	identify_object(t_data *data, t_ray *ray)
 	return (1);
 }
 
+void	calculate_distance(t_data *data)
+{
+	if (data->cur_ray->ori == 0)
+		data->cur_ray->full_dist = \
+		data->cur_ray->side_dist.x - data->cur_ray->delta_dist.x;
+	else
+		data->cur_ray->full_dist = \
+		data->cur_ray->side_dist.y - data->cur_ray->delta_dist.y;
+}
+
 void	raycasting(t_data *data)
 {
-	t_img	*texture;
 	int		i;
 	
-	data->cur_ray->x = 0;
-	data->new_time = time_now();
-	while (data->cur_ray->x < WIDTH) 
-	{
-		cast_rays(data, data->cur_ray, data->cur_ray->x);
-		do_the_dda(data, data->cur_ray);
-		if (data->cur_ray->ori == 0)
-			data->cur_ray->full_dist = \
-			data->cur_ray->side_dist.x - data->cur_ray->delta_dist.x;
-		else
-			data->cur_ray->full_dist = \
-			data->cur_ray->side_dist.y - data->cur_ray->delta_dist.y;
-		//get texture for the ray
-		texture = identify_texture(data);
-		// draw line //
-		ray_wall(data, texture);
-		data->cur_ray->x++;
-	}
+	raycasting_walls(data);
 	data->cur_ray->x = 0;
 	while (data->cur_ray->x < WIDTH)
 	{
@@ -161,12 +153,6 @@ void	raycasting(t_data *data)
 		{
 			cast_rays(data, data->cur_ray, data->cur_ray->x);
 			i = identify_object(data, data->cur_ray);
-			if (data->cur_ray->ori == 0)
-				data->cur_ray->full_dist = \
-				data->cur_ray->side_dist.x - data->cur_ray->delta_dist.x;
-			else
-				data->cur_ray->full_dist = \
-				data->cur_ray->side_dist.y - data->cur_ray->delta_dist.y;
 			if (i == 3)
 				ray_door(data, (t_door *)data->cur_ray->cur_obj);
 			else if (i == 4)
@@ -180,7 +166,6 @@ void	raycasting(t_data *data)
 		data->cur_ray->x++;
 	}
 	update_move_rot_speeds(data);
-	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 }
 
 // this is for my solution //
