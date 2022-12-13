@@ -102,7 +102,7 @@ void	start_game(t_data *data)
 		ft_error("MLX failed.", data);
 	}
 	open_all_textures(data);
-	// play_sound("sounds/shimmering_sands.mp3");//take out for testing at home
+	play_sound("sounds/shimmering_sands.mp3");
 	data->img.img_ptr = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 	data->img.addr = mlx_get_data_addr(data->img.img_ptr, &data->img.bpp,
 			&data->img.line_length, &data->img.endian);

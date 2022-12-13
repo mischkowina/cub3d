@@ -109,22 +109,38 @@ void	ray_sprite(t_data *data, t_obj *sprite)
 	int		start;
 	int		end;
 	double	tex_pos_y;
+	double	step_y;
+	double	step_x;
 	int		height;
+	int		width;
 	int		col;
+	int		diff;
 	t_img	*texture;//maybe move to the outside loop?
 
 	if (sprite->done == 1)
 		return ;
-	if (sprite->dist == 0.0)
-		sprite->dist = get_sprite_distance(data, sprite);
-	printf("nbr_rays: %d\n", sprite->nbr_rays);
-	start = - (HEIGHT / sprite->dist) / 2 + HEIGHT / 2.0;
-	end = (HEIGHT / sprite->dist) / 2 + HEIGHT / 2.0;
-	height = end - start;
 	if (sprite->tex == NULL)
 		texture = data->mummy[data->cur_mummy];
 	else
 		texture = sprite->tex;
+	if (sprite->dist == 0.0)
+		sprite->dist = get_sprite_distance(data, sprite);
+	start = - (HEIGHT / sprite->dist) / 2 + HEIGHT / 2.0;
+	end = (HEIGHT / sprite->dist) / 2 + HEIGHT / 2.0;
+	height = end - start;
+	width = texture->width * (1.0 * height / texture->height);
+	diff = sprite->nbr_rays - width;
+	if (diff > 0)
+	{
+		if (data->cur_ray->x < (sprite->first_ray + (diff / 2)))
+			return ;
+		else if (data->cur_ray->x >= (sprite->first_ray + width - (diff / 2)))
+			return ;
+		else
+			step_x = 1.0 * texture->width * texture->size_factor / width;
+	}
+	else
+		step_x = 1.0 * texture->width * texture->size_factor /sprite->nbr_rays;
 	if (texture->offset > 0)
 	{
 		start += 1.0 * height / texture->offset;
@@ -135,15 +151,16 @@ void	ray_sprite(t_data *data, t_obj *sprite)
 	if (end >= HEIGHT)
 		end = HEIGHT - 1;
 	tex_pos_y = 0;
+	step_y = texture->size_factor * texture->height / (HEIGHT / sprite->dist);
 	while (start < end && tex_pos_y < texture->height)
 	{
 		col = get_texture_color_sprite(texture, (int)sprite->tex_pos_x, (int)tex_pos_y);
 		if (col != 16777215)
 			ft_mlx_pixel_put(&(data->img), data->cur_ray->x, start, col);
-		tex_pos_y += texture->size_factor * texture->height / (HEIGHT / sprite->dist);
+		tex_pos_y += step_y;
 		start++;
 	}
-	sprite->tex_pos_x += texture->size_factor * texture->width / (WIDTH / sprite->dist);
+	sprite->tex_pos_x += step_x;
 	if (sprite->tex_pos_x >= (double)texture->width)
 		sprite->done = 1;
 }
