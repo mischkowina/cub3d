@@ -51,13 +51,6 @@ void	move_doors_sprites(t_data *data)
 		data->counter++;
 	else
 		data->counter = 0;
-	if (data->counter % 10 == 0)
-	{
-		if (data->cur_mummy < 3)
-			data->cur_mummy++;
-		else
-			data->cur_mummy = 0;
-	}
 	while (i < data->nbr_doors)
 	{
 		if (data->doors[i]->opening == 1 && data->doors[i]->closed > 0)
@@ -66,15 +59,7 @@ void	move_doors_sprites(t_data *data)
 			data->doors[i]->closed += 2;
 		i++;
 	}
-	i = 0;
-	while (i < data->nbr_sprites)
-	{
-		data->sprites[i]->tex_pos_x = 0;
-		data->sprites[i]->dist = 0.0;
-		data->sprites[i]->width = 0;
-		data->sprites[i]->nbr_rays = 0;
-		data->sprites[i++]->done = 0;
-	}
+	move_reset_sprites(data);
 	if (data->counter % 2 == 0)
 	{
 		move_weapons(data);
@@ -98,7 +83,7 @@ void	open_door(t_data *data)
 		door->opening = 1;
 	else
 		door->opening = 0;
-	play_sound("sounds/door.wav");//for testing @ home
+	play_sound("sounds/door.wav");
 }
 
 void	*check_if_door(t_data *data, int x, int y)

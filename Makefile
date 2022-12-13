@@ -26,6 +26,7 @@ SRC =	$(SRC_DIR)main.c \
 		$(SRC_DIR)math.c \
 		$(SRC_DIR)init.c \
 		$(SRC_DIR)ray_engine.c \
+		$(SRC_DIR)minimap.c \
 		$(SRC_DIR)weapons.c \
 		$(SRC_DIR)rotation.c
 

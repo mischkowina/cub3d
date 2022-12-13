@@ -3,27 +3,28 @@
 
 //function draws the point based on the posx posy saved in data struct
 
-void	draw_point(int x, int y, t_data *data, int color)
+void	draw_point(int x, int y, t_img *img, int color)
 {
-	int	start_x;
-	int	start_y;
+	// int	start_x;
+	// int	start_y;
 	int	size;
 
-	size = 10;
-	start_x = x - size;
-	start_y = y - size;
-	data->img.px_y = start_y;
-	while (data->img.px_y < start_y + size)
+	size = 11;
+	// start_x = x - size;
+	// start_y = y - size;
+	// data->img.px_y = start_y;
+	img->px_y = y;
+	while (img->px_y < y + size)
 	{
-		data->img.px_x = start_x;
-		while (data->img.px_x < start_x + size)
+		img->px_x = x;
+		while (img->px_x < x + size)
 		{
-			pixel_put(data, color);
-			data->img.px_x++;
+			pixel_put(img, color);
+			img->px_x++;
 		}
-		data->img.px_y++;
+		img->px_y++;
 	}
-	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
+	// mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 }
 
 // void	draw_point(t_data *data)
@@ -70,12 +71,11 @@ void	draw_line(int x0, int y0, int x1, int y1, t_data * data, int color) // this
 	{
 		data->img.px_x = px_x;
 		data->img.px_y = px_y;
-		pixel_put(data, color);
+		pixel_put(&(data->img), color);
 		px_x += dx;
 		px_y += dy;
 		px--;
 	}
-	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 }
 
 void	draw_floor_and_ceiling(t_data *data)
@@ -86,7 +86,7 @@ void	draw_floor_and_ceiling(t_data *data)
 		data->img.px_x = WIDTH / 2;
 		while (data->img.px_x < WIDTH)
 		{
-			pixel_put(data, BLUE_SKY);
+			pixel_put(&(data->img), BLUE_SKY);
 			data->img.px_x++;
 		}
 		data->img.px_y++;
@@ -96,7 +96,7 @@ void	draw_floor_and_ceiling(t_data *data)
 		data->img.px_x = WIDTH / 2;
 		while (data->img.px_x < WIDTH)
 		{
-			pixel_put(data, GREEN_GRASS);
+			pixel_put(&(data->img), GREEN_GRASS);
 			data->img.px_x++;
 		}
 		data->img.px_y++;

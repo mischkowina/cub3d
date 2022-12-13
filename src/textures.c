@@ -62,8 +62,10 @@ int	get_texture_color(t_data *data, t_img *texture, int y)
 		tex_x = tex_x % texture->width;
 	if (y > texture->height)
 		y = y % texture->height;
-	col = *(int *)(texture->addr + (y * texture->line_length + tex_x * (texture->bpp / 8)));
-	return (col);
+	if (y < 0)
+		y = 0;
+	dst = texture->addr + y * texture->line_length + tex_x * (texture->bpp / 8);
+	return (*(int *)dst);
 }
 
 int	get_texture_color_sprite(t_img *texture, int x, int y)
@@ -74,6 +76,8 @@ int	get_texture_color_sprite(t_img *texture, int x, int y)
 
 	tex_pos_x = x % texture->width;
 	tex_pos_y = y % texture->height;
+	if (y < 0)
+		y = 0;
 	dst = texture->addr + (tex_pos_y * texture->line_length + \
 	tex_pos_x * (texture->bpp / 8));
 	return (*(int *)dst);

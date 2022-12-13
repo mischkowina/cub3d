@@ -109,28 +109,6 @@ void	calculate_step(t_data *data, t_ray *ray)
 	}
 }
 
-// void	paint_my_3d_world(t_data *data, t_ray *ray, int x)
-// {
-// 	int	line_height;
-// 	int	draw_start;
-// 	int	draw_end;
-
-// 	line_height = (int) (HEIGHT / ray->full_dist);
-// 	draw_start = - line_height / 2 + HEIGHT / 2;
-// 	if (draw_start < 0)
-// 		draw_start = 0;
-// 	draw_end = line_height / 2 + HEIGHT / 2;
-// 	if (draw_end >= HEIGHT)
-// 		draw_end = HEIGHT - 1;
-// 	data->img.px_x = x;
-// 	data->img.px_y = draw_start;
-// 	while (data->img.px_y < draw_end)
-// 	{
-// 		pixel_put(data, PINK);
-// 		data->img.px_y++;
-// 	}
-// }
-
 int	identify_object(t_data *data, t_ray *ray)
 {
 	int		i;
@@ -188,6 +166,7 @@ void	raycasting(t_data *data)
 			ray_weapons(data, data->cur_ray->x);
 		data->cur_ray->x++;
 	}
+	render_minimap(data);
 	update_move_rot_speeds(data);
 }
 

@@ -64,7 +64,7 @@ typedef struct s_img
 {
 	void	*img_ptr;
 	char	*addr;
-	int		bpp;//Alina: rename in your code
+	int		bpp;
 	int		line_length;
 	int		endian;
 	int		color;
@@ -193,7 +193,7 @@ void	draw_grid(t_data *data);
 void	draw_minimap(t_data *data);
 
 	// drawing.c //
-void	draw_point(int x, int y, t_data *data, int color);
+void	draw_point(int x, int y, t_img *img, int color);
 void	draw_line(int x0, int y0, int x1, int y1, t_data *data, int color);
 void	draw_floor_and_ceiling(t_data *data);
 
@@ -203,7 +203,7 @@ void	init_minimap(t_data *data);
 void	init_orientation(t_data *data);
 
 	// window.c //
-void	pixel_put(t_data *data, int color);
+void	pixel_put(t_img *img, int color);
 int		key_hooks(int keycode, t_data *data);
 int		mouse_rotation(int x, int y, t_data *data);
 int		close_x(t_data *data);
@@ -235,6 +235,10 @@ void	rotate(t_data *data, double angle);
 void	update_move_rot_speeds(t_data *data);
 long long	time_now(void);
 int		mouse_rotation(int x, int y, t_data *data);
+
+	// minimap.c //
+void	draw_player(int x, int y, t_img *img, int color);
+void	render_minimap(t_data *data);
 
 //main.c
 int		check_input(int argc, char **argv);
@@ -291,7 +295,7 @@ void	init_sprites(t_data *data);
 void	fill_sprite(t_data *data, int row, int col);
 void	*check_if_sprite(t_data *data, int x, int y);
 double	get_sprite_distance(t_data *data, t_obj	*sprite);
-int		check_if_middle_of_sprite(t_data *data);
+void	move_reset_sprites(t_data *data);
 
 //sounds.c
 void	play_sound(char *sound);

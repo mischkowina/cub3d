@@ -55,7 +55,7 @@ void	draw_grid(t_data *data)
 			if ((data->img.px_x % GRID_SIZE == 0 || data->img.px_y % GRID_SIZE == 0) \
 				&& data->img.px_x != 0 && data->img.px_y != 0)
 				color = WHITE;
-			pixel_put(data, color);
+			pixel_put(&(data->img), color);
 			data->img.px_x++;
 		}
 		data->img.px_y++;
@@ -76,7 +76,7 @@ void	draw_minimap(t_data *data)
 	// y1 = data->pos.y + (data->dir.y * 20);
 	draw_grid(data);
 // draw player //
-	draw_point(data->minimap.pos.x, data->minimap.pos.y, data, YELLOW);
+	draw_point(data->minimap.pos.x, data->minimap.pos.y, &(data->img), YELLOW);
 // draw player direction //
 	draw_line(data->minimap.pos.x - 5, data->minimap.pos.y - 5, data->minimap.pos.x - 5 + (data->dir.x * 100), data->minimap.pos.y - 5 + (data->dir.y * 100), data, YELLOW);
 // draw camera plane vector //

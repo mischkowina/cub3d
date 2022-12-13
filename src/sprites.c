@@ -100,3 +100,23 @@ double	get_sprite_distance(t_data *data, t_obj	*sprite)
 	dist = sqrt((delta_x * delta_x) + (delta_y * delta_y));
 	return (dist);
 }
+
+void	move_reset_sprites(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->nbr_sprites)
+	{
+		data->sprites[i]->tex_pos_x = 0;
+		data->sprites[i]->dist = 0.0;
+		data->sprites[i++]->done = 0;
+	}
+	if (data->counter % 10 == 0)
+	{
+		if (data->cur_mummy < 3)
+			data->cur_mummy++;
+		else
+			data->cur_mummy = 0;
+	}
+}

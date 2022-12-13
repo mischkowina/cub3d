@@ -84,7 +84,7 @@ void	*check_door_ahead(t_data *data)
 {
 	t_door	*door;
 	t_ray	view;
-	
+
 	view.x = WIDTH / 2;
 	door = NULL;
 	cast_rays(data, &view, view.x);
