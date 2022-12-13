@@ -90,11 +90,11 @@ void	render_minimap(t_data *data)
 		while (x < data->width_map)
 		{
 			if (data->map[y][x] == 1)
-				color = LIGHT_PINK;
+				color = 0xA4851A;
 			else if (data->map[y][x] == 0)
 				color = BLACK;
 			else if (data->map[y][x] == 3)
-				color = RED;
+				color = 0x751919;
 			else if (data->map[y][x] == -1)
 				color = -1;
 			if (color != -1)
@@ -103,6 +103,6 @@ void	render_minimap(t_data *data)
 		}
 		y++;
 	}
-	draw_player(data->pos.x * 11 + 15, data->pos.y * 11 + 15, &(data->img), YELLOW);
-	draw_line(data->pos.x * 11 + 15, data->pos.y * 11 + 15, data->pos.x * 11 + 15 + (data->dir.x * 20), data->pos.y * 11 + 15 + (data->dir.y * 20), data, YELLOW);
+	draw_line(data->pos.x * 11 + 15, data->pos.y * 11 + 15, data->pos.x * 11 + 15 + (data->dir.x * 20), data->pos.y * 11 + 15 + (data->dir.y * 20), data, 0x76BAB8);
+	draw_player(data->pos.x * 11 + 15, data->pos.y * 11 + 15, &(data->img), 0x3F7879);
 }
