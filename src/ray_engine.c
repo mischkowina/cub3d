@@ -27,27 +27,61 @@ void	cast_rays(t_data *data, t_ray *ray, int i)
 void	do_the_dda(t_data *data, t_ray *ray)
 {
 	int	hit;
+	int	i;
+
+	hit = 0;
+	i = 0;
+	while (hit == 0)
+	{
+		dda_math(ray);
+		if (data->map[ray->map_y][ray->map_x] == 1)
+			hit = 1;
+		if (data->map[ray->map_y][ray->map_x] > 3)
+		{
+			while (i < data->nbr_sprites)
+			{
+				if (data->sprites[i]->col == ray->map_x &&
+						data->sprites[i]->row == ray->map_y)
+				{
+					if (data->sprites[i]->nbr_rays == 0)//tbd
+						data->sprites[i]->first_ray = data->cur_ray->x;//tbd
+					data->sprites[i]->nbr_rays++;
+				}
+				i++;
+			}
+		}
+	}
+}
+
+void	do_the_dda_sprites(t_data *data, t_ray *ray)
+{
+	int	hit;
 
 	hit = 0;
 	ray->nbr_objects = 0;
 	while (hit == 0)
 	{
-		if (ray->side_dist.x < ray->side_dist.y)
-		{
-			ray->side_dist.x += ray->delta_dist.x;
-			ray->map_x += ray->step_x * 1.0;
-			ray->ori = 0;
-		}
-		else
-		{
-			ray->side_dist.y += ray->delta_dist.y;
-			ray->map_y += ray->step_y * 1.0;
-			ray->ori = 1;
-		}
+		dda_math(ray);
 		if (data->map[ray->map_y][ray->map_x] == 1)
 			hit = 1;
 		if (data->map[ray->map_y][ray->map_x] > 2)
 			ray->nbr_objects++;
+	}
+}
+
+void	dda_math(t_ray *ray)
+{
+	if (ray->side_dist.x < ray->side_dist.y)
+	{
+		ray->side_dist.x += ray->delta_dist.x;
+		ray->map_x += ray->step_x * 1.0;
+		ray->ori = 0;
+	}
+	else
+	{
+		ray->side_dist.y += ray->delta_dist.y;
+		ray->map_y += ray->step_y * 1.0;
+		ray->ori = 1;
 	}
 }
 
@@ -75,28 +109,6 @@ void	calculate_step(t_data *data, t_ray *ray)
 	}
 }
 
-void	paint_my_3d_world(t_data *data, t_ray *ray, int x)
-{
-	int	line_height;
-	int	draw_start;
-	int	draw_end;
-
-	line_height = (int) (HEIGHT / ray->full_dist);
-	draw_start = - line_height / 2 + HEIGHT / 2;
-	if (draw_start < 0)
-		draw_start = 0;
-	draw_end = line_height / 2 + HEIGHT / 2;
-	if (draw_end >= HEIGHT)
-		draw_end = HEIGHT - 1;
-	data->img.px_x = x;
-	data->img.px_y = draw_start;
-	while (data->img.px_y < draw_end)
-	{
-		pixel_put(&(data->img), PINK);
-		data->img.px_y++;
-	}
-}
-
 int	identify_object(t_data *data, t_ray *ray)
 {
 	int		i;
@@ -105,18 +117,7 @@ int	identify_object(t_data *data, t_ray *ray)
 	ray->cur_obj = NULL;
 	while (i < ray->nbr_objects)
 	{
-		if (ray->side_dist.x < ray->side_dist.y)
-		{
-			ray->side_dist.x += ray->delta_dist.x;
-			ray->map_x += ray->step_x * 1.0;
-			ray->ori = 0;
-		}
-		else
-		{
-			ray->side_dist.y += ray->delta_dist.y;
-			ray->map_y += ray->step_y * 1.0;
-			ray->ori = 1;
-		}
+		dda_math(ray);
 		if (data->map[ray->map_y][ray->map_x] > 2)
 			i++;
 		else if (data->map[ray->map_y][ray->map_x] == 1)
@@ -129,37 +130,30 @@ int	identify_object(t_data *data, t_ray *ray)
 	return (1);
 }
 
+void	calculate_distance(t_data *data)
+{
+	if (data->cur_ray->ori == 0)
+		data->cur_ray->full_dist = \
+		data->cur_ray->side_dist.x - data->cur_ray->delta_dist.x;
+	else
+		data->cur_ray->full_dist = \
+		data->cur_ray->side_dist.y - data->cur_ray->delta_dist.y;
+}
+
 void	raycasting(t_data *data)
 {
-	t_img	*texture;
 	int		i;
 	
+	raycasting_walls(data);
 	data->cur_ray->x = 0;
-	data->new_time = time_now();
-	while (data->cur_ray->x < WIDTH) 
+	while (data->cur_ray->x < WIDTH)
 	{
 		cast_rays(data, data->cur_ray, data->cur_ray->x);
-		do_the_dda(data, data->cur_ray);
-		if (data->cur_ray->ori == 0)
-			data->cur_ray->full_dist = \
-			data->cur_ray->side_dist.x - data->cur_ray->delta_dist.x;
-		else
-			data->cur_ray->full_dist = \
-			data->cur_ray->side_dist.y - data->cur_ray->delta_dist.y;
-		//get texture for the ray
-		texture = identify_texture(data);
-		// draw line //
-		ray_wall(data, texture);
+		do_the_dda_sprites(data, data->cur_ray);
 		while (data->cur_ray->nbr_objects > 0)
 		{
 			cast_rays(data, data->cur_ray, data->cur_ray->x);
 			i = identify_object(data, data->cur_ray);
-			if (data->cur_ray->ori == 0)
-				data->cur_ray->full_dist = \
-				data->cur_ray->side_dist.x - data->cur_ray->delta_dist.x;
-			else
-				data->cur_ray->full_dist = \
-				data->cur_ray->side_dist.y - data->cur_ray->delta_dist.y;
 			if (i == 3)
 				ray_door(data, (t_door *)data->cur_ray->cur_obj);
 			else if (i == 4)
@@ -174,7 +168,6 @@ void	raycasting(t_data *data)
 	}
 	render_minimap(data);
 	update_move_rot_speeds(data);
-	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 }
 
 // this is for my solution //
