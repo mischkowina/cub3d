@@ -6,7 +6,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
-// # include "/usr/X11/include/X11/X.h"
 # include <math.h>
 # include "libft/libft.h"
 # include "mlx/mlx.h"
@@ -116,11 +115,10 @@ typedef struct s_obj
 
 typedef struct s_ray
 {
-	// this is for a solution from the guide //
 	t_vec		dir;
 	t_vec		delta_dist;
-	int			map_x;//ALINA: I need the exact position as a double
-	int			map_y;//ALINA: I need the exact position as a double
+	int			map_x;
+	int			map_y;
 	t_vec		side_dist;
 	int			step_x;
 	int			step_y;
@@ -133,7 +131,7 @@ typedef struct s_ray
 
 typedef struct s_data
 {
-	t_minimap	minimap;//Alina: renamed to minimap since there is a map variable
+	t_minimap	minimap;
 	t_vec		mouse;
 	double		move_speed;
 	double		rotation_speed;
