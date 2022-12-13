@@ -130,17 +130,16 @@ void	ray_sprite(t_data *data, t_obj *sprite)
 	height = end - start;
 	width = texture->width * (1.0 * height / texture->height);
 	diff = sprite->nbr_rays - width;
+	step_x = 1.0 * texture->width * texture->size_factor / width;
 	if (diff > 0)
 	{
 		if (data->cur_ray->x < (sprite->first_ray + (diff / 2)))
 			return ;
-		else if (data->cur_ray->x >= (sprite->first_ray + width - (diff / 2)))
+		else if (data->cur_ray->x >= (sprite->first_ray + width + (diff / 2)))
 			return ;
-		else
-			step_x = 1.0 * texture->width * texture->size_factor / width;
 	}
-	else
-		step_x = 1.0 * texture->width * texture->size_factor /sprite->nbr_rays;
+	else if ((data->cur_ray->x == 0) && diff <= 0) 
+		sprite->tex_pos_x = -1.0 * diff * (texture->width * texture->size_factor / width);
 	if (texture->offset > 0)
 	{
 		start += 1.0 * height / texture->offset;
