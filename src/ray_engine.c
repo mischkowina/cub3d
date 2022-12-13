@@ -92,7 +92,7 @@ void	paint_my_3d_world(t_data *data, t_ray *ray, int x)
 	data->img.px_y = draw_start;
 	while (data->img.px_y < draw_end)
 	{
-		pixel_put(data, PINK);
+		pixel_put(&(data->img), PINK);
 		data->img.px_y++;
 	}
 }

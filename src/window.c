@@ -3,12 +3,12 @@
 
 // function puts a pixel of given color into given coordinates that 
 // are in the data struct
-void	pixel_put(t_data *data, int color)
+void	pixel_put(t_img *img, int color)
 {
 	char	*dst;
 
-	dst = data->img.addr + (data->img.px_y * data->img.line_length + \
-	data->img.px_x * (data->img.bpp / 8));
+	dst = img->addr + (img->px_y * img->line_length + \
+	img->px_x * (img->bpp / 8));
 	*(unsigned int*)dst = color;
 }
 
