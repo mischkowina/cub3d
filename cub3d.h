@@ -109,6 +109,9 @@ typedef struct s_obj
 	double		tex_pos_x;
 	int			done;
 	double		dist;
+	int			nbr_rays;
+	int			first_ray;
+	int			width;
 }				t_obj;
 
 typedef struct s_ray
@@ -219,9 +222,12 @@ void	perpendicular_vector(t_vec *vec);
 	// ray_engine.c //
 void	cast_rays(t_data *data, t_ray *ray, int i);
 void	do_the_dda(t_data *data, t_ray *ray);
+void	do_the_dda_sprites(t_data *data, t_ray *ray);
+void	dda_math(t_ray *ray);
 void	calculate_step(t_data *data, t_ray *ray);
 void	paint_my_3d_world(t_data *data, t_ray *ray, int x);
 int		identify_object(t_data *data, t_ray *ray);
+void	calculate_distance(t_data *data);
 void	raycasting(t_data *data);
 
 	// rotation.c //
@@ -266,6 +272,7 @@ void	prep_image(t_data *data);
 
 //ray.c
 void	ray_wall(t_data *data, t_img *texture);
+void	raycasting_walls(t_data *data);
 void	ray_door(t_data *data, t_door *door);
 void	ray_sprite(t_data *data, t_obj *sprite);
 

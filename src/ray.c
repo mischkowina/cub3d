@@ -36,6 +36,23 @@ void	ray_wall(t_data *data, t_img *texture)
 	}
 }
 
+void	raycasting_walls(t_data *data)
+{
+	t_img	*texture;
+	
+	data->cur_ray->x = 0;
+	data->new_time = time_now();
+	while (data->cur_ray->x < WIDTH) 
+	{
+		cast_rays(data, data->cur_ray, data->cur_ray->x);
+		do_the_dda(data, data->cur_ray);
+		calculate_distance(data);
+		texture = identify_texture(data);
+		ray_wall(data, texture);
+		data->cur_ray->x++;
+	}
+}
+
 /**
  * Function to draw a ray containing a door instead of a wall. Identifies
  * the height of the wall using the distance of the ray, just as the
@@ -54,6 +71,7 @@ void	ray_door(t_data *data, t_door *door)
 	double	step;
 	int		col;
 
+	calculate_distance(data);
 	start = - (HEIGHT / data->cur_ray->full_dist) / 2 + HEIGHT / 2.0;
 	end = (HEIGHT / data->cur_ray->full_dist) / 2 + HEIGHT / 2.0;
 	start += (end - start) * (100 - door->closed) / 100;
