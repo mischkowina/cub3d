@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_engine.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 09:05:46 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 17:28:10 by apielasz         ###   ########.fr       */
+/*   Updated: 2022/12/14 19:51:55 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,33 +99,4 @@ void	calculate_step(t_data *data, t_ray *ray)
 		ray->step_y = 1;
 		ray->side_dist.y = (ray->map_y + 1.0 - data->pos.y) * ray->delta_dist.y;
 	}
-}
-
-void	raycasting(t_data *data)
-{
-	int		i;
-
-	raycasting_walls(data);
-	data->cur_ray->x = 0;
-	while (data->cur_ray->x < WIDTH)
-	{
-		cast_rays(data, data->cur_ray, data->cur_ray->x);
-		do_the_dda_sprites(data, data->cur_ray);
-		while (data->cur_ray->nbr_objects > 0)
-		{
-			cast_rays(data, data->cur_ray, data->cur_ray->x);
-			i = identify_object(data, data->cur_ray);
-			if (i == 3)
-				ray_door(data, (t_door *)data->cur_ray->cur_obj);
-			else if (i == 4)
-				ray_sprite(data, (t_obj *)data->cur_ray->cur_obj);
-			else
-				ft_error("Problem to identify object.", data);
-			data->cur_ray->nbr_objects--;
-		}
-		if (data->guns_out == 1)
-			ray_weapons(data, data->cur_ray->x);
-		data->cur_ray->x++;
-	}
-	update_move_rot_speeds(data);
 }

@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 10:45:02 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 18:20:21 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 19:53:01 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,6 @@ void	open_all_textures(t_data *data)
 	open_texture(data, &(data->e_texture));
 	open_texture(data, &(data->s_texture));
 	open_texture(data, &(data->w_texture));
-	if (data->d_texture.filename)
-		open_texture(data, &(data->d_texture));
-	init_sprites(data);
-	init_weapons(data);
 }
 
 /**
@@ -76,21 +72,6 @@ int	get_texture_color(t_data *data, t_img *texture, int y)
 	if (y < 0)
 		y = 0;
 	dst = texture->addr + y * texture->line_length + tex_x * (texture->bpp / 8);
-	return (*(int *)dst);
-}
-
-int	get_texture_color_sprite(t_img *texture, int x, int y)
-{
-	char	*dst;
-	int		tex_pos_x;
-	int		tex_pos_y;
-
-	tex_pos_x = x % texture->width;
-	tex_pos_y = y % texture->height;
-	if (y < 0)
-		y = 0;
-	dst = texture->addr + (tex_pos_y * texture->line_length + \
-	tex_pos_x * (texture->bpp / 8));
 	return (*(int *)dst);
 }
 

@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 10:41:45 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 18:51:23 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 16:50:28 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,14 @@ void	init_textures(t_data *data)
 	data->s_texture.img_ptr = NULL;
 	data->w_texture.filename = NULL;
 	data->w_texture.img_ptr = NULL;
-	// data->d_texture.filename = NULL;
-	// data->d_texture.img_ptr = NULL;
-	// data->chest.filename = NULL;
-	// data->chest.img_ptr = NULL;
-	// data->tut.filename = NULL;
-	// data->tut.img_ptr = NULL;
-	// data->mummy = NULL;
-	// data->weapons = NULL;
+	data->d_texture.filename = NULL;
+	data->d_texture.img_ptr = NULL;
+	data->chest.filename = NULL;
+	data->chest.img_ptr = NULL;
+	data->tut.filename = NULL;
+	data->tut.img_ptr = NULL;
+	data->mummy = NULL;
+	data->weapons = NULL;
 }
 
 void	free_texture_array(t_data *data, t_img **img)

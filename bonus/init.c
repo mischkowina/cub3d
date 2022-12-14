@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 16:49:16 by apielasz          #+#    #+#             */
-/*   Updated: 2022/12/14 18:51:12 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 18:33:24 by apielasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,14 @@ void	init_orientation_more(t_data *data)
 */
 void	init_data(t_data *data)
 {
-	// data->counter = 0;
+	data->counter = 0;
 	data->win = NULL;
 	data->mlx = NULL;
 	data->img.img_ptr = NULL;
-	// data->cur_weapon = 0;
-	// data->guns_out = 0;
-	// data->guns_down = 0;
-	// data->guns_shot = 0;
+	data->cur_weapon = 0;
+	data->guns_out = 0;
+	data->guns_down = 0;
+	data->guns_shot = 0;
 	data->cur_ray = ft_calloc(sizeof(t_ray), 1);
 	if (!data->cur_ray)
 		ft_error("Allocation of ray struct failed.", data);
@@ -101,11 +101,11 @@ void	init_parsed_values(t_data *data)
 	data->player_dir = '0';
 	data->pos.x = -1;
 	data->pos.y = -1;
-	// data->nbr_doors = 0;
-	// data->door_counter = 0;
-	// data->doors = NULL;
-	// data->nbr_sprites = 0;
-	// data->sprite_counter = 0;
-	// data->sprites = NULL;
-	// data->cur_mummy = 0;
+	data->nbr_doors = 0;
+	data->door_counter = 0;
+	data->doors = NULL;
+	data->nbr_sprites = 0;
+	data->sprite_counter = 0;
+	data->sprites = NULL;
+	data->cur_mummy = 0;
 }

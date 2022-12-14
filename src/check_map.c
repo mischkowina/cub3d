@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 21:39:38 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 11:16:03 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 19:54:02 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,54 +98,12 @@ void	check_tile(t_data *data, int row, int col, int *pos)
 			data->pos.y = row;
 			(*pos)++;
 		}
-		if (data->map[row][col] == 3)
-		{
-			data->doors[data->door_counter]->col = col;
-			data->doors[data->door_counter++]->row = row;
-		}
-		if (data->map[row][col] > 3 && data->map[row][col] < 7)
-			fill_sprite(data, row, col);
 	}
 }
 
 int	check_if_accessible(t_data *data, int x, int y)
 {
-	t_door	*door;
-
 	if (data->map[y][x] == 0 || data->map[y][x] == 2 || data->map[y][x] > 3)
 		return (1);
-	else if (data->map[y][x] == 3)
-	{
-		door = (t_door *)check_if_door(data, x, y);
-		if (!door)
-			return (0);
-		if (door->opening == 1 && door->closed == 0)
-			return (1);
-	}
 	return (0);
-}
-
-void	*check_door_ahead(t_data *data)
-{
-	t_door	*door;
-	t_ray	view;
-
-	view.x = WIDTH / 2;
-	door = NULL;
-	cast_rays(data, &view, view.x);
-	if (view.side_dist.x < view.side_dist.y)
-	{
-		view.side_dist.x += view.delta_dist.x;
-		view.map_x += view.step_x * 1.0;
-		view.ori = 0;
-	}
-	else
-	{
-		view.side_dist.y += view.delta_dist.y;
-		view.map_y += view.step_y * 1.0;
-		view.ori = 1;
-	}
-	if (data->map[view.map_y][view.map_x] == 3)
-		door = check_if_door(data, view.map_x, view.map_y);
-	return (door);
 }
