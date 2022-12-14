@@ -6,7 +6,7 @@
 /*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 18:12:08 by apielasz          #+#    #+#             */
-/*   Updated: 2022/12/14 18:33:56 by apielasz         ###   ########.fr       */
+/*   Updated: 2022/12/14 18:38:48 by apielasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,11 @@ int	key_hooks(int keycode, t_data *data)
 		s_key_pressed(data);
 	else if (keycode == 2)
 		d_key_pressed(data);
-	else if (keycode == KEY_LEFT)
-		rotate(data, -ROT_ANGLE);
-	else if (keycode == KEY_RIGHT)
-		rotate(data, ROT_ANGLE);
-	else if (keycode == KEY_SPACE)
-		manage_guns(keycode, data);
+	else if (keycode == 123)
+		rotate(data, -data->rotation_speed);
+	else if (keycode == 124)
+		rotate(data, data->rotation_speed);
+	manage_guns(keycode, data);
 	return (0);
 }
 
@@ -60,14 +59,17 @@ int	key_hooks(int keycode, t_data *data)
  */
 void	manage_guns(int keycode, t_data *data)
 {
-	if (data->guns_out == 0)
-		open_door(data);
-	else
+	if (keycode == 49)
 	{
-		data->guns_shot = 1;
-		play_sound("sounds/gun_shot.m4a");
+		if (data->guns_out == 0)
+			open_door(data);
+		else
+		{
+			data->guns_shot = 1;
+			play_sound("sounds/gun_shot.m4a");
+		}
 	}
-	if (keycode == KEY_SHIFT_L || keycode == KEY_SHIFT_R)
+	else if (keycode == 257 || keycode == 258)
 	{
 		if (data->guns_out == 0)
 		{
