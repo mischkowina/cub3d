@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 21:41:56 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 17:32:58 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 17:46:36 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,7 @@ void	start_game(t_data *data)
 		ft_error("MLX failed.", NULL);
 	data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "cub3D");
 	if (!data->win)
-	{
-		mlx_destroy_window(data->mlx, data->win);
 		ft_error("MLX failed.", data);
-	}
 	open_all_textures(data);
 	play_sound("sounds/shimmering_sands.mp3");
 	data->img.img_ptr = mlx_new_image(data->mlx, WIDTH, HEIGHT);

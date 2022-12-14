@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 21:41:02 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 17:35:25 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 18:09:58 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	free_all_shit(t_data *data)
 		free(data->win);
 	}
 	free(data->mlx);
-	// fscanf(stdin, "c");//for testing
 }
 
 void	free_all_textures(t_data *data)
