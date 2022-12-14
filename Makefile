@@ -1,5 +1,5 @@
 NAME = cub3D
-SRC_DIR = mandatory/
+SRC_DIR = src/
 OBJ_DIR = obj/
 BONUS_DIR = bonus/
 OBJ_BONUS_DIR = obj_bonus/
