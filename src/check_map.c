@@ -6,11 +6,45 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 21:39:38 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/13 21:39:45 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 09:02:13 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+/**
+ * Function to allocate sufficient memory space for the 2D integer array
+ * representing the map.
+ * @param data [t_data *] Pointer to struct storing the input data.
+ * @param map_rows [char **] String array containing the map data.
+*/
+void	allocate_map_array(t_data *data, char **map_rows)
+{
+	int		row;
+	int		i;
+	size_t	max_width;
+
+	max_width = 0;
+	row = 0;
+	i = 0;
+	while (map_rows[row])
+	{
+		if (ft_strlen(map_rows[row]) > max_width)
+			max_width = ft_strlen(map_rows[row]);
+		row++;
+	}
+	data->height_map = row;
+	data->width_map = (int) max_width;
+	data->map = ft_calloc(sizeof(int *), row);
+	if (!data->map || row == 0 || max_width == 0)
+		ft_error("Allocation of map failed.", data);
+	while (i < row)
+	{
+		data->map[i] = ft_calloc(sizeof(int), data->width_map);
+		if (!data->map[i++])
+			ft_error("Allocation of map failed.", data);
+	}
+}
 
 /**
  * Checks the map input tile by tile for open walls and unambiguous 

@@ -1,7 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ray_engine.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/14 09:05:46 by smischni          #+#    #+#             */
+/*   Updated: 2022/12/14 09:25:04 by smischni         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../cub3d.h"
-
-// this is for the solution from the guide //
 
 void	cast_rays(t_data *data, t_ray *ray, int i)
 {
@@ -12,7 +21,6 @@ void	cast_rays(t_data *data, t_ray *ray, int i)
 	ray->dir.y = data->dir.y + data->camera_plane.y * view;
 	ray->map_x = (int) data->pos.x;
 	ray->map_y = (int) data->pos.y;
-	// this is set to avoid division by zero //
 	if (ray->dir.x == 0)
 		ray->delta_dist.x = INFINITY;
 	else
@@ -40,11 +48,11 @@ void	do_the_dda(t_data *data, t_ray *ray)
 		{
 			while (i < data->nbr_sprites)
 			{
-				if (data->sprites[i]->col == ray->map_x &&
-						data->sprites[i]->row == ray->map_y)
+				if (data->sprites[i]->col == ray->map_x
+					&& data->sprites[i]->row == ray->map_y)
 				{
-					if (data->sprites[i]->nbr_rays == 0)//tbd
-						data->sprites[i]->first_ray = data->cur_ray->x;//tbd
+					if (data->sprites[i]->nbr_rays == 0)
+						data->sprites[i]->first_ray = data->cur_ray->x;
 					data->sprites[i]->nbr_rays++;
 				}
 				i++;
@@ -130,20 +138,10 @@ int	identify_object(t_data *data, t_ray *ray)
 	return (1);
 }
 
-void	calculate_distance(t_data *data)
-{
-	if (data->cur_ray->ori == 0)
-		data->cur_ray->full_dist = \
-		data->cur_ray->side_dist.x - data->cur_ray->delta_dist.x;
-	else
-		data->cur_ray->full_dist = \
-		data->cur_ray->side_dist.y - data->cur_ray->delta_dist.y;
-}
-
 void	raycasting(t_data *data)
 {
 	int		i;
-	
+
 	raycasting_walls(data);
 	data->cur_ray->x = 0;
 	while (data->cur_ray->x < WIDTH)
@@ -168,124 +166,3 @@ void	raycasting(t_data *data)
 	}
 	update_move_rot_speeds(data);
 }
-
-// this is for my solution //
-
-// void	cast_the_rays(t_data *data)
-// {
-// 	t_ray	ray;
-// 	int		i;
-// 	double	view;
-// 	int		w;
-
-// 	i = 0;
-// 	w = (int) WIDTH / 4;
-// 	while (i < w)
-// 	{
-// 		view = 2.0 * i / (double)w - 1;
-// 		ray.dir.x = data->dir.x + data->camera_plane.x * view;
-// 		ray.dir.y = data->dir.y + data->camera_plane.y * view;
-// 		find_nearest_grid(&ray, data);
-// 		calculate_small_ray(&ray, data);
-// 		i = i + 3;
-// 	}
-// }
-
-// void	find_nearest_grid(t_ray *ray, t_data *data)
-// {
-// 	ray->angle = atan2(ray->dir.y, ray->dir.x);
-// 	if (ray->angle < 0)
-// 		ray->angle *= -1;
-// 	else if (ray->angle > 0) //&& ray->angle > M_PI / 2)
-// 		ray->angle = M_PI - ray->angle + M_PI;
-
-// 	// ---- check horizontal lines ---- //
-// 	// printf(">>> this is the angle: %f, %f\n", ray->angle * 180 / M_PI, ray->angle);
-// 	if (ray->angle < M_PI) // the ray is looking up
-// 	{
-// 		ray->hor_grid = floor(data->pos.y / GRID_SIZE) * GRID_SIZE;
-// 		// printf("ray->hor_grid: %f\n", ray->hor_grid);
-// 		draw_point(GRID_SIZE, ray->hor_grid, data, RED);
-// 	}
-// 	else if (ray->angle > M_PI) // the ray is looking down
-// 	{
-// 		ray->hor_grid = ceil(data->pos.y / GRID_SIZE) * GRID_SIZE;
-// 		// printf("ray->hor_grid: %f\n", ray->hor_grid);
-// 		draw_point(GRID_SIZE, ray->hor_grid, data, GREEN);
-// 		}
-
-// 		// |||| check vertical lines |||| //
-// 	if (ray->angle > M_PI_2 && ray->angle < ray->pi_3_2) // the ray is looking left
-// 	{
-// 		ray->ver_grid = floor(data->pos.x / GRID_SIZE) * GRID_SIZE;
-// 		// printf("ray->ver_grid %f\n", ray->ver_grid);
-// 		draw_point(ray->ver_grid, GRID_SIZE, data, BLUE);
-// 	}
-// 	else if ((ray->angle > 0 && ray->angle < M_PI_2) || (ray->angle > ray->pi_3_2 && ray->angle < ray->pi_2)) // ray is looking right
-// 	{
-// 		ray->ver_grid = ceil(data->pos.x / GRID_SIZE) * GRID_SIZE;
-// 		// printf("ray->ver_grid %f\n", ray->ver_grid);
-// 		draw_point(ray->ver_grid, GRID_SIZE, data, PINK);
-// 	}
-// }
-
-// void	calculate_small_ray(t_ray *ray, t_data *data)
-// {
-// 	double	alpha;
-
-// 	alpha = 0;
-// 	// calculate the alpha that will be used in future calculations //
-// 	if (ray->angle > 0 && ray->angle < M_PI_2)
-// 		alpha = M_PI_2 - ray->angle;
-// 	else if (ray->angle > M_PI_2 && ray->angle < M_PI)
-// 		alpha = ray->angle - M_PI_2;
-// 	else if (ray->angle > M_PI && ray->angle < ray->pi_3_2)
-// 	{
-// 		alpha = M_PI - M_PI_2 - ray->angle;
-// 		// printf("------> alpha: %f\n", alpha * 180 / M_PI);
-// 	}
-// 	else if (ray->angle > ray->pi_3_2 && ray->angle < ray->pi_2)
-// 		alpha = ray->angle - ray->pi_3_2;
-// 	else if (ray->angle == 0 || ray->angle == M_PI_2 || ray->angle == M_PI || ray->angle == ray->pi_3_2 || ray->angle == ray->pi_2)
-// 		alpha = 0;
-// 	// calculate dy and dx for horizontal gridlines //
-// 	ray->hor.dy = abs((int)data->pos.y - ray->hor_grid);
-// 	ray->hor.dx = tan(alpha) * ray->hor.dy;
-// 	// calculate dy and dx for vertical gridlines //
-// 	ray->ver.dx = abs((int)data->pos.x - ray->ver_grid);
-// 	ray->ver.dy = ray->ver.dx / tan(alpha);
-// 	// calculate the small ray, aka the hypotenuse for both horizontal and vertical //
-// 	ray->hor.small_ray = sqrt((ray->hor.dy * ray->hor.dy) + (ray->hor.dx * ray->hor.dx));
-// 	ray->ver.small_ray = sqrt((ray->ver.dy * ray->ver.dy) + (ray->ver.dx * ray->ver.dx));
-
-// 	// to visualise small ray //
-
-// 	if (ray->angle > 0 && ray->angle < M_PI_2)
-// 	{
-// 		if (ray->hor.small_ray < ray->ver.small_ray)
-// 			draw_line(data->pos.x, data->pos.y, data->pos.x + ray->hor.dx, data->pos.y - ray->hor.dy, data, PURPLE);
-// 		else
-// 			draw_line(data->pos.x, data->pos.y, data->pos.x + ray->ver.dx, data->pos.y - ray->ver.dy, data, PURPLE);
-// 	}
-// 	else if (ray->angle > M_PI_2 && ray->angle < M_PI)
-// 	{
-// 		if (ray->hor.small_ray < ray->ver.small_ray)
-// 			draw_line(data->pos.x, data->pos.y, data->pos.x - ray->hor.dx, data->pos.y - ray->hor.dy, data, PURPLE);
-// 		else
-// 			draw_line(data->pos.x, data->pos.y, data->pos.x - ray->ver.dx, data->pos.y - ray->ver.dy, data, PURPLE);
-// 	}
-// 	else if (ray->angle > M_PI && ray->angle < ray->pi_3_2)
-// 	{
-// 		if (ray->hor.small_ray < ray->ver.small_ray)
-// 			draw_line(data->pos.x, data->pos.y, data->pos.x - ray->hor.dx, data->pos.y + ray->hor.dy, data, PURPLE);
-// 		else
-// 			draw_line(data->pos.x, data->pos.y, data->pos.x - ray->ver.dx, data->pos.y + ray->ver.dy, data, PURPLE);
-// 	}
-// 	else if (ray->angle > ray->pi_3_2 && ray->angle < ray->pi_2)
-// 	{
-// 		if (ray->hor.small_ray < ray->ver.small_ray)
-// 			draw_line(data->pos.x, data->pos.y, data->pos.x + ray->hor.dx, data->pos.y + ray->hor.dy, data, PURPLE);
-// 		else
-// 			draw_line(data->pos.x, data->pos.y, data->pos.x + ray->ver.dx, data->pos.y + ray->ver.dy, data, PURPLE);
-// 	}
-// }

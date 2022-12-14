@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 21:41:56 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/13 21:41:58 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 08:55:17 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,56 +42,6 @@ int	check_input(int argc, char **argv)
 	if (ft_strncmp((argv[1] + ft_strlen(argv[1]) - 4), ".cub", 5))
 		ft_error(".cub file as argument required.", NULL);
 	return (0);
-}
-
-/**
- * Initializes the values to be stored in the data struct, setting pointer
- * values to NULL and primitive data types to 0 or -1 (based on context).
- * @param data [t_data *] Pointer to struct storing the input data.
- * @return [int] 0 on success, 1 on failure.
-*/
-void	init_data(t_data *data)
-{
-	data->counter = 0;
-	data->N_texture.filename = NULL;
-	data->E_texture.filename = NULL;
-	data->S_texture.filename = NULL;
-	data->W_texture.filename = NULL;
-	data->D_texture.filename = NULL;
-	data->col_ceiling = -1;
-	data->col_floor = -1;
-	data->map = NULL;
-	data->width_map = 0;
-	data->height_map = 0;
-	data->player_dir = '0';
-	data->pos.x = -1;
-	data->pos.y = -1;
-	data->mlx = NULL;
-	data->win = NULL;
-	data->nbr_doors = 0;
-	data->door_counter = 0;
-	data->doors = NULL;
-	data->nbr_sprites = 0;
-	data->sprite_counter = 0;
-	data->sprites = NULL;
-	data->cur_mummy = 0;
-	data->weapons = NULL;
-	data->cur_weapon = 0;
-	data->guns_out = 0;
-	data->guns_down = 0;
-	data->guns_shot = 0;
-	data->cur_ray = ft_calloc(sizeof(t_ray), 1);
-	if (!data->cur_ray)
-		ft_error("Allocation of ray struct failed.", data);
-	data->cur_ray->full_dist = 0.0;
-	data->cur_ray->x = 0;
-	data->cur_ray->nbr_objects = 0;
-	data->mouse.x = WIDTH / 2;
-	data->mouse.y = HEIGHT / 2;
-	data->move_speed = 0.1;
-	data->rotation_speed = 0.05;
-	data->new_time = 0;
-	data->old_time = 0;
 }
 
 /**

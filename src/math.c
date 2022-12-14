@@ -44,3 +44,13 @@ void	perpendicular_vector(t_vec *vec)
 	vec->y = -1.0 * temp_x;
 	vec->x = temp_y;
 }
+
+void	calculate_distance(t_data *data)
+{
+	if (data->cur_ray->ori == 0)
+		data->cur_ray->full_dist = \
+		data->cur_ray->side_dist.x - data->cur_ray->delta_dist.x;
+	else
+		data->cur_ray->full_dist = \
+		data->cur_ray->side_dist.y - data->cur_ray->delta_dist.y;
+}
