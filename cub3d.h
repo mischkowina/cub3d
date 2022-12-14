@@ -6,7 +6,7 @@
 /*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 14:05:34 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 16:38:59 by apielasz         ###   ########.fr       */
+/*   Updated: 2022/12/14 18:23:44 by apielasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,9 +205,8 @@ void		start_game(t_data *data);
 int			render(t_data *data);
 
 	// init.c //
-void		init(t_data *data);
-void		init_minimap(t_data *data);
 void		init_orientation(t_data *data);
+void		init_orientation_more(t_data *data);
 void		init_data(t_data *data);
 void		init_parsed_values(t_data *data);
 
@@ -245,7 +244,7 @@ void		draw_minimap(t_data *data);
 	// window.c //
 void		pixel_put(t_img *img, int color);
 int			key_hooks(int keycode, t_data *data);
-int			mouse_rotation(int x, int y, t_data *data);
+void		manage_guns(int keycode, t_data *data);
 int			close_x(t_data *data);
 
 	// math.c //
@@ -261,13 +260,6 @@ void		dda_math(t_ray *ray);
 void		calculate_step(t_data *data, t_ray *ray);
 void		raycasting(t_data *data);
 
-	// ray.c //
-void		ray_wall(t_data *data, t_img *texture);
-void		raycasting_walls(t_data *data);
-void		ray_door(t_data *data, t_door *door);
-void		ray_sprite(t_data *data, t_obj *sprite);
-void		draw_sprite_ray(t_data *data, t_obj *sprite, int start, int end);
-
 	// ray_sprites.c //
 int			identify_object(t_data *data, t_ray *ray);
 void		do_the_dda_sprites(t_data *data, t_ray *ray);
@@ -275,11 +267,21 @@ int			check_x_position(t_data *data, t_obj *spr, t_img *tex, int width);
 int			adjust_start(int start, t_img *texture, int height);
 int			adjust_end(int end, t_img *texture, int height);
 
+	//ray_utils.c
+void		calculate_distance(t_data *data);
+
+	// ray.c //
+void		ray_wall(t_data *data, t_img *texture);
+void		raycasting_walls(t_data *data);
+void		ray_door(t_data *data, t_door *door);
+void		ray_sprite(t_data *data, t_obj *sprite);
+void		draw_sprite_ray(t_data *data, t_obj *sprite, int start, int end);
+
 	// keys.c //
 void		w_key_pressed(t_data *data);
 void		s_key_pressed(t_data *data);
-void		a_key_pressed(t_data *data);
 void		d_key_pressed(t_data *data);
+void		a_key_pressed(t_data *data);
 
 	// rotation.c //
 void		rotate(t_data *data, double angle);

@@ -6,7 +6,7 @@
 /*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 21:41:56 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 16:03:56 by apielasz         ###   ########.fr       */
+/*   Updated: 2022/12/14 17:30:15 by apielasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(int argc, char **argv)
 	check_input(argc, argv);
 	init_data(&data);
 	parser(argv[1], &data);
-	init(&data);
+	init_orientation(&data);
 	start_game(&data);
 	return (0);
 }

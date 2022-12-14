@@ -1,15 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   keys.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/14 17:33:41 by apielasz          #+#    #+#             */
+/*   Updated: 2022/12/14 17:37:44 by apielasz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../cub3d.h"
 
-#define KNRM  "\x1B[0m"
-#define KRED  "\x1B[31m"
-#define KGRN  "\x1B[32m"
-#define KYEL  "\x1B[33m"
-#define KBLU  "\x1B[34m"
-#define KMAG  "\x1B[35m"
-#define KCYN  "\x1B[36m"
-#define KWHT  "\x1B[37m"
-
+/**
+ * @brief These functions calculate the updated player position and depending on
+ * the key that was pressed direction or camera plane vectors are used.
+ * Functions also check if the new positions collide with walls and implement
+ * an effect of gliding against the wall.
+ * @param data [t_data *] Pointer to a struct with all game data
+ */
 void	w_key_pressed(t_data *data)
 {
 	int	x;
@@ -27,8 +36,6 @@ void	w_key_pressed(t_data *data)
 	{
 		data->pos.x += data->dir.x * data->move_speed;
 	}
-	data->minimap.pos.x = data->pos.x * GRID_SIZE;
-	data->minimap.pos.y = data->pos.y * GRID_SIZE;
 }
 
 void	s_key_pressed(t_data *data)
@@ -48,8 +55,6 @@ void	s_key_pressed(t_data *data)
 	{
 		data->pos.x -= data->dir.x * data->move_speed;
 	}
-	data->minimap.pos.x = data->pos.x * GRID_SIZE;
-	data->minimap.pos.y = data->pos.y * GRID_SIZE;
 }
 
 void	d_key_pressed(t_data *data)
@@ -69,8 +74,6 @@ void	d_key_pressed(t_data *data)
 	{
 		data->pos.x += data->camera_plane.x * data->move_speed;
 	}
-	data->minimap.pos.x = data->pos.x * GRID_SIZE;
-	data->minimap.pos.y = data->pos.y * GRID_SIZE;
 }
 
 void	a_key_pressed(t_data *data)
@@ -90,6 +93,4 @@ void	a_key_pressed(t_data *data)
 	{
 		data->pos.x -= data->camera_plane.x * data->move_speed;
 	}
-	data->minimap.pos.x = data->pos.x * GRID_SIZE;
-	data->minimap.pos.y = data->pos.y * GRID_SIZE;
 }
