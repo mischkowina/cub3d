@@ -53,7 +53,7 @@ $(NAME): $(OBJ)
 	@echo "$(RED)Compiling mlx...$(BASIC)"
 	$(MAKE) -C mlx
 	@echo "$(RED)Compiling $(NAME)...$(BASIC)"
-	$(CC) $(CFLAGS) $^ $(LIBFT_DIR)$(LIBFT) $(MLX_DIR)$(MLX) -g -fsanitize=address -o $@
+	$(CC) $(CFLAGS) $^ $(LIBFT_DIR)$(LIBFT) $(MLX_DIR)$(MLX) -g -o $@
 	@echo "$(GREEN)Successfully compiled Saskia's and Alina's cub3D!$(BASIC)"
 
 clean:

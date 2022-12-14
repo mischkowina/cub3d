@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 21:41:02 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 15:24:48 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 17:35:25 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	free_all_shit(t_data *data)
 		mlx_destroy_window(data->mlx, data->win);
 		free(data->win);
 	}
-	if (data->mlx)
-		free(data->mlx);
+	free(data->mlx);
+	// fscanf(stdin, "c");//for testing
 }
 
 void	free_all_textures(t_data *data)
