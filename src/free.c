@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 21:41:02 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 18:09:58 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 18:20:05 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,7 @@ void	free_all_shit(t_data *data)
 	if (data->img.img_ptr)
 		mlx_destroy_image(data->mlx, data->img.img_ptr);
 	if (data->win)
-	{
 		mlx_destroy_window(data->mlx, data->win);
-		free(data->win);
-	}
 	free(data->mlx);
 }
 
