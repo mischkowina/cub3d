@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 10:41:45 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 11:31:45 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 12:22:46 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ void	init_sprites(t_data *data)
 	data->chest.filename = ft_strdup("textures/chest.xpm");
 	open_texture(data, &(data->chest));
 	data->chest.offset = 1.4;
-	data->chest.size_factor = 3.0;
+	data->chest.size_factor = 2.0;
 	data->tut.filename = ft_strdup("textures/tut.xpm");
 	open_texture(data, &(data->tut));
-	data->tut.offset = 20;
-	data->tut.size_factor = 1.2;
+	data->tut.offset = 20.0;
+	data->tut.size_factor = 1.0;
 }
 
 void	init_mummies(t_data *data)
