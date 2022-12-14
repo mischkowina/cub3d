@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialinaok <ialinaok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 16:25:14 by ialinaok          #+#    #+#             */
-/*   Updated: 2022/02/22 17:38:19 by ialinaok         ###   ########.fr       */
+/*   Updated: 2022/12/14 13:59:09 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* function allocates (with malloc()) and returns a new element
- * the variable ’content’ is initialized with the value of the parameter ’content’
-* the variable ’next’ is initialized to NULL */
+ * the variable ’content’ is initialized with the value of the parameter 
+ * ’content’
+ * the variable ’next’ is initialized to NULL */
 
 #include "libft.h"
 

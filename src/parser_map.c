@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 08:56:11 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 09:04:53 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 14:15:24 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ void	parse_map(t_data *data, char *line, int fd)
 */
 void	check_prev_input(t_data *data)
 {
-	if (!data->N_texture.filename || !data->E_texture.filename
-		|| !data->S_texture.filename || !data->W_texture.filename)
+	if (!data->n_texture.filename || !data->e_texture.filename
+		|| !data->s_texture.filename || !data->w_texture.filename)
 		ft_error("Incomplete input for textures.", data);
 	else if (data->col_ceiling == -1 || data->col_floor == -1)
 		ft_error("Incomplete input for colors.", data);
@@ -127,7 +127,7 @@ int	copy_map_tile(char c, int row, int col, t_data *data)
 		copy_player_position(data, col, row, c);
 	else if (c == 'D')
 	{
-		if (!data->D_texture.filename)
+		if (!data->d_texture.filename)
 			ft_error("No texture input for doors.", data);
 		else
 		{

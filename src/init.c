@@ -100,11 +100,11 @@ void	init_data(t_data *data)
 
 void	init_parsed_values(t_data *data)
 {
-	data->N_texture.filename = NULL;
-	data->E_texture.filename = NULL;
-	data->S_texture.filename = NULL;
-	data->W_texture.filename = NULL;
-	data->D_texture.filename = NULL;
+	data->n_texture.filename = NULL;
+	data->e_texture.filename = NULL;
+	data->s_texture.filename = NULL;
+	data->w_texture.filename = NULL;
+	data->d_texture.filename = NULL;
 	data->col_ceiling = -1;
 	data->col_floor = -1;
 	data->map = NULL;

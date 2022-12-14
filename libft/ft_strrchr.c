@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:09:56 by ialinaok          #+#    #+#             */
-/*   Updated: 2022/10/25 15:10:32 by apielasz         ###   ########.fr       */
+/*   Updated: 2022/12/14 14:01:07 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* function returns a pointer to the last occurrence of the character c 
- * in the string */ 
+ * in the string */
 
 #include "libft.h"
 

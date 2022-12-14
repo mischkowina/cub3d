@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 10:45:02 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 10:45:38 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 14:13:51 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ void	open_texture(t_data *data, t_img *texture)
 */
 void	open_all_textures(t_data *data)
 {
-	open_texture(data, &(data->N_texture));
-	open_texture(data, &(data->E_texture));
-	open_texture(data, &(data->S_texture));
-	open_texture(data, &(data->W_texture));
-	if (data->D_texture.filename)
-		open_texture(data, &(data->D_texture));
+	open_texture(data, &(data->n_texture));
+	open_texture(data, &(data->e_texture));
+	open_texture(data, &(data->s_texture));
+	open_texture(data, &(data->w_texture));
+	if (data->d_texture.filename)
+		open_texture(data, &(data->d_texture));
 	init_sprites(data);
 	init_weapons(data);
 }
@@ -100,12 +100,12 @@ t_img	*identify_texture(t_data *data)
 
 	texture = NULL;
 	if (data->cur_ray->dir.y < 0 && data->cur_ray->ori == 1)
-		texture = &(data->N_texture);
+		texture = &(data->n_texture);
 	else if (data->cur_ray->dir.y > 0 && data->cur_ray->ori == 1)
-		texture = &(data->S_texture);
+		texture = &(data->s_texture);
 	else if (data->cur_ray->dir.x > 0 && data->cur_ray->ori == 0)
-		texture = &(data->E_texture);
+		texture = &(data->e_texture);
 	else if (data->cur_ray->dir.x < 0 && data->cur_ray->ori == 0)
-		texture = &(data->W_texture);
+		texture = &(data->w_texture);
 	return (texture);
 }

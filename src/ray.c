@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 09:46:51 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 10:33:02 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 14:15:37 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	ray_door(t_data *data, t_door *door)
 	end = (HEIGHT / data->cur_ray->full_dist) / 2 + HEIGHT / 2.0;
 	start += (end - start) * (100 - door->closed) / 100;
 	tex_pos_y = 0;
-	step = 1.0 * data->D_texture.height / (HEIGHT / data->cur_ray->full_dist);
+	step = 1.0 * data->d_texture.height / (HEIGHT / data->cur_ray->full_dist);
 	if (start < 0)
 	{
 		tex_pos_y -= start * step;
@@ -97,7 +97,7 @@ void	ray_door(t_data *data, t_door *door)
 		end = HEIGHT - 1;
 	while (start < end)
 	{
-		col = get_texture_color(data, &(data->D_texture), (int)tex_pos_y);
+		col = get_texture_color(data, &(data->d_texture), (int)tex_pos_y);
 		ft_mlx_pixel_put(&(data->img), data->cur_ray->x, start++, col);
 		tex_pos_y += step;
 	}

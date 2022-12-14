@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 09:44:55 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 10:36:51 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 14:10:18 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,21 @@ void	do_the_dda_sprites(t_data *data, t_ray *ray)
 	}
 }
 
-int	check_x_position(t_data *data, t_obj *sprite, t_img *texture, int width)
+int	check_x_position(t_data *data, t_obj *spr, t_img *tex, int width)
 {
 	int		diff;
 
-	diff = sprite->nbr_rays - width;
+	diff = spr->nbr_rays - width;
 	if (diff > 0)
 	{
-		if (data->cur_ray->x < (sprite->first_ray + (diff / 2)))
+		if (data->cur_ray->x < (spr->first_ray + (diff / 2)))
 			return (0);
-		else if (data->cur_ray->x >= (sprite->first_ray + width + (diff / 2)))
+		else if (data->cur_ray->x >= (spr->first_ray + width + (diff / 2)))
 			return (0);
 	}
 	else if ((data->cur_ray->x == 0) && diff <= 0)
-		sprite->tex_pos_x = -1.0 * diff
-			* (texture->width * texture->size_factor / width);
+		spr->tex_pos_x = -1.0 * diff
+			* (tex->width * tex->size_factor / width);
 	return (1);
 }
 

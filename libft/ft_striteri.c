@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialinaok <ialinaok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 15:14:46 by ialinaok          #+#    #+#             */
-/*   Updated: 2022/02/22 18:08:57 by ialinaok         ###   ########.fr       */
+/*   Updated: 2022/12/14 13:59:50 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* applies the function f to each character of the string passed as argument
  * and passing its index as first argument; each character is passed by
- * address to f to be modified if necessary */ 
+ * address to f to be modified if necessary */
 
 #include "libft.h"
 
