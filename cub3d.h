@@ -223,11 +223,16 @@ void		calculate_distance(t_data *data);
 	// ray_engine.c //
 void		cast_rays(t_data *data, t_ray *ray, int i);
 void		do_the_dda(t_data *data, t_ray *ray);
-void		do_the_dda_sprites(t_data *data, t_ray *ray);
 void		dda_math(t_ray *ray);
 void		calculate_step(t_data *data, t_ray *ray);
-int			identify_object(t_data *data, t_ray *ray);
 void		raycasting(t_data *data);
+
+//ray_sprites.c
+int			identify_object(t_data *data, t_ray *ray);
+void		do_the_dda_sprites(t_data *data, t_ray *ray);
+int			check_x_position(t_data *data, t_obj *sprite, t_img *texture, int width);
+int			adjust_start(int start, t_img *texture, int height);
+int			adjust_end(int end, t_img *texture, int height);
 
 	// rotation.c //
 void		rotate(t_data *data, double angle);
@@ -274,6 +279,7 @@ void		ray_wall(t_data *data, t_img *texture);
 void		raycasting_walls(t_data *data);
 void		ray_door(t_data *data, t_door *door);
 void		ray_sprite(t_data *data, t_obj *sprite);
+void		draw_sprite_ray(t_data *data, t_obj *sprite, int start, int end);
 
 //textures.c
 void		open_texture(t_data *data, t_img *texture);
@@ -290,11 +296,14 @@ void		*check_if_door(t_data *data, int x, int y);
 
 //sprites.c
 int			parse_sprites(char c, int row, int col, t_data *data);
-void		init_sprites(t_data *data);
 void		fill_sprite(t_data *data, int row, int col);
 void		*check_if_sprite(t_data *data, int x, int y);
 double		get_sprite_distance(t_data *data, t_obj	*sprite);
 void		move_reset_sprites(t_data *data);
+
+//init_sprites.c
+void		init_sprites(t_data *data);
+void		init_mummies(t_data *data);
 
 //sounds.c
 void		play_sound(char *sound);

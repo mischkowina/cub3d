@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ray.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/14 09:46:51 by smischni          #+#    #+#             */
+/*   Updated: 2022/12/14 10:33:02 by smischni         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../cub3d.h"
 
@@ -39,10 +50,10 @@ void	ray_wall(t_data *data, t_img *texture)
 void	raycasting_walls(t_data *data)
 {
 	t_img	*texture;
-	
+
 	data->cur_ray->x = 0;
 	data->new_time = time_now();
-	while (data->cur_ray->x < WIDTH) 
+	while (data->cur_ray->x < WIDTH)
 	{
 		cast_rays(data, data->cur_ray, data->cur_ray->x);
 		do_the_dda(data, data->cur_ray);
@@ -87,35 +98,28 @@ void	ray_door(t_data *data, t_door *door)
 	while (start < end)
 	{
 		col = get_texture_color(data, &(data->D_texture), (int)tex_pos_y);
-		ft_mlx_pixel_put(&(data->img), data->cur_ray->x, start, col);
+		ft_mlx_pixel_put(&(data->img), data->cur_ray->x, start++, col);
 		tex_pos_y += step;
-		start++;
 	}
 }
 
- /**
- * Function to draw a sprite based on the distance to the player position, using
- * the specified texture. Identifies the height of the wall using the distance
- * of the ray. Then, shifts the position of the sprite on the y-axis by an
- * offset, if necessary. Lastly iterates through every pixel of the ray and 
- * identifies the respective color from the door texture.
+/**
+ * Function to draw a sprite based on the distance to the player position, 
+ * using the specified texture. Identifies the height of the wall using the 
+ * distance of the ray. Then, shifts the position of the sprite on the 
+ * y-axis by an offset, if necessary. Lastly iterates through every pixel
+ * of the ray and identifies the respective color from the door texture.
  * @param data [t_cub *] Pointer to struct storing all the input data.
  * @param dist [double] Distance of the sprite, stays same throughout the
  * whole sprite.
- * @param sprite [t_obj *] Pointer to the struct of the sprite object to be drawn.
+ * @param sprite [t_obj *] Pointer to the struct of the sprite object.
  */
 void	ray_sprite(t_data *data, t_obj *sprite)
 {
 	int		start;
 	int		end;
-	double	tex_pos_y;
-	double	step_y;
-	double	step_x;
-	int		height;
 	int		width;
-	int		col;
-	int		diff;
-	t_img	*texture;//maybe move to the outside loop?
+	t_img	*texture;
 
 	if (sprite->done == 1)
 		return ;
@@ -127,39 +131,37 @@ void	ray_sprite(t_data *data, t_obj *sprite)
 		sprite->dist = get_sprite_distance(data, sprite);
 	start = - (HEIGHT / sprite->dist) / 2 + HEIGHT / 2.0;
 	end = (HEIGHT / sprite->dist) / 2 + HEIGHT / 2.0;
-	height = end - start;
-	width = texture->width * (1.0 * height / texture->height);
-	diff = sprite->nbr_rays - width;
-	step_x = 1.0 * texture->width * texture->size_factor / width;
-	if (diff > 0)
-	{
-		if (data->cur_ray->x < (sprite->first_ray + (diff / 2)))
-			return ;
-		else if (data->cur_ray->x >= (sprite->first_ray + width + (diff / 2)))
-			return ;
-	}
-	else if ((data->cur_ray->x == 0) && diff <= 0) 
-		sprite->tex_pos_x = -1.0 * diff * (texture->width * texture->size_factor / width);
-	if (texture->offset > 0)
-	{
-		start += 1.0 * height / texture->offset;
-		end += 1.0 * height / texture->offset;
-	}
-	if (start < 0)
-		start = 0;
-	if (end >= HEIGHT)
-		end = HEIGHT - 1;
+	width = texture->width * (1.0 * (end - start) / texture->height);
+	if (check_x_position(data, sprite, texture, width) == 0)
+		return ;
+	start = adjust_start(start, texture, (end - start));
+	end = adjust_end(end, texture, (end - start));
+	draw_sprite_ray(data, sprite, start, end);
+	sprite->tex_pos_x += 1.0 * texture->width * texture->size_factor / width;
+	if (sprite->tex_pos_x >= (double)texture->width)
+		sprite->done = 1;
+}
+
+void	draw_sprite_ray(t_data *data, t_obj *sprite, int start, int end)
+{
+	int		col;
+	double	tex_pos_y;
+	double	step_y;
+	t_img	*texture;
+
+	if (sprite->tex == NULL)
+		texture = data->mummy[data->cur_mummy];
+	else
+		texture = sprite->tex;
 	tex_pos_y = 0;
 	step_y = texture->size_factor * texture->height / (HEIGHT / sprite->dist);
 	while (start < end && tex_pos_y < texture->height)
 	{
-		col = get_texture_color_sprite(texture, (int)sprite->tex_pos_x, (int)tex_pos_y);
+		col = get_texture_color_sprite(texture,
+				(int)sprite->tex_pos_x, (int)tex_pos_y);
 		if (col != 16777215)
 			ft_mlx_pixel_put(&(data->img), data->cur_ray->x, start, col);
 		tex_pos_y += step_y;
 		start++;
 	}
-	sprite->tex_pos_x += step_x;
-	if (sprite->tex_pos_x >= (double)texture->width)
-		sprite->done = 1;
 }

@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 09:05:46 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 09:25:04 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 09:45:58 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,22 +61,6 @@ void	do_the_dda(t_data *data, t_ray *ray)
 	}
 }
 
-void	do_the_dda_sprites(t_data *data, t_ray *ray)
-{
-	int	hit;
-
-	hit = 0;
-	ray->nbr_objects = 0;
-	while (hit == 0)
-	{
-		dda_math(ray);
-		if (data->map[ray->map_y][ray->map_x] == 1)
-			hit = 1;
-		if (data->map[ray->map_y][ray->map_x] > 2)
-			ray->nbr_objects++;
-	}
-}
-
 void	dda_math(t_ray *ray)
 {
 	if (ray->side_dist.x < ray->side_dist.y)
@@ -115,27 +99,6 @@ void	calculate_step(t_data *data, t_ray *ray)
 		ray->step_y = 1;
 		ray->side_dist.y = (ray->map_y + 1.0 - data->pos.y) * ray->delta_dist.y;
 	}
-}
-
-int	identify_object(t_data *data, t_ray *ray)
-{
-	int		i;
-
-	i = 0;
-	ray->cur_obj = NULL;
-	while (i < ray->nbr_objects)
-	{
-		dda_math(ray);
-		if (data->map[ray->map_y][ray->map_x] > 2)
-			i++;
-		else if (data->map[ray->map_y][ray->map_x] == 1)
-			return (1);
-	}
-	if (check_if_door(data, ray->map_x, ray->map_y))
-		return (3);
-	if (check_if_sprite(data, ray->map_x, ray->map_y))
-		return (4);
-	return (1);
 }
 
 void	raycasting(t_data *data)
