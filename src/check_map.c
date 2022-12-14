@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 21:39:38 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 09:02:13 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 11:16:03 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	allocate_map_array(t_data *data, char **map_rows)
 	}
 	data->height_map = row;
 	data->width_map = (int) max_width;
-	data->map = ft_calloc(sizeof(int *), row);
+	data->map = ft_calloc(sizeof(int *), row + 1);
 	if (!data->map || row == 0 || max_width == 0)
 		ft_error("Allocation of map failed.", data);
 	while (i < row)
