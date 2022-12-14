@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 21:41:02 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 11:19:39 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 11:40:54 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,24 +32,15 @@ void	free_all_shit(t_data *data)
 
 void	free_all_textures(t_data *data)
 {
-	int	i;
-
-	i = 0;
 	free_t_img(&(data->N_texture), data->mlx);
 	free_t_img(&(data->E_texture), data->mlx);
 	free_t_img(&(data->S_texture), data->mlx);
 	free_t_img(&(data->W_texture), data->mlx);
 	free_t_img(&(data->D_texture), data->mlx);
 	if (data->mummy)
-	{
-		while (i < 4)
-		{
-			if (data->mummy[i])
-				free_t_img(data->mummy[i], data->mlx);
-			i++;
-		}
-		free(data->mummy);
-	}
+		free_texture_array(data, data->mummy);
+	if (data->weapons)
+		free_texture_array(data, data->weapons);
 	free_t_img(&(data->chest), data->mlx);
 	free_t_img(&(data->tut), data->mlx);
 }

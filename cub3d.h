@@ -30,6 +30,7 @@
 
 # define PLAYER_SIZE	10
 
+//@Alina: do we still need to colors?
 # define BLACK			0x000000
 # define WHITE			0xFFFFFF
 # define GREY			0xA1A1A1
@@ -51,6 +52,7 @@
 # define FOV			M_PI / 180 * FOV_D
 # define ROT_ANGLE		M_PI / 36.0
 
+//@Alina: do we use this?
 typedef struct s_trgb
 {
 	int	t;
@@ -141,7 +143,7 @@ typedef struct s_data
 	void		*mlx;
 	void		*win;
 	t_img		img;
-	t_trgb		trgb;
+	t_trgb		trgb;//@ALina: do we need this?
 	t_vec		pos;
 	t_vec		dir;
 	t_vec		camera_plane;
@@ -304,6 +306,7 @@ void		move_reset_sprites(t_data *data);
 //init_sprites.c
 void		init_sprites(t_data *data);
 void		init_mummies(t_data *data);
+void		free_texture_array(t_data *data, t_img **img);
 
 //sounds.c
 void		play_sound(char *sound);

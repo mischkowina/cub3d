@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 10:41:45 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 10:44:41 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 11:31:45 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,21 @@ void	init_mummies(t_data *data)
 		data->mummy[i]->offset = 20;
 		data->mummy[i++]->size_factor = 1.0;
 	}
+}
+
+void	free_texture_array(t_data *data, t_img **img)
+{
+	int	i;
+
+	i = 0;
+	while (i < 4)
+	{
+		if (img[i])
+		{
+			free_t_img(img[i], data->mlx);
+			free(img[i]);
+		}
+		i++;
+	}
+	free(img);
 }
