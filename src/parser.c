@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/14 09:05:21 by smischni          #+#    #+#             */
+/*   Updated: 2022/12/14 14:12:59 by smischni         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../cub3d.h"
 
@@ -46,19 +57,19 @@ void	parser(char *file, t_data *data)
 int	parse_info_type(t_data *data, char *line)
 {
 	if (line && !ft_strncmp(line, "NO ", 3))
-		data->N_texture.filename = parse_texture(line, data);
+		data->n_texture.filename = parse_texture(line, data);
 	else if (line && !ft_strncmp(line, "EA ", 3))
-		data->E_texture.filename = parse_texture(line, data);
+		data->e_texture.filename = parse_texture(line, data);
 	else if (line && !ft_strncmp(line, "SO ", 3))
-		data->S_texture.filename = parse_texture(line, data);
+		data->s_texture.filename = parse_texture(line, data);
 	else if (line && !ft_strncmp(line, "WE ", 3))
-		data->W_texture.filename = parse_texture(line, data);
+		data->w_texture.filename = parse_texture(line, data);
 	else if (line && !ft_strncmp(line, "F ", 2))
 		data->col_floor = parse_color(line, data);
 	else if (line && !ft_strncmp(line, "C ", 2))
 		data->col_ceiling = parse_color(line, data);
 	else if (line && !ft_strncmp(line, "DO ", 2))
-		data->D_texture.filename = parse_texture(line, data);
+		data->d_texture.filename = parse_texture(line, data);
 	else
 		return (1);
 	return (0);

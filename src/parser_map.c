@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_map.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/14 08:56:11 by smischni          #+#    #+#             */
+/*   Updated: 2022/12/14 14:15:24 by smischni         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
 /**
@@ -18,7 +30,6 @@ void	parse_map(t_data *data, char *line, int fd)
 	while (line && (!ft_strncmp(line, " ", 1) || !ft_strncmp(line, "1", 1)))
 	{
 		tmp = map_str;
-		//free(map_str);THIS LINE BREAKS SHIT
 		map_str = ft_strjoin(tmp, line);
 		free(tmp);
 		free(line);
@@ -43,8 +54,8 @@ void	parse_map(t_data *data, char *line, int fd)
 */
 void	check_prev_input(t_data *data)
 {
-	if (!data->N_texture.filename || !data->E_texture.filename
-		|| !data->S_texture.filename || !data->W_texture.filename)
+	if (!data->n_texture.filename || !data->e_texture.filename
+		|| !data->s_texture.filename || !data->w_texture.filename)
 		ft_error("Incomplete input for textures.", data);
 	else if (data->col_ceiling == -1 || data->col_floor == -1)
 		ft_error("Incomplete input for colors.", data);
@@ -87,40 +98,6 @@ void	fill_map_array(t_data *data, char *map_str)
 }
 
 /**
- * Function to allocate sufficient memory space for the 2D integer array
- * representing the map.
- * @param data [t_data *] Pointer to struct storing the input data.
- * @param map_rows [char **] String array containing the map data.
-*/
-void	allocate_map_array(t_data *data, char **map_rows)
-{
-	int		row;
-	int		i;
-	size_t	max_width;
-
-	max_width = 0;
-	row = 0;
-	i = 0;
-	while (map_rows[row])
-	{
-		if (ft_strlen(map_rows[row]) > max_width)
-			max_width = ft_strlen(map_rows[row]);
-		row++;
-	}
-	data->height_map = row;
-	data->width_map = (int) max_width;
-	data->map = ft_calloc(sizeof(int *), row);
-	if (!data->map || row == 0 || max_width == 0)
-		ft_error("Allocation of map failed.", data);
-	while (i < row)
-	{
-		data->map[i] = ft_calloc(sizeof(int), data->width_map);
-		if (!data->map[i++])
-			ft_error("Allocation of map failed.", data);
-	}
-}
-
-/**
  * Function to fill a single field of the 2D integer array with the integer 
  * representation of the given character.
  * Map explanation:
@@ -147,15 +124,10 @@ int	copy_map_tile(char c, int row, int col, t_data *data)
 	else if (c == '0')
 		data->map[row][col] = 0;
 	else if (c == 'N' || c == 'E' || c == 'S' || c == 'W')
-	{
-		data->map[row][col] = 2;
-		data->pos.x = col;
-		data->pos.y = row;
-		data->player_dir = c;
-	}
+		copy_player_position(data, col, row, c);
 	else if (c == 'D')
 	{
-		if (!data->D_texture.filename)
+		if (!data->d_texture.filename)
 			ft_error("No texture input for doors.", data);
 		else
 		{
@@ -166,4 +138,12 @@ int	copy_map_tile(char c, int row, int col, t_data *data)
 	else if (parse_sprites(c, row, col, data) > 0)
 		return (1);
 	return (0);
+}
+
+void	copy_player_position(t_data *data, int col, int row, char c)
+{
+	data->map[row][col] = 2;
+	data->pos.x = col;
+	data->pos.y = row;
+	data->player_dir = c;
 }

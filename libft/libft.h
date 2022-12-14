@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 14:28:41 by ialinaok          #+#    #+#             */
-/*   Updated: 2022/10/25 15:25:12 by apielasz         ###   ########.fr       */
+/*   Updated: 2022/12/14 14:03:45 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,14 @@ char	*get_next_line(int fd);
 
 // >>>>> for ft_printf <<<<< //
 
-int	ft_printf(const char *format, ...);
-int	ft_putchar_std_out(char c);
-int	ft_putstr_std_out(char *str);
-int	ft_putdec_std_out(int n);
-int	ft_puthex_lower_std_out(unsigned int hex);
-int	ft_puthex_upper_std_out(unsigned int hex);
-int	ft_putuint_std_out(unsigned int uint);
-int	ft_putptr_std_out(void *ptr);
+int		ft_printf(const char *format, ...);
+int		ft_putchar_std_out(char c);
+int		ft_putstr_std_out(char *str);
+int		ft_putdec_std_out(int n);
+int		ft_puthex_lower_std_out(unsigned int hex);
+int		ft_puthex_upper_std_out(unsigned int hex);
+int		ft_putuint_std_out(unsigned int uint);
+int		ft_putptr_std_out(void *ptr);
 
 // >>>>> * <<<<< //
 

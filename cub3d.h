@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/14 14:05:34 by smischni          #+#    #+#             */
+/*   Updated: 2022/12/14 14:27:31 by smischni         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
@@ -6,7 +17,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
-// # include "/usr/X11/include/X11/X.h"
 # include <math.h>
 # include "libft/libft.h"
 # include "mlx/mlx.h"
@@ -31,20 +41,21 @@
 
 # define PLAYER_SIZE	10
 
+//@Alina: do we still need to colors?
 # define BLACK			0x000000
 # define WHITE			0xFFFFFF
 # define GREY			0xA1A1A1
 # define PINK			0x0F542D4
 # define LIGHT_PINK		0xa3819c
-# define BRIGHT_PINK	0xE6AEDB
+# define BRIGHT_PINK		0xE6AEDB
 # define YELLOW			0xFFDF07
 # define GREEN			0x00FF00
 # define ORANGE			0xFF9933
 # define BLUE			0x0099FF
-# define RED			0xFF0000
+# define RED				0xFF0000
 # define PURPLE			0x9900FF
 # define BLUE_SKY		0xb3fcff
-# define GREEN_GRASS	0xed2459
+# define GREEN_GRASS		0xed2459
 
 # define PI				3.1415926535
 
@@ -52,6 +63,7 @@
 # define FOV			M_PI / 180 * FOV_D
 # define ROT_ANGLE		M_PI / 36.0
 
+//@Alina: do we use this?
 typedef struct s_trgb
 {
 	int	t;
@@ -116,11 +128,10 @@ typedef struct s_obj
 
 typedef struct s_ray
 {
-	// this is for a solution from the guide //
 	t_vec		dir;
 	t_vec		delta_dist;
-	int			map_x;//ALINA: I need the exact position as a double
-	int			map_y;//ALINA: I need the exact position as a double
+	int			map_x;
+	int			map_y;
 	t_vec		side_dist;
 	int			step_x;
 	int			step_y;
@@ -133,7 +144,7 @@ typedef struct s_ray
 
 typedef struct s_data
 {
-	t_minimap	minimap;//Alina: renamed to minimap since there is a map variable
+	t_minimap	minimap;
 	t_vec		mouse;
 	double		move_speed;
 	double		rotation_speed;
@@ -143,7 +154,7 @@ typedef struct s_data
 	void		*mlx;
 	void		*win;
 	t_img		img;
-	t_trgb		trgb;
+	t_trgb		trgb;//@ALina: do we need this?
 	t_vec		pos;
 	t_vec		dir;
 	t_vec		camera_plane;
@@ -153,11 +164,11 @@ typedef struct s_data
 	float		pdy;
 	t_ray		*cur_ray;
 	int			counter;
-	t_img		N_texture;
-	t_img		E_texture;
-	t_img		S_texture;
-	t_img		W_texture;
-	t_img		D_texture;
+	t_img		n_texture;
+	t_img		e_texture;
+	t_img		s_texture;
+	t_img		w_texture;
+	t_img		d_texture;
 	int			col_ceiling;
 	int			col_floor;
 	int			**map;
@@ -188,134 +199,145 @@ typedef struct s_delta
 	double		small_ray;
 }				t_delta;
 
-	// main_engine.c //
-void	draw_grid(t_data *data);
-void	draw_minimap(t_data *data);
-
-	// drawing.c //
-void	draw_point(int x, int y, t_img *img, int color);
-void	draw_line(int x0, int y0, int x1, int y1, t_data *data, int color);
-void	draw_floor_and_ceiling(t_data *data);
+	// main.c //
+int			check_input(int argc, char **argv);
+void		start_game(t_data *data);
+int			render(t_data *data);
 
 	// init.c //
-void	init(t_data *data);
-void	init_minimap(t_data *data);
-void	init_orientation(t_data *data);
+void		init(t_data *data);
+void		init_minimap(t_data *data);
+void		init_orientation(t_data *data);
+void		init_data(t_data *data);
+void		init_parsed_values(t_data *data);
+
+	// init_sprites.c //
+void		init_sprites(t_data *data);
+void		init_mummies(t_data *data);
+void		free_texture_array(t_data *data, t_img **img);
+
+	// parser.c //
+void		parser(char *file, t_data *data);
+int			parse_info_type(t_data *data, char *line);
+char		*parse_texture(char *line, t_data *data);
+int			parse_color(char *line, t_data *data);
+int			determine_color_value(char **split, t_data *data);
+
+	// parser_map.c //
+void		parse_map(t_data *data, char *line, int fd);
+void		check_prev_input(t_data *data);
+void		fill_map_array(t_data *data, char *map_str);
+int			copy_map_tile(char c, int row, int col, t_data *data);
+void		copy_player_position(t_data *data, int col, int row, char c);
+
+	// check_map.c //
+void		allocate_map_array(t_data *data, char **map_rows);
+void		check_map_array(t_data *data);
+void		check_tile(t_data *data, int row, int col, int *pos);
+int			check_if_accessible(t_data *data, int x, int y);
+void		*check_door_ahead(t_data *data);
+
+	// main_engine.c //
+void		draw_grid(t_data *data);
+void		draw_minimap(t_data *data);
+
+	// drawing.c //
+void		draw_point(int x, int y, t_img *img, int color);
+void		draw_line(int x0, int y0, int x1, int y1, t_data *data, int color);
+void		draw_floor_and_ceiling(t_data *data);
 
 	// window.c //
-void	pixel_put(t_img *img, int color);
-int		key_hooks(int keycode, t_data *data);
-int		mouse_rotation(int x, int y, t_data *data);
-int		close_x(t_data *data);
-
-	// keys.c //
-void	w_key_pressed(t_data *data);
-void	s_key_pressed(t_data *data);
-void	a_key_pressed(t_data *data);
-void	d_key_pressed(t_data *data);
+void		pixel_put(t_img *img, int color);
+int			key_hooks(int keycode, t_data *data);
+int			mouse_rotation(int x, int y, t_data *data);
+int			close_x(t_data *data);
 
 	// math.c //
-void	find_vector_values(t_vec *vec, double angle);
-void	normalize_vector(t_vec *vec);
-void	perpendicular_vector(t_vec *vec);
+void		find_vector_values(t_vec *vec, double angle);
+void		normalize_vector(t_vec *vec);
+void		perpendicular_vector(t_vec *vec);
+void		calculate_distance(t_data *data);
 
 	// ray_engine.c //
-void	cast_rays(t_data *data, t_ray *ray, int i);
-void	do_the_dda(t_data *data, t_ray *ray);
-void	do_the_dda_sprites(t_data *data, t_ray *ray);
-void	dda_math(t_ray *ray);
-void	calculate_step(t_data *data, t_ray *ray);
-void	paint_my_3d_world(t_data *data, t_ray *ray, int x);
-int		identify_object(t_data *data, t_ray *ray);
-void	calculate_distance(t_data *data);
-void	raycasting(t_data *data);
+void		cast_rays(t_data *data, t_ray *ray, int i);
+void		do_the_dda(t_data *data, t_ray *ray);
+void		dda_math(t_ray *ray);
+void		calculate_step(t_data *data, t_ray *ray);
+void		raycasting(t_data *data);
+
+	// ray.c //
+void		ray_wall(t_data *data, t_img *texture);
+void		raycasting_walls(t_data *data);
+void		ray_door(t_data *data, t_door *door);
+void		ray_sprite(t_data *data, t_obj *sprite);
+void		draw_sprite_ray(t_data *data, t_obj *sprite, int start, int end);
+
+	// ray_sprites.c //
+int			identify_object(t_data *data, t_ray *ray);
+void		do_the_dda_sprites(t_data *data, t_ray *ray);
+int			check_x_position(t_data *data, t_obj *spr, t_img *tex, int width);
+int			adjust_start(int start, t_img *texture, int height);
+int			adjust_end(int end, t_img *texture, int height);
+
+	// keys.c //
+void		w_key_pressed(t_data *data);
+void		s_key_pressed(t_data *data);
+void		a_key_pressed(t_data *data);
+void		d_key_pressed(t_data *data);
 
 	// rotation.c //
-void	rotate(t_data *data, double angle);
-void	update_move_rot_speeds(t_data *data);
+void		rotate(t_data *data, double angle);
+void		update_move_rot_speeds(t_data *data);
 long long	time_now(void);
-int		mouse_rotation(int x, int y, t_data *data);
+int			mouse_rotation(int x, int y, t_data *data);
 
 	// minimap.c //
-void	draw_player(int x, int y, t_img *img, int color);
-void	render_minimap(t_data *data);
+void		draw_player(int x, int y, t_img *img, int color);
+void		render_minimap(t_data *data);
 
-//main.c
-int		check_input(int argc, char **argv);
-void	init_data(t_data *data);
-void	start_game(t_data *data);
-int		render(t_data *data);
+	// images.c //
+void		ft_mlx_pixel_put(t_img *img, int x, int y, int color);
+void		prep_image(t_data *data);
 
-//parser.c
-void	parser(char *file, t_data *data);
-int		parse_info_type(t_data *data, char *line);
-char	*parse_texture(char *line, t_data *data);
-int		parse_color(char *line, t_data *data);
-int		determine_color_value(char **split, t_data *data);
+	// textures.c //
+void		open_texture(t_data *data, t_img *texture);
+void		open_all_textures(t_data *data);
+int			get_texture_color(t_data *data, t_img *texture, int y);
+t_img		*identify_texture(t_data *data);
+int			get_texture_color_sprite(t_img *texture, int x, int y);
 
-//parser_map.c
-void	parse_map(t_data *data, char *line, int fd);
-void	check_prev_input(t_data *data);
-void	fill_map_array(t_data *data, char *map_str);
-void	allocate_map_array(t_data *data, char **map_rows);
-int		copy_map_tile(char c, int row, int col, t_data *data);
+	// doors.c //
+void		allocate_doors_sprites(t_data *data);
+void		move_doors_sprites(t_data *data);
+void		open_door(t_data *data);
+void		*check_if_door(t_data *data, int x, int y);
 
-//check_map.c
-void	check_map_array(t_data *data);
-void	check_tile(t_data *data, int row, int col, int *pos);
-int		check_if_accessible(t_data *data, int x, int y);
-void	*check_door_ahead(t_data *data);
+	// sprites.c //
+int			parse_sprites(char c, int row, int col, t_data *data);
+void		fill_sprite(t_data *data, int row, int col);
+void		*check_if_sprite(t_data *data, int x, int y);
+double		get_sprite_distance(t_data *data, t_obj	*sprite);
+void		move_reset_sprites(t_data *data);
 
-//images.c
-void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
-void	prep_image(t_data *data);
+	// weapons.c //
+void		init_weapons(t_data *data);
+void		ray_weapons(t_data *data, int x);
+void		move_weapons(t_data *data);
 
-//ray.c
-void	ray_wall(t_data *data, t_img *texture);
-void	raycasting_walls(t_data *data);
-void	ray_door(t_data *data, t_door *door);
-void	ray_sprite(t_data *data, t_obj *sprite);
+	// sounds.c //
+void		play_sound(char *sound);
+void		kill_music(void);
 
-//textures.c
-void	open_texture(t_data *data, t_img *texture);
-void	open_all_textures(t_data *data);
-int		get_texture_color(t_data *data, t_img *texture, int y);
-t_img	*identify_texture(t_data *data);
-int		get_texture_color_sprite(t_img *texture, int x, int y);
+	// utils.c //
+int			str_is_digit(char *str);
+void		free_str_arr(char **str);
+void		ft_error(char *msg, t_data *data);
 
-//doors.c
-void	allocate_doors_sprites(t_data *data);
-void	move_doors_sprites(t_data *data);
-void	open_door(t_data *data);
-void	*check_if_door(t_data *data, int x, int y);
-
-//sprites.c
-int		parse_sprites(char c, int row, int col, t_data *data);
-void	init_sprites(t_data *data);
-void	fill_sprite(t_data *data, int row, int col);
-void	*check_if_sprite(t_data *data, int x, int y);
-double	get_sprite_distance(t_data *data, t_obj	*sprite);
-void	move_reset_sprites(t_data *data);
-
-//sounds.c
-void	play_sound(char *sound);
-void	kill_music(void);
-
-//utils.c
-int		str_is_digit(char *str);
-void	free_str_arr(char **str);
-void	ft_error(char *msg, t_data *data);
-
-//free.c
-void	free_all_shit(t_data *data);
-void	free_all_textures(t_data *data);
-void	free_map(t_data *data);
-void	free_t_img(t_img *img, void *mlx_ptr);
-void	free_doors_sprites(t_data *data);
-
-//weapons.c
-void	init_weapons(t_data *data);
-void	ray_weapons(t_data *data, int x);
-void	move_weapons(t_data *data);
+	// free.c //
+void		free_all_shit(t_data *data);
+void		free_all_textures(t_data *data);
+void		free_map(t_data *data);
+void		free_t_img(t_img *img, void *mlx_ptr);
+void		free_doors_sprites(t_data *data);
 
 #endif

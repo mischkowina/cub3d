@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   weapons.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/14 10:47:09 by smischni          #+#    #+#             */
+/*   Updated: 2022/12/14 10:47:29 by smischni         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../cub3d.h"
 
@@ -39,7 +50,6 @@ void	ray_weapons(t_data *data, int x)
 	{
 		col = get_texture_color_sprite(data->weapons[data->cur_weapon], \
 		(int)tex_pos_x, (int)tex_pos_y);
-		// printf("x: %d, y: %d, tex_pos_x: %f, tex_pos_y %f, col: %d\n", x, y, tex_pos_x, tex_pos_y, col);
 		if (col != -16777216)
 			ft_mlx_pixel_put(&(data->img), x, y, col);
 		tex_pos_y += 1.0 * data->weapons[data->cur_weapon]->height / HEIGHT;

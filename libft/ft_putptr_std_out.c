@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putptr_std_out.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 21:09:58 by apielasz          #+#    #+#             */
-/*   Updated: 2022/10/25 15:16:01 by apielasz         ###   ########.fr       */
+/*   Updated: 2022/12/14 14:00:49 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	ft_puthex_part(unsigned long long ptr)
 {
 	char	ptrprint;
 	int		ret;
-	
+
 	ret = 0;
 	if (ptr >= 0x10)
 		ret += ft_puthex_part(ptr / 16);

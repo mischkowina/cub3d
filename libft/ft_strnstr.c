@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ialinaok <ialinaok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 00:49:39 by ialinaok          #+#    #+#             */
-/*   Updated: 2022/02/23 10:40:41 by ialinaok         ###   ########.fr       */
+/*   Updated: 2022/12/14 13:58:17 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,3 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t n)
 	}
 	return (NULL);
 }
-
-
-// int	main(void)
-// {
-// 	char	arr1[] = "Nomadland";
-// 	char	arr2[] = "land";
-// 	char	*r;
-
-// 	printf("strings are: s1 = '%s';\ns2 = '%s'\n", arr1, arr2);
-// 	r = strnstr(arr1, arr2, 8);
-// 	printf("the address of 'l' in s1 is: %p\n", &arr1[5]);
-// 	printf("the address of s1 is: %p\n", arr1);
-// 	printf("the return value is: %p", r);
-// 	return (0);
-// }

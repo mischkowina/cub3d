@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/14 10:45:57 by smischni          #+#    #+#             */
+/*   Updated: 2022/12/14 11:41:36 by smischni         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
 /**
@@ -48,7 +60,7 @@ void	ft_error(char *msg, t_data *data)
 		perror("Error");
 	if (data)
 		data = NULL;
-	// if (data)
-	// 	free_all_shit(data);
-	exit(0);//OPEN: any reason for another exit code?
+	if (data)
+		free_all_shit(data);
+	exit(0);
 }

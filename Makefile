@@ -28,7 +28,9 @@ SRC =	$(SRC_DIR)main.c \
 		$(SRC_DIR)ray_engine.c \
 		$(SRC_DIR)minimap.c \
 		$(SRC_DIR)weapons.c \
-		$(SRC_DIR)rotation.c
+		$(SRC_DIR)rotation.c \
+		$(SRC_DIR)ray_sprites.c \
+		$(SRC_DIR)init_sprites.c
 
 # colors
 GREEN = \033[0;32m
