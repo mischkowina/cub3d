@@ -10,7 +10,6 @@ void	init(t_data *data)
 // initialize the direction of the player's vision: N (0, 1), S (0, -1), E (1, 0), W (-1, 0)
 	// data->player_dir = 'W';
 	init_orientation(data);
-	init_minimap(data);
 	// data->dir.x = 0.0;
 	// data->dir.y = 1.0;
 // initialize the player angle to 2 * PI
@@ -28,11 +27,6 @@ void	init(t_data *data)
 	// draw_grid(data);
 }
 
-void	init_minimap(t_data *data)
-{
-	data->minimap.pos.x = data->pos.x * GRID_SIZE;
-	data->minimap.pos.y = data->pos.y * GRID_SIZE;
-}
 
 void	init_orientation(t_data *data)
 {

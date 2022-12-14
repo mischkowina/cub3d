@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 10:45:02 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 15:21:38 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 18:20:21 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,7 @@ void	open_texture(t_data *data, t_img *texture)
 	texture->img_ptr = mlx_xpm_file_to_image(data->mlx, texture->filename,
 			&(texture->width), &(texture->height));
 	if (!texture->img_ptr)
-	{
-		data->win = NULL;
 		ft_error("Failed reading .xpm file.", data);
-	}
 	texture->addr = mlx_get_data_addr(texture->img_ptr, &(texture->bpp),
 			&(texture->line_length), &(texture->endian));
 }

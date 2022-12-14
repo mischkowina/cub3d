@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 09:05:21 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 14:12:59 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 17:36:49 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,10 +150,14 @@ int	determine_color_value(char **split, t_data *data)
 	while (split[i])
 	{
 		if (!str_is_digit(split[i]))
+		{
+			free_str_arr(split);
 			ft_error("Invalid input for floor / ceiling color.", data);
+		}
 		c[i] = ft_atoi(split[i]);
 		i++;
 	}
+	free_str_arr(split);
 	i = 0;
 	while (i < 3)
 	{

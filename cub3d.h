@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 14:05:34 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 16:38:59 by apielasz         ###   ########.fr       */
+/*   Updated: 2022/12/14 16:59:08 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,52 +25,6 @@
 
 # define WIDTH 			1240
 # define HEIGHT			720
-# define GRID_SIZE		72
-
-# define KEY_ESC		53
-# define KEY_LEFT		123
-# define KEY_RIGHT		124
-# define KEY_W			13
-# define KEY_A			0
-# define KEY_S			1
-# define KEY_D			2
-# define KEY_SPACE		49
-# define KEY_SHIFT_R	258
-# define KEY_SHIFT_L	257
-# define MOVESPEED		0.1
-
-# define PLAYER_SIZE	10
-
-//@Alina: do we still need to colors?
-# define BLACK			0x000000
-# define WHITE			0xFFFFFF
-# define GREY			0xA1A1A1
-# define PINK			0x0F542D4
-# define LIGHT_PINK		0xa3819c
-# define BRIGHT_PINK		0xE6AEDB
-# define YELLOW			0xFFDF07
-# define GREEN			0x00FF00
-# define ORANGE			0xFF9933
-# define BLUE			0x0099FF
-# define RED				0xFF0000
-# define PURPLE			0x9900FF
-# define BLUE_SKY		0xb3fcff
-# define GREEN_GRASS		0xed2459
-
-# define PI				3.1415926535
-
-# define FOV_D			60
-# define FOV			M_PI / 180 * FOV_D
-# define ROT_ANGLE		M_PI / 36.0
-
-//@Alina: do we use this?
-typedef struct s_trgb
-{
-	int	t;
-	int	r;
-	int	g;
-	int	b;
-}				t_trgb;
 
 typedef struct s_img
 {
@@ -100,11 +54,6 @@ typedef struct s_vec_int
 	int			x;
 	int			y;
 }				t_vec_int;
-
-typedef struct s_minimap
-{
-	t_vec_int	pos;
-}				t_minimap;
 
 typedef struct s_door {
 	int			col;
@@ -144,7 +93,6 @@ typedef struct s_ray
 
 typedef struct s_data
 {
-	t_minimap	minimap;
 	t_vec		mouse;
 	double		move_speed;
 	double		rotation_speed;
@@ -154,7 +102,6 @@ typedef struct s_data
 	void		*mlx;
 	void		*win;
 	t_img		img;
-	t_trgb		trgb;//@ALina: do we need this?
 	t_vec		pos;
 	t_vec		dir;
 	t_vec		camera_plane;

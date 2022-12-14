@@ -15,21 +15,21 @@ void	pixel_put(t_img *img, int color)
 //function that does what needs to be done if a key is pressed
 int	key_hooks(int keycode, t_data *data)
 {
-	if (keycode == KEY_ESC)
+	if (keycode == 53)
 		close_x(data);
-	else if (keycode == KEY_W)
+	else if (keycode == 13)
 		w_key_pressed(data);
-	else if (keycode == KEY_A)
+	else if (keycode == 0)
 		a_key_pressed(data);
-	else if (keycode == KEY_S)
+	else if (keycode == 1)
 		s_key_pressed(data);
-	else if (keycode == KEY_D)
+	else if (keycode == 2)
 		d_key_pressed(data);
-	else if (keycode == KEY_LEFT)
-		rotate(data, -ROT_ANGLE);
-	else if (keycode == KEY_RIGHT)
-		rotate(data, ROT_ANGLE);
-	else if (keycode == KEY_SPACE)
+	else if (keycode == 123)
+		rotate(data, -data->rotation_speed);
+	else if (keycode == 124)
+		rotate(data, data->rotation_speed);
+	else if (keycode == 49)
 		if (data->guns_out == 0)
 			open_door(data);
 		else
@@ -37,7 +37,7 @@ int	key_hooks(int keycode, t_data *data)
 			data->guns_shot = 1;
 			play_sound("sounds/gun_shot.m4a");
 		}
-	else if (keycode == KEY_SHIFT_L || keycode == KEY_SHIFT_R)
+	else if (keycode == 257 || keycode == 258)
 	{
 		if (data->guns_out == 0)
 		{

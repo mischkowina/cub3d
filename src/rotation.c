@@ -49,5 +49,4 @@ void	update_move_rot_speeds(t_data *data)
 	data->move_speed = frame_time / 3500 * 5.0;
 	data->rotation_speed = frame_time / 3500 * 1.5;
 	data->fps = 1.0 / frame_time;
-	// ft_printf("fps: %d\n", data->fps);
 }
