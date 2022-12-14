@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 10:45:57 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 11:41:36 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 14:35:27 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ void	ft_error(char *msg, t_data *data)
 		printf("Error\n%s\n", msg);
 	else
 		perror("Error");
-	if (data)
-		data = NULL;
 	if (data)
 		free_all_shit(data);
 	exit(0);

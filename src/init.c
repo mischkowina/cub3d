@@ -76,9 +76,9 @@ void	init_orientation(t_data *data)
 void	init_data(t_data *data)
 {
 	data->counter = 0;
-	data->mlx = NULL;
 	data->win = NULL;
-	data->weapons = NULL;
+	data->mlx = NULL;
+	data->img.img_ptr = NULL;
 	data->cur_weapon = 0;
 	data->guns_out = 0;
 	data->guns_down = 0;
@@ -96,15 +96,11 @@ void	init_data(t_data *data)
 	data->new_time = 0;
 	data->old_time = 0;
 	init_parsed_values(data);
+	init_textures(data);
 }
 
 void	init_parsed_values(t_data *data)
 {
-	data->n_texture.filename = NULL;
-	data->e_texture.filename = NULL;
-	data->s_texture.filename = NULL;
-	data->w_texture.filename = NULL;
-	data->d_texture.filename = NULL;
 	data->col_ceiling = -1;
 	data->col_floor = -1;
 	data->map = NULL;

@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 21:41:02 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 14:12:11 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 15:24:48 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void	free_all_shit(t_data *data)
 {
 	free_all_textures(data);
-	free_map(data);
+	if (data->map)
+		free_map(data);
 	if (data->cur_ray)
 		free(data->cur_ray);
 	free_doors_sprites(data);
@@ -57,6 +58,8 @@ void	free_map(t_data *data)
 
 void	free_t_img(t_img *img, void *mlx_ptr)
 {
+	if (!img)
+		return ;
 	if (img->img_ptr)
 		mlx_destroy_image(mlx_ptr, img->img_ptr);
 	if (img->filename)

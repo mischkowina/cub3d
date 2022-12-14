@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 10:41:45 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 12:22:46 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 15:28:09 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,26 @@ void	init_mummies(t_data *data)
 		data->mummy[i]->offset = 20;
 		data->mummy[i++]->size_factor = 1.0;
 	}
+}
+
+void	init_textures(t_data *data)
+{
+	data->n_texture.filename = NULL;
+	data->n_texture.img_ptr = NULL;
+	data->e_texture.filename = NULL;
+	data->e_texture.img_ptr = NULL;
+	data->s_texture.filename = NULL;
+	data->s_texture.img_ptr = NULL;
+	data->w_texture.filename = NULL;
+	data->w_texture.img_ptr = NULL;
+	data->d_texture.filename = NULL;
+	data->d_texture.img_ptr = NULL;
+	data->chest.filename = NULL;
+	data->chest.img_ptr = NULL;
+	data->tut.filename = NULL;
+	data->tut.img_ptr = NULL;
+	data->mummy = NULL;
+	data->weapons = NULL;
 }
 
 void	free_texture_array(t_data *data, t_img **img)

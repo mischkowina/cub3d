@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 14:05:34 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 14:27:31 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 15:29:01 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,6 +214,7 @@ void		init_parsed_values(t_data *data);
 	// init_sprites.c //
 void		init_sprites(t_data *data);
 void		init_mummies(t_data *data);
+void		init_textures(t_data *data);
 void		free_texture_array(t_data *data, t_img **img);
 
 	// parser.c //
