@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rotation.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 17:38:49 by apielasz          #+#    #+#             */
-/*   Updated: 2022/12/14 19:52:50 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 18:06:28 by apielasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,26 @@ void	rotate(t_data *data, double angle)
 	- sin(angle) * temp_plane_y;
 	data->camera_plane.y = sin(angle) * temp_plane_x \
 	+ cos(angle) * temp_plane_y;
+}
+
+/**
+ * @brief Function rotates the player view upon mouse movement and resets mouse
+ * position to the middle of the window (yes, it means you cannot escape the game
+ * with your mouse while game is running hehe).
+ * @param x Coordinate of mouse position in the window
+ * @param y Coordinate of mouse position in the window
+ * @param data [t_data *] Pointer to data struct with all game data
+ * @return int required by mlx
+ */
+int	mouse_rotation(int x, int y, t_data *data)
+{
+	(void)y;
+	mlx_mouse_move(data->win, data->mouse.x, data->mouse.y);
+	if (x < data->mouse.x)
+		rotate(data, -data->rotation_speed);
+	else if (x > data->mouse.x)
+		rotate(data, data->rotation_speed);
+	return (0);
 }
 
 /**

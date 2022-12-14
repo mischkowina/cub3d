@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 21:41:56 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 19:51:24 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 18:33:48 by apielasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,13 @@ void	start_game(t_data *data)
 	if (!data->win)
 		ft_error("MLX failed.", data);
 	open_all_textures(data);
+	play_sound("sounds/shimmering_sands.mp3");
 	data->img.img_ptr = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 	data->img.addr = mlx_get_data_addr(data->img.img_ptr, &data->img.bpp,
 			&data->img.line_length, &data->img.endian);
 	mlx_hook(data->win, 17, 0, &close_x, data);
 	mlx_hook(data->win, 2, (1L << 0), &key_hooks, data);
+	mlx_hook(data->win, 6, (1L << 0), &mouse_rotation, data);
 	mlx_mouse_hide();
 	mlx_loop_hook(data->mlx, render, data);
 	mlx_loop(data->mlx);
@@ -82,8 +84,10 @@ void	start_game(t_data *data)
 */
 int	render(t_data *data)
 {
+	move_doors_sprites(data);
 	prep_image(data);
-	raycasting_walls(data);
+	raycasting(data);
+	render_minimap(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 	return (0);
 }

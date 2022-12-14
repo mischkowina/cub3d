@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 08:56:11 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 19:54:09 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 14:15:24 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	fill_map_array(t_data *data, char *map_str)
 			data->map[row][col++] = -1;
 		row++;
 	}
+	allocate_doors_sprites(data);
 	free_str_arr(map_rows);
 }
 
@@ -124,7 +125,17 @@ int	copy_map_tile(char c, int row, int col, t_data *data)
 		data->map[row][col] = 0;
 	else if (c == 'N' || c == 'E' || c == 'S' || c == 'W')
 		copy_player_position(data, col, row, c);
-	else
+	else if (c == 'D')
+	{
+		if (!data->d_texture.filename)
+			ft_error("No texture input for doors.", data);
+		else
+		{
+			data->map[row][col] = 3;
+			data->nbr_doors++;
+		}
+	}
+	else if (parse_sprites(c, row, col, data) > 0)
 		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 09:05:21 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 19:51:44 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 17:36:49 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ int	parse_info_type(t_data *data, char *line)
 		data->col_floor = parse_color(line, data);
 	else if (line && !ft_strncmp(line, "C ", 2))
 		data->col_ceiling = parse_color(line, data);
+	else if (line && !ft_strncmp(line, "DO ", 2))
+		data->d_texture.filename = parse_texture(line, data);
 	else
 		return (1);
 	return (0);
