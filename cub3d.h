@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: apielasz <apielasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 14:05:34 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 15:29:01 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/14 16:38:59 by apielasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,11 +242,6 @@ void		*check_door_ahead(t_data *data);
 void		draw_grid(t_data *data);
 void		draw_minimap(t_data *data);
 
-	// drawing.c //
-void		draw_point(int x, int y, t_img *img, int color);
-void		draw_line(int x0, int y0, int x1, int y1, t_data *data, int color);
-void		draw_floor_and_ceiling(t_data *data);
-
 	// window.c //
 void		pixel_put(t_img *img, int color);
 int			key_hooks(int keycode, t_data *data);
@@ -293,7 +288,10 @@ long long	time_now(void);
 int			mouse_rotation(int x, int y, t_data *data);
 
 	// minimap.c //
-void		draw_player(int x, int y, t_img *img, int color);
+void		draw_point(int x, int y, t_img *img, int color);
+void		draw_player(t_data *data);
+void		draw_player_point(int x, int y, t_img *img, int color);
+void		draw_line(t_vec_int start, t_vec_int end, t_data *data, int color);
 void		render_minimap(t_data *data);
 
 	// images.c //
