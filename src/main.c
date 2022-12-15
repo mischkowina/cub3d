@@ -6,7 +6,7 @@
 /*   By: smischni <smischni@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 21:41:56 by smischni          #+#    #+#             */
-/*   Updated: 2022/12/14 19:51:24 by smischni         ###   ########.fr       */
+/*   Updated: 2022/12/15 08:41:26 by smischni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	start_game(t_data *data)
 			&data->img.line_length, &data->img.endian);
 	mlx_hook(data->win, 17, 0, &close_x, data);
 	mlx_hook(data->win, 2, (1L << 0), &key_hooks, data);
-	mlx_mouse_hide();
+	// mlx_mouse_hide();
 	mlx_loop_hook(data->mlx, render, data);
 	mlx_loop(data->mlx);
 }
